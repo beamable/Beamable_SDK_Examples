@@ -10,10 +10,12 @@ This example project demonstrates small, functional code snippets of specific [B
 **Project Structure**
 * `README.md` - This README file
 * `client/` - Open this folder in the Unity Editor
-* `client/Assets/` - Core files of the project
-* `client/Assets/Scenes/` - **Open a scene** in the Unity Editor to play the game!
-* `client/Assets/3rdParty/` - Dependency asset files for the project
 * `client/Packages/` - Dependency package files for the project
+* `client/Assets/` - Core files of the project
+* `client/Assets/3rdParty/` - Dependency asset files for the project
+* `client/Assets/Examples/` - Contains one **Scene** per feature. Open in the Unity Editor to play the game!
+
+
 
 **Beamable SDK**
 * **Included**: This project includes the Beamable SDK for Unity
