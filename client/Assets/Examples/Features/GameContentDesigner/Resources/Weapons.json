@@ -1,0 +1,16 @@
+{
+  "Weapons": [
+    {
+      "Name": "Sword",
+      "Damage": 20
+    },
+    {
+      "Name": "Dagger",
+      "Damage": 5
+    },
+    {
+      "Name": "Spear",
+      "Damage": 30
+    }
+  ]
+}
