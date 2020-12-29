@@ -4,24 +4,24 @@ using UnityEngine;
 
 namespace Beamable.Examples.Features.GameContentDesignerDemo.Content
 {
-   [ContentType("weapon")]
-   public class Weapon : ContentObject
+   [ContentType("gcd_weapon")]
+   public class GCDWeapon : ContentObject
    {
       public string Name;
       public string Damage;
    }
 
-   [ContentType("weapons")]
-   public class Weapons : ContentObject
+   [ContentType("gcd_weapons")]
+   public class GCDWeapons : ContentObject
    {
       public WeaponContentRef[] WeaponContentRefs;
    }
 
    [System.Serializable]
-   public class WeaponContentRef : ContentRef<Weapon> { }
+   public class WeaponContentRef : ContentRef<GCDWeapon> { }
 
    [System.Serializable]
-   public class WeaponsContentRef : ContentRef<Weapons> { }
+   public class WeaponsContentRef : ContentRef<GCDWeapons> { }
 
    public class GameContentDesignerDemo_Content : MonoBehaviour
    {
@@ -30,11 +30,11 @@ namespace Beamable.Examples.Features.GameContentDesignerDemo.Content
 
       protected async void Start()
       {
-         Weapons weaponsContent = await _weaponsContentRef.Resolve();
+         GCDWeapons weaponsContent = await _weaponsContentRef.Resolve();
 
          foreach (WeaponContentRef weaponContentRef in weaponsContent.WeaponContentRefs)
          {
-            Weapon weapon = await weaponContentRef.Resolve();
+            GCDWeapon weapon = await weaponContentRef.Resolve();
 
             Debug.Log("weapon: " + weapon.Name + " " + weapon.Damage);
          }
