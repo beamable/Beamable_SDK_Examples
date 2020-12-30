@@ -11,10 +11,10 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
   m_Name: Weapons01
-  m_EditorClassIdentifier: Assembly-CSharp:Beamable.Examples.Features.GameContentDesignerDemo.Content:Weapons
+  m_EditorClassIdentifier: Assembly-CSharp:Beamable.Examples.Features.GameContentDesignerDemo.Content:GCDWeapons
   _tags:
   - base
   WeaponContentRefs:
-  - Id: weapon.Dagger01
-  - Id: weapon.Spear01
-  - Id: weapon.Sword01
+  - Id: gcd_weapon.Dagger01
+  - Id: gcd_weapon.Spear01
+  - Id: gcd_weapon.Sword01

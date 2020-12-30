@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
   m_Name: Sword01
-  m_EditorClassIdentifier: Assembly-CSharp:Beamable.Examples.Features.GameContentDesignerDemo.Content:Weapon
+  m_EditorClassIdentifier: Assembly-CSharp:Beamable.Examples.Features.GameContentDesignerDemo.Content:GCDWeapon
   _tags:
   - base
   Name: Sword

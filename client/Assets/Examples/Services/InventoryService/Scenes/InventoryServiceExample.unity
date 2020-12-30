@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 31994830}
   - component: {fileID: 31994829}
   m_Layer: 0
-  m_Name: GameContentDesignerDemo_Content
+  m_Name: InventoryServiceExample
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -147,11 +147,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 31994828}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb5beeb6cec4434469bfc0a36f24ec42, type: 3}
+  m_Script: {fileID: 11500000, guid: 5a4a88d17910b5f40b99443da6a7a7fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponsContentRef:
-    Id: gcd_weapons.Weapons01
+  armorContentRef:
+    Id: items.is_armor.GoldArmor01
 --- !u!4 &31994830
 Transform:
   m_ObjectHideFlags: 0
@@ -165,54 +165,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &342736960
-GameObject:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 342736962}
-  - component: {fileID: 342736961}
-  m_Layer: 0
-  m_Name: UndoProRecords
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &342736961
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 342736960}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f9eb70e479f547f2bb99bde5281612c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  undoProRecords: []
-  undoState:
-    redoRecords: []
-    undoRecords:
-    - Selection Change
---- !u!4 &342736962
-Transform:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 342736960}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
@@ -388,4 +340,79 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1527653703
+GameObject:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1527653705}
+  - component: {fileID: 1527653704}
+  m_Layer: 0
+  m_Name: UndoProRecords
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1527653704
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527653703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f9eb70e479f547f2bb99bde5281612c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  undoProRecords: []
+  undoState:
+    redoRecords: []
+    undoRecords:
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Assign Asset Reference
+    - Assign Asset Reference Sub Object
+    - Selection Change
+    - Assign Asset Reference
+    - Assign Asset Reference Sub Object
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Inspector
+    - Inspector
+    - Selection Change
+    - Inspector
+    - Inspector
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - Selection Change
+--- !u!4 &1527653705
+Transform:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527653703}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
