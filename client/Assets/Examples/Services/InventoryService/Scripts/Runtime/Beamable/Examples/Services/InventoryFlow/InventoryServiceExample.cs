@@ -1,6 +1,7 @@
 using Core.Platform.SDK.Inventory;
 using DisruptorBeam;
 using DisruptorBeam.Content;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,88 +17,100 @@ namespace Beamable.Examples.Services.InventoryService
    [System.Serializable]
    public class ArmorContentRef : ContentRef<Armor> { }
 
+   /// <summary>
+   /// Demonstrates CRUD for <see cref="InventoryService"/>.
+   /// </summary>
    public class InventoryServiceExample : MonoBehaviour
    {
-      public ArmorContentRef armorContentRef;
+      public event Action<List<string>,List<string>> OnRefreshed;
+      public ArmorContentRef ItemToAdd;
+      public ArmorContentRef ItemToDelete;
+      //
+      private IDisruptorEngine _disruptorEngine;
+      private string _contentTypeGeneral = "items";
+      private List<string> _clientContentObjectNames = new List<string>();
+      private List<string> _playerInventoryItemNames = new List<string>();
+
 
       protected async void Start()
       {
-         Debug.Log("armorContentRef.Id: " + armorContentRef.Id);
-
-         string contentTypeGeneral = "items";
-         string contentIdSpecific = "items.is_armor.GoldArmor01";
-
-         Debug.Log("contentTypeGeneral: " + contentTypeGeneral);
-         Debug.Log("contentIdSpecific: " + contentIdSpecific);
-
-         await DisruptorEngine.Instance.Then(async de =>
+         await DisruptorEngine.Instance.Then(de =>
          {
+            _disruptorEngine = de;
 
-            // All items (Available in game)
-            de.ContentService.Subscribe(clientManifest =>
+            Debug.Log("Start()");
+            Debug.Log("User.id: " + _disruptorEngine.User.id);
+            Refresh();
+         });
+      }
+
+
+      public void Refresh()
+      {
+         Debug.Log("Refresh()");
+         Debug.Log("_contentTypeGeneral: " + _contentTypeGeneral);
+         Debug.Log("ItemToAdd: " + ItemToAdd.Id);
+         Debug.Log("ItemToDelete: " + ItemToDelete.Id);
+         
+
+         // All items (Available in game)
+         _disruptorEngine.ContentService.Subscribe(clientManifest =>
+         {
+            Debug.Log("1 GAME - ContentService, all items count: " + clientManifest.entries.Count);
+
+            _clientContentObjectNames.Clear();
+            foreach (ClientContentInfo clientContentInfo in clientManifest.entries)
             {
-               Debug.Log("1 GAME - ContentService, all items count: " + clientManifest.entries.Count);
+               Debug.Log("\tcontentId : " + clientContentInfo.contentId);
+               _clientContentObjectNames.Add(clientContentInfo.contentId);
+            }
 
-               foreach (ClientContentInfo clientContentInfo in clientManifest.entries)
+            OnRefreshedInvokeSafe();
+         });
+
+         // Filtered items (Available in game)
+         _disruptorEngine.ContentService.Subscribe(_contentTypeGeneral, clientManifest =>
+         {
+            Debug.Log($"2 GAME -  ContentService, '{_contentTypeGeneral}' items count: " + clientManifest.entries.Count);
+
+            foreach (ClientContentInfo clientContentInfo in clientManifest.entries)
+            {
+               Debug.Log("\tcontentId : " + clientContentInfo.contentId);
+            }
+         });
+
+
+         // All items (Owned by current player)
+         _disruptorEngine.InventoryService.Subscribe(view =>
+         {
+            Debug.Log($"5 PLAYER - InventoryService, all items count: " + view.items.Count);
+
+            _playerInventoryItemNames.Clear();
+            foreach (KeyValuePair<string, List<ItemView>> kvp in view.items)
+            {
+               Debug.Log("\tkey: " + kvp.Key);
+               foreach (ItemView itemView in kvp.Value)
                {
-                  Debug.Log("\tcontentId : " + clientContentInfo.contentId);
+                  Debug.Log("\t\tvalue: " + itemView.id);
                }
-            });
+               _playerInventoryItemNames.Add($"{kvp.Key} ({kvp.Value.Count})");
+            }
 
-            // Filtered items (Available in game)
-            de.ContentService.Subscribe(contentTypeGeneral, clientManifest =>
+            OnRefreshedInvokeSafe();
+         });
+
+         // Filtered items (Owned by current player)
+         _disruptorEngine.InventoryService.Subscribe(_contentTypeGeneral, view =>
+         {
+            Debug.Log($"6 PLAYER - InventoryService, '{_contentTypeGeneral}' items count: " + view.items.Count);
+
+            if (view.items.TryGetValue(_contentTypeGeneral, out List<ItemView> itemViews))
             {
-               Debug.Log($"2 GAME -  ContentService, '{contentTypeGeneral}' items count: " + clientManifest.entries.Count);
-
-               foreach (ClientContentInfo clientContentInfo in clientManifest.entries)
+               Debug.Log("unlockItems2: " + itemViews.Count);
+               if (itemViews.Count > 0)
                {
-                  Debug.Log("\tcontentId : " + clientContentInfo.contentId);
                }
-            });
-
-            // Give an item (To current player from items available in game)
-            await de.InventoryService.AddItem(contentIdSpecific, new Dictionary<string, string>()).Then(obj =>
-            {
-               Debug.Log($"3 PLAYER - InventoryService, AddItem: " + contentIdSpecific);
-            });
-
-            // Remote an item (From current player)
-            long itemId = 1;
-            await de.InventoryService.DeleteItem(contentIdSpecific, itemId).Then(obj =>
-            {
-               Debug.Log($"4 PLAYER - InventoryService, RemoveItem: " + contentIdSpecific);
-            });
-
-            // All items (Owned by current player)
-            de.InventoryService.Subscribe(view =>
-            {
-               Debug.Log($"5 PLAYER - InventoryService, all items count: " + view.items.Count);
-
-               foreach (KeyValuePair<string, List<ItemView>> kvp in view.items)
-               {
-                  Debug.Log("\tkey: " + kvp.Key);
-                  foreach (ItemView itemView in kvp.Value)
-                  {
-                     Debug.Log("\t\tvalue: " + itemView.id);
-                  }
-               }
-            });
-
-            // Filtered items (Owned by current player)
-            de.InventoryService.Subscribe(contentTypeGeneral, view =>
-            {
-               Debug.Log($"6 PLAYER - InventoryService, '{contentTypeGeneral}' items count: " + view.items.Count);
-
-               if (view.items.TryGetValue(contentTypeGeneral, out List<ItemView> itemViews))
-               {
-                  Debug.Log("unlockItems2: " + itemViews.Count);
-                  if (itemViews.Count > 0)
-                  {
-                  }
-               }
-            });
-
-
+            }
          });
 
          //   foreach (var kvp in inventory.items)
@@ -116,8 +129,61 @@ namespace Beamable.Examples.Services.InventoryService
          //   }
 
          //});
+            
+      }
 
 
+
+      private void OnRefreshedInvokeSafe()
+      {
+         OnRefreshed?.Invoke(_clientContentObjectNames, _playerInventoryItemNames);
+      }
+
+
+      public async void Add1Item()
+      {
+         // Give an item (To current player from items available in game)
+         await _disruptorEngine.InventoryService.AddItem(ItemToAdd.Id, new Dictionary<string, string>()).Then(obj =>
+         {
+            Debug.Log($"3 PLAYER - InventoryService, AddItem: " + ItemToAdd.Id);
+         });
+
+      }
+
+
+      public void Delete1Item()
+      {
+         string contentId = ItemToDelete.Id;
+         // 
+         _disruptorEngine.InventoryService.Subscribe(contentId, async view =>
+         {
+            if (view.items.TryGetValue(contentId, out List<ItemView> itemViews))
+            {
+               if (itemViews.Count == 0)
+               {
+                  Debug.Log($"DeleteItem() failed. Player has no item for {contentId}.");
+               }
+               else
+               {
+                  // Delete an item (From current player)
+                  long itemIdToDelete = long.Parse(itemViews[0].id);
+
+                  await _disruptorEngine.InventoryService.DeleteItem(contentId, itemIdToDelete).Then(obj =>
+                  {
+                     Debug.Log($"DeleteItem() success. 1 player item for {contentId} is deleted.");
+                  });
+               }
+            }
+            else
+            {
+               Debug.Log($"DeleteItem() failed... Player has no item for {contentId}.");
+            }
+         });
+      }
+
+      public void DeleteAllItem()
+      {
+         throw new NotImplementedException();
       }
    }
 }
