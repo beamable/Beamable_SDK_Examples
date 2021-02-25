@@ -61,7 +61,7 @@ sysinfo.txt
 
 # JetBrains Rider auto-generates
 /client/.idea
-.vsconfig
+/client/.vsconfig
 
 # Builds
 *.apk
