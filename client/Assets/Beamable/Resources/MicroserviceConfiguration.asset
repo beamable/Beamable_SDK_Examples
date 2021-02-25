@@ -10,6 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2a96b3852b93843ef94fc3401214399e, type: 3}
-  m_Name: microserviceConfiguration
+  m_Name: MicroserviceConfiguration
   m_EditorClassIdentifier: 
   Microservices: []
+  AutoReferenceContent: 1
+  ColorLogs: 1
+  LogProcessLabelColor: {r: 1, g: 1, b: 1, a: 1}
+  LogStandardOutColor: {r: 0.2, g: 0.4, b: 1, a: 1}
+  LogStandardErrColor: {r: 1, g: 0.44, b: 0.2, a: 1}
+  LogDebugLabelColor: {r: 0.25, g: 0.5, b: 1, a: 1}
+  LogInfoLabelColor: {r: 0, g: 0, b: 1, a: 1}
+  LogErrorLabelColor: {r: 1, g: 0, b: 0, a: 1}
+  LogWarningLabelColor: {r: 1, g: 0.6, b: 0.15, a: 1}
+  LogFatalLabelColor: {r: 1, g: 0, b: 0, a: 1}
