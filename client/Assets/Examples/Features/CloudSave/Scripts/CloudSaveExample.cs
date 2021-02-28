@@ -1,10 +1,9 @@
 ﻿using System.IO;
-using Beamable;
 using Beamable.Api.CloudSaving;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace DisruptorBeam.Examples.Features.CloudSave
+namespace Beamable.Examples.Features.CloudSave
 {
   [System.Serializable]
   public class AudioSettings
