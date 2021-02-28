@@ -18,7 +18,7 @@ namespace Beamable.Examples.Services.InventoryService
    public class ArmorContentRef : ContentRef<Armor> { }
 
    /// <summary>
-   /// Demonstrates CRUD for <see cref="InventoryService"/>.
+   /// Demonstrates <see cref="InventoryService"/>.
    /// </summary>
    public class InventoryServiceExample : MonoBehaviour
    {
