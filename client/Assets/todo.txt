@@ -1,6 +1,7 @@
 
 Verify that...
-* Naming is consitent
+* Address "todo" in example code.
+* Naming is consistent
 * classes are consistent with scene naming
 * code compiles
 * every Start has a Debug.Log("Start()"); with optional additional words
