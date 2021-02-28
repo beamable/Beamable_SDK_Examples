@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Beamable.Examples.Features.LeaderboardFlow
 {
     /// <summary>
-    /// Demonstrates <see cref="LeaderboardSetScoreExample"/>.
+    /// Demonstrates <see cref="LeaderboardFlow"/>.
     /// </summary>
     public class LeaderboardSetScoreExample : MonoBehaviour
     {
