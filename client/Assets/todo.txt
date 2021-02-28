@@ -1,0 +1,15 @@
+
+Verify that...
+* Naming is consitent
+* classes are consistent with scene naming
+* code compiles
+* every Start has a Debug.Log("Start()"); with optional additional words
+* private classes are above the main example
+* if a folder should NOT have the full code pasted into the readme, then break example into 2+ files, so its clear which one to paste into readme
+
+
+After the above...
+
+* Get a code review
+* Copy to readme
+* Above every readme snippet add a readme variable and/or callout that says "To see the latest sample, find it here..." and decide where that is (Repo, in the SDK, etc...)
