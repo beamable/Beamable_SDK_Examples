@@ -11,7 +11,7 @@ namespace Beamable.Examples.Features.AdminFlow2
         {
             var a = int.Parse(args[0]);
             var b = int.Parse(args[1]);
-            return "result: " + (a + b);
+            return "Result: " + (a + b);
         }
     }
     
@@ -24,9 +24,9 @@ namespace Beamable.Examples.Features.AdminFlow2
         {
             Debug.Log("Start() Instructions...\n" + 
                       " * Run The Scene\n" + 
-                      " * Type '~' in Unity Game Window\n" + 
-                      " * Type 'Add 5 10`\n" + 
-                      " * See results in Unity Console Window\n");
+                      " * Type '~' in Unity Game Window to open Admin Console\n" + 
+                      " * Type 'Add 5 10'\n" + 
+                      " * See 'Result: 15' in Unity Console Window\n");
         }
     }
 }
