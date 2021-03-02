@@ -26,16 +26,16 @@ namespace Beamable.Examples.Features.CloudSave
 
     protected async void Start()
     {
-      Debug.Log("Start()");
-                
       await Beamable.API.Instance.Then(beamableAPI =>
       {
+        Debug.Log($"Start() User.id={beamableAPI.User.id}");
+        
         _beamableAPI = beamableAPI;
         _cloudSavingService = _beamableAPI.CloudSavingService;
 
         /* Subscribe to the UpdatedReceived event to call your own 
         custom code when data on disk is changed by the server*/
-        _cloudSavingService.UpdateReceived += ReloadSceneAfterServerChanged;
+        _cloudSavingService.UpdateReceived += CloudSavingService_OnUpdateReceived;
 
         /* Init the service, which will first download content that the server may have,
         that the client does not. The client will then upload any content that it has,
@@ -49,21 +49,28 @@ namespace Beamable.Examples.Features.CloudSave
 
     private AudioSettings ReloadOrCreateAudioSettings()
     {
+      Debug.Log("ReloadOrCreateAudioSettings()");
+      
       AudioSettings settings;
       Directory.CreateDirectory(_cloudSavingService.LocalCloudDataFullPath);
 
       var audioFileName = "audioFile.json";
       var audioPath = $"{_cloudSavingService.LocalCloudDataFullPath}{Path.DirectorySeparatorChar}{audioFileName}";
 
-      // Load AudioSettings 
+      
       if (File.Exists(audioPath))
       {
+        // Reload AudioSettings 
+        Debug.Log("Reload AudioSettings");
+        
         var json = File.ReadAllText(audioPath);
         settings = JsonUtility.FromJson<AudioSettings>(json);
       }
       else
       {
         // Create AudioSettings
+        Debug.Log("Create AudioSettings");
+        
         settings = new AudioSettings
         {
           IsMuted = false,
@@ -81,8 +88,9 @@ namespace Beamable.Examples.Features.CloudSave
       return settings;
     }
     
-    private void ReloadSceneAfterServerChanged(ManifestResponse manifest)
+    private void CloudSavingService_OnUpdateReceived(ManifestResponse manifest)
     {
+      Debug.Log("CloudSavingService_OnUpdateReceived()");
       // If the settings are changed by the server, reload the scene.
       SceneManager.LoadScene(0);
     }

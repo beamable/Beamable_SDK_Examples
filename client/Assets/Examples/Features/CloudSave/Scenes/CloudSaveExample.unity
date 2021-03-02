@@ -326,7 +326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AudioSettings:
-    Volume: 100
+    Volume: 50
     IsMuted: 0
 --- !u!4 &1649044197
 Transform:
