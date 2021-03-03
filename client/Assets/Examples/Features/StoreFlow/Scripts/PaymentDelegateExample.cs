@@ -31,9 +31,9 @@ namespace Beamable.Examples.Features.StoreFlow
         ServiceManager.ProvideWithDefaultContainer<PaymentDelegate>(
           new PaymentDelegateExampleImpl());
       }
-        Debug.Log(("RegisterPaymentDelegate found required UNITY_PURCHASING."));
+        Debug.Log(($"RegisterPaymentDelegate found required UNITY_PURCHASING."));
 #else
-        Debug.Log(("RegisterPaymentDelegate did not find required UNITY_PURCHASING."));
+        Debug.Log($"RegisterPaymentDelegate did not find required UNITY_PURCHASING.");
 #endif // UNITY_PURCHASING
       
       

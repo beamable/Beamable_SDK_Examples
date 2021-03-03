@@ -26,9 +26,11 @@ namespace Beamable.Examples.Features.CloudSave
 
     protected async void Start()
     {
+      Debug.Log($"Start()");
+      
       await Beamable.API.Instance.Then(beamableAPI =>
       {
-        Debug.Log($"Start() User.id={beamableAPI.User.id}");
+        Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
         
         _beamableAPI = beamableAPI;
         _cloudSavingService = _beamableAPI.CloudSavingService;
@@ -49,7 +51,7 @@ namespace Beamable.Examples.Features.CloudSave
 
     private AudioSettings ReloadOrCreateAudioSettings()
     {
-      Debug.Log("ReloadOrCreateAudioSettings()");
+      Debug.Log($"ReloadOrCreateAudioSettings()");
       
       AudioSettings settings;
       Directory.CreateDirectory(_cloudSavingService.LocalCloudDataFullPath);
@@ -61,7 +63,7 @@ namespace Beamable.Examples.Features.CloudSave
       if (File.Exists(audioPath))
       {
         // Reload AudioSettings 
-        Debug.Log("Reload AudioSettings");
+        Debug.Log($"Reload AudioSettings");
         
         var json = File.ReadAllText(audioPath);
         settings = JsonUtility.FromJson<AudioSettings>(json);
@@ -69,7 +71,7 @@ namespace Beamable.Examples.Features.CloudSave
       else
       {
         // Create AudioSettings
-        Debug.Log("Create AudioSettings");
+        Debug.Log($"Create AudioSettings");
         
         settings = new AudioSettings
         {
@@ -90,7 +92,8 @@ namespace Beamable.Examples.Features.CloudSave
     
     private void CloudSavingService_OnUpdateReceived(ManifestResponse manifest)
     {
-      Debug.Log("CloudSavingService_OnUpdateReceived()");
+      Debug.Log($"CloudSavingService_OnUpdateReceived()");
+      
       // If the settings are changed by the server, reload the scene.
       SceneManager.LoadScene(0);
     }

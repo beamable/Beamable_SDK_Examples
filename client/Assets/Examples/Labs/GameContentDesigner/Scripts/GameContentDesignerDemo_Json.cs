@@ -26,7 +26,7 @@ namespace Beamable.Examples.Features.GameContentDesigner.Json
 
          foreach (WeaponJson weapon in weapons.Weapons)
          {
-            Debug.Log("weapon: " + weapon.Name + " " + weapon.Damage);
+            Debug.Log($"weapon.Name = {weapon.Name}, weapon.Damage = {weapon.Damage}");
          }
       }
    }

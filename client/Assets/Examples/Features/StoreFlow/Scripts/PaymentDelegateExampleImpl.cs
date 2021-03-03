@@ -61,7 +61,7 @@ namespace Beamable.Examples.Features.StoreFlow
     /// <param name="error">The error that occurred</param>
     public void OnInitializeFailed(InitializationFailureReason error)
     {
-      InAppPurchaseLogger.LogFormat("OnInitializeFailed reason={0}", error);
+      InAppPurchaseLogger.LogFormat("OnInitializeFailed reason = {0}", error);
     }
 
     /// <summary>
@@ -102,7 +102,7 @@ namespace Beamable.Examples.Features.StoreFlow
     /// <param name="failureReason">Reason for failure, which may include cancellation by the user</param>
     public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
     {
-      InAppPurchaseLogger.LogFormat("OnPurchaseFailed: FAIL. product={0}, reason={1}", product, failureReason);
+      InAppPurchaseLogger.LogFormat("OnPurchaseFailed: FAIL. product = {0}, reason = {1}", product, failureReason);
       var platform = ServiceManager.Resolve<PlatformService>();
       if (failureReason == PurchaseFailureReason.UserCancelled)
       {
@@ -158,7 +158,7 @@ namespace Beamable.Examples.Features.StoreFlow
         ClearCallbacks();
       }).Error(ex =>
       {
-        Debug.LogError($"Exception while fulfilling purchase: {ex}");
+        Debug.LogError($"Exception while fulfilling purchase ex = {ex}");
         var err = ex as ErrorCode;
 
         if (err == null)
@@ -225,7 +225,7 @@ namespace Beamable.Examples.Features.StoreFlow
       var apple = ExtensionProvider.GetExtension<IAppleExtensions>();
       apple.RestoreTransactions(result =>
       {
-        InAppPurchaseLogger.LogFormat("Apple RestorePurchases result={0}", result);
+        InAppPurchaseLogger.LogFormat("Apple RestorePurchases result = {0}", result);
       });
     }
 
@@ -335,7 +335,7 @@ namespace Beamable.Examples.Features.StoreFlow
         // is invoked by ProcessPurchase through UnityIAP.
       }).Error(err =>
       {
-        Debug.LogError($"Error beginning purchase: {err}");
+        Debug.LogError($"Error beginning purchase err = {err}");
         _failureCallback?.Invoke(err as ErrorCode);
       });
 

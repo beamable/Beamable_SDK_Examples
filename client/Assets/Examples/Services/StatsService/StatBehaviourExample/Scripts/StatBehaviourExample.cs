@@ -20,14 +20,14 @@ namespace Beamable.Examples.Services.Stats
          _myStatBehaviour.SetCurrentValue("1");
 
          // Get Value
-         Debug.Log("_statsBehaviour.value = " + _myStatBehaviour.Value);
+         Debug.Log($"_statsBehaviour.value = {_myStatBehaviour.Value}");
       }
 
       //  Event Handlers -------------------------------
       private void MyStatBehaviour_OnStatReceived(string value)
       {
          // Observe Value Change
-         Debug.Log("MyStatBehaviour_OnStatReceived() value = " + _myStatBehaviour.Value);
+         Debug.Log($"MyStatBehaviour_OnStatReceived() value = {_myStatBehaviour.Value}");
       }
    }
 }

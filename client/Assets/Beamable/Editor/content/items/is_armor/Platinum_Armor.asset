@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: FireArmor01
-  m_EditorClassIdentifier: Assembly-CSharp:Beamable.Examples.Services.InventoryService:MagicArmor
-  _tags: []
+  m_Name: Platinum_Armor
+  m_EditorClassIdentifier: Assembly-CSharp:Beamable.Examples.Services.InventoryService:Armor
+  _tags:
+  - base
   Icon:
     m_AssetGUID: 
     m_SubObjectName: 
   clientPermission:
-    write_self: 0
-  Name: 
-  Defense: 
-  DefenseMultiplier: 
+    write_self: 1
+  Name: Platinum_Armor
+  Defense: 90

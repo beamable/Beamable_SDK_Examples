@@ -28,28 +28,28 @@ namespace Beamable.Examples.Services.ContentService
         
         protected void Start()
         {
-            Debug.Log("Start()");
+            Debug.Log($"Start()");
             
             _tournamentRef.Resolve()
                 .Then(content =>
                 {
                     _tournamentContentFromRef = content; 
-                    Debug.Log("_tournamentRef.Resolve() Success!");
+                    Debug.Log($"_tournamentRef.Resolve() Success!");
                     
                 }).Error(ex =>
                 {
-                    Debug.LogError("_tournamentRef.Resolve() Error!"); 
+                    Debug.LogError($"_tournamentRef.Resolve() Error!"); 
                 });
 
             _tournamentLink.Resolve()
                 .Then(content =>
                 {
                     _tournamentContentFromLink = content; 
-                    Debug.Log("_tournamentLink.Resolve() Success!");
+                    Debug.Log($"_tournamentLink.Resolve() Success!");
                 })
                 .Error(ex =>
                 {
-                    Debug.LogError("_tournamentLink.Resolve() Error!"); 
+                    Debug.LogError($"_tournamentLink.Resolve() Error!"); 
                 });
         }
     }

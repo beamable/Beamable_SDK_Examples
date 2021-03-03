@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tags:
   - base
-  name: TournamentContent_01
+  name: TournamentContent01
   anchorTimeUTC: 2020-01-01T12:00:00Z
   playerLimit: 99
   tiers:

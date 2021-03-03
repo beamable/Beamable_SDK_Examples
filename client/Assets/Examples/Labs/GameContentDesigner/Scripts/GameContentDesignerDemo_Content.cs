@@ -35,7 +35,7 @@ namespace Beamable.Examples.Features.GameContentDesignerDemo.Content
          {
             GCDWeapon weapon = await weaponContentRef.Resolve();
 
-            Debug.Log("weapon: " + weapon.Name + " " + weapon.Damage);
+            Debug.Log($"weapon.Name = {weapon.Name}, weapon.Damage = {weapon.Damage}");
          }
       }
    }

@@ -25,6 +25,7 @@ namespace Beamable.Examples.Features.TournamentFlow
                 
                 //TODO: Why isn't "Tournaments" called "TournamentService" for parity with other API?
                 await beamableAPI.Tournaments.SetScore(id, userId, score);
+                
                 Debug.Log($"Tournaments.SetScore({id},{userId},{score})");
             });
         }

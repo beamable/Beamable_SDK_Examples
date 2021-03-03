@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: SilverArmor01
+  m_Name: Silver_Armor
   m_EditorClassIdentifier: Assembly-CSharp:Beamable.Examples.Services.InventoryService:Armor
   _tags:
   - base
   Icon:
-    m_AssetGUID: f819a6beb22c04c8d9f8222f930252b5
-    m_SubObjectName: icon
+    m_AssetGUID: 
+    m_SubObjectName: 
   clientPermission:
     write_self: 1
-  Name: Silver Armor
-  Defense: 50
+  Name: Silver_Armor
+  Defense: 20
