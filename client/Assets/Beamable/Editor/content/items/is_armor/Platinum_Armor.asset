@@ -20,4 +20,4 @@ MonoBehaviour:
   clientPermission:
     write_self: 1
   Name: Platinum_Armor
-  Defense: 90
+  Defense: 100
