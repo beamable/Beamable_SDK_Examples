@@ -325,6 +325,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7faa5d82c4b3bed42ad1b67990104f59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _tournamentRef:
+    Id: tournaments.TournamentContent01
+  _score: 100
 --- !u!4 &1649044197
 Transform:
   m_ObjectHideFlags: 0
