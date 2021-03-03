@@ -11,30 +11,23 @@ namespace Beamable.Examples.Services.InventoryService
    /// </summary>
    public class InventoryServiceExampleUI : MonoBehaviour
    {
-      [SerializeField]
-      private InventoryServiceExample _inventoryServiceExample = null;
+      [SerializeField] private InventoryServiceExample _inventoryServiceExample = null;
 
-      [SerializeField]
-      private TMP_Text _gameContentBodyText = null;
+      [SerializeField] private TMP_Text _gameContentBodyText = null;
+      [SerializeField] private TMP_Text _playerInventoryBodyText = null;
 
-      [SerializeField]
-      private TMP_Text _playerInventoryBodyText = null;
-
-      [SerializeField]
-      private Button _add1ItemButton = null;
-
-      [SerializeField]
-      private Button _delete1ItemButton = null;
-
-      [SerializeField]
-      private Button _deleteAllItemsButton = null;
-
+      [SerializeField] private Button _add1ItemButton = null;
+      [SerializeField] private Button _delete1ItemButton = null;
+      [SerializeField] private Button _deleteAllItemsButton = null;
+      [SerializeField] private Button _refreshAllButton = null;
+      
       protected void Start()
       {
          _inventoryServiceExample.OnRefreshed += InventoryServiceExample_OnRefreshed;
          _add1ItemButton.onClick.AddListener(Add1ItemButton_OnClicked);
          _delete1ItemButton.onClick.AddListener(Delete1ItemButton_OnClicked);
          _deleteAllItemsButton.onClick.AddListener(DeleteAllItemsButton_OnClicked);
+         _refreshAllButton.onClick.AddListener(RefreshAllButton_OnClicked);
       }
 
 
@@ -54,6 +47,11 @@ namespace Beamable.Examples.Services.InventoryService
          _inventoryServiceExample.DeleteAllItem();
       }
 
+      private void RefreshAllButton_OnClicked()
+      {
+         _inventoryServiceExample.Refresh();
+      }
+      
 
       private void InventoryServiceExample_OnRefreshed(List<string> clientContentObjectNames, List<string> playerInventoryItemNames)
       {
