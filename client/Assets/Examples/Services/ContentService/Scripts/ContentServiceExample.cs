@@ -1,5 +1,4 @@
 using Beamable.Common.Content;
-using Beamable.Common.Leaderboards;
 using Beamable.Common.Tournaments;
 using UnityEngine;
 
@@ -28,11 +27,11 @@ namespace Beamable.Examples.Services.ContentService
         private TournamentContent _tournamentContentFromLink = null;
         
         //  Unity Methods  --------------------------------
-        protected async void Start()
+        protected void Start()
         {
             Debug.Log($"Start()");
             
-            await _tournamentRef.Resolve()
+            _tournamentRef.Resolve()
                 .Then(content =>
                 {
                     _tournamentContentFromRef = content; 
@@ -43,7 +42,7 @@ namespace Beamable.Examples.Services.ContentService
                     Debug.LogError($"_tournamentRef.Resolve() Error!"); 
                 });
             
-            await _tournamentLink.Resolve()
+            _tournamentLink.Resolve()
                 .Then(content =>
                 {
                     _tournamentContentFromLink = content; 
