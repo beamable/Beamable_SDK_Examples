@@ -326,7 +326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tournamentRef:
-    Id: tournaments.New_TournamentContent02
+    Id: tournaments.Tournament01
   _score: 100
 --- !u!4 &1649044197
 Transform:

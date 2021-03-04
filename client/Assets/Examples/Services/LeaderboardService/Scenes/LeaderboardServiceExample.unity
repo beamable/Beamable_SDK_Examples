@@ -326,7 +326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _leaderboardRef:
-    Id: leaderboards.LeaderboardContent01
+    Id: leaderboards.Leaderboard01
   _score: 100
 --- !u!4 &1649044197
 Transform:
