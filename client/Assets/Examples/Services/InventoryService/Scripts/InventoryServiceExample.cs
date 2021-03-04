@@ -95,9 +95,6 @@ namespace Beamable.Examples.Services.InventoryService
                   Debug.Log($"\t\tvalue = {itemView.id}");
                }
                _playerInventoryItemNames.Add($"{kvp.Key} ({kvp.Value.Count})");
-               
-               
-               //TODO #1 of 2: Keep the id of each item (itemView.id) for use in deletion.
             }
             
             Refresh();
@@ -117,9 +114,6 @@ namespace Beamable.Examples.Services.InventoryService
                   Debug.Log($"\t\tvalue = {itemView.id}");
                }
                _playerInventoryItemNames.Add($"{kvp.Key} ({kvp.Value.Count})");
-               
-               
-               //TODO #1 of 2: Keep the id of each item (itemView.id) for use in deletion.
             }
 
             Refresh();
@@ -170,7 +164,6 @@ namespace Beamable.Examples.Services.InventoryService
                      
          });
       }
-
    }
 }
 
