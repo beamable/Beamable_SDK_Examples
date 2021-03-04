@@ -20,7 +20,6 @@ namespace Beamable.Examples.Services.InventoryService
 
       [SerializeField] private Button _add1ItemButton = null;
       [SerializeField] private Button _delete1ItemButton = null;
-      [SerializeField] private Button _deleteAllItemsButton = null;
       [SerializeField] private Button _refreshAllButton = null;
       
       //  Unity Methods  --------------------------------
@@ -29,7 +28,6 @@ namespace Beamable.Examples.Services.InventoryService
          _inventoryServiceExample.OnRefreshed += InventoryServiceExample_OnRefreshed;
          _add1ItemButton.onClick.AddListener(Add1ItemButton_OnClicked);
          _delete1ItemButton.onClick.AddListener(Delete1ItemButton_OnClicked);
-         _deleteAllItemsButton.onClick.AddListener(DeleteAllItemsButton_OnClicked);
          _refreshAllButton.onClick.AddListener(RefreshAllButton_OnClicked);
       }
 
@@ -46,20 +44,16 @@ namespace Beamable.Examples.Services.InventoryService
          _inventoryServiceExample.DeleteOneItem();
       }
 
-      private void DeleteAllItemsButton_OnClicked()
-      {
-         _inventoryServiceExample.DeleteAllItems();
-      }
-
       private void RefreshAllButton_OnClicked()
       {
          _inventoryServiceExample.Refresh();
       }
       
       //  Event Handlers  -------------------------------
-      private void InventoryServiceExample_OnRefreshed(List<string> clientContentObjectNames, List<string> playerInventoryItemNames)
+      private void InventoryServiceExample_OnRefreshed(List<string> clientContentObjectNames, 
+         List<string> playerInventoryItemNames, string itemToAddName, string itemToDeleteName)
       {
-         //Show UI: Game Content
+         // Show UI: Game Content
          StringBuilder clientContentObjectStringBuilder = new StringBuilder();
          foreach (string clientContentObjectName in clientContentObjectNames)
          {
@@ -67,13 +61,17 @@ namespace Beamable.Examples.Services.InventoryService
          }
          _gameContentBodyText.text = clientContentObjectStringBuilder.ToString();
 
-         //Show UI: Player Inventory
+         // Show UI: Player Inventory
          StringBuilder playerInventoryStringBuilder = new StringBuilder();
          foreach (string playerInventoryItemName in playerInventoryItemNames)
          {
             playerInventoryStringBuilder.Append(playerInventoryItemName).AppendLine();
          }
          _playerInventoryBodyText.text = playerInventoryStringBuilder.ToString();
+
+         // Show UI: Button Content Names
+         _add1ItemButton.GetComponentInChildren<TMP_Text>().text = $"Add 1 Item\n({itemToAddName})";
+         _delete1ItemButton.GetComponentInChildren<TMP_Text>().text = $"Delete 1 Item\n({itemToDeleteName})";
       }
    }
 }
