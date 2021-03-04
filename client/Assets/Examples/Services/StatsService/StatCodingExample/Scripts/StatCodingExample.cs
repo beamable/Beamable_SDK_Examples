@@ -21,6 +21,8 @@ namespace Beamable.Examples.Services.StatsService
         {
             var beamableAPI = await Beamable.API.Instance;
 
+            Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
+            
             string statKey = "MyExampleStat";
             string access = "public";
             string domain = "client";
