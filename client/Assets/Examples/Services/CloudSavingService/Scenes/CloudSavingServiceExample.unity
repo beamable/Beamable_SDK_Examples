@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 1649044197}
   - component: {fileID: 1649044196}
   m_Layer: 0
-  m_Name: TournamentFlowSetScoreExample
+  m_Name: CloudSavingServiceExample
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -322,12 +322,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1649044195}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7faa5d82c4b3bed42ad1b67990104f59, type: 3}
+  m_Script: {fileID: 11500000, guid: e97d728a0ee11db4bbb3c561c06be4c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tournamentRef:
-    Id: tournaments.TournamentContent01
-  _score: 100
+  AudioSettings:
+    Volume: 50
+    IsMuted: 0
 --- !u!4 &1649044197
 Transform:
   m_ObjectHideFlags: 0

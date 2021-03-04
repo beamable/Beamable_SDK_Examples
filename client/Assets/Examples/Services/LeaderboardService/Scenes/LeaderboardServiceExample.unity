@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 1649044197}
   - component: {fileID: 1649044196}
   m_Layer: 0
-  m_Name: LeaderboardSetScoreExample
+  m_Name: LeaderboardServiceExample
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

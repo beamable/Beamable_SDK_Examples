@@ -3,57 +3,60 @@ using Beamable.Api.CloudSaving;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Beamable.Examples.Features.CloudSave
+namespace Beamable.Examples.Services.CloudSavingService
 {
   [System.Serializable]
-  public class AudioSettings
+  public class MyCustomSettings
   {
     public float Volume = 100;
     public bool IsMuted = false;
   }
   
   /// <summary>
-  /// Demonstrates <see cref="CloudSave"/>.
+  /// Demonstrates <see cref="CloudSavingService"/>.
   /// </summary>
-  public class CloudSaveExample : MonoBehaviour
+  public class CloudSavingServiceExample : MonoBehaviour
   {
-    //TODO: After demo works, move this to private if possible
-    public AudioSettings AudioSettings;
-    
-    
+    //  Fields  ---------------------------------------
+    [SerializeField] private MyCustomSettings myCustomSettings = null;
     private IBeamableAPI _beamableAPI;
-    private CloudSavingService _cloudSavingService;
+    private Api.CloudSaving.CloudSavingService _cloudSavingService;
 
-    protected async void Start()
+    //  Unity Methods  --------------------------------
+    protected void Start()
     {
       Debug.Log($"Start()");
-      
-      await Beamable.API.Instance.Then(beamableAPI =>
-      {
-        Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
-        
-        _beamableAPI = beamableAPI;
-        _cloudSavingService = _beamableAPI.CloudSavingService;
 
-        /* Subscribe to the UpdatedReceived event to call your own 
-        custom code when data on disk is changed by the server*/
-        _cloudSavingService.UpdateReceived += CloudSavingService_OnUpdateReceived;
-
-        /* Init the service, which will first download content that the server may have,
-        that the client does not. The client will then upload any content that it has,
-        that the server is missing.*/
-        _cloudSavingService.Init();
-
-        AudioSettings = ReloadOrCreateAudioSettings();
-      });
-  
+      SetupBeamable();
     }
 
-    private AudioSettings ReloadOrCreateAudioSettings()
+    //  Methods  --------------------------------------
+    private async void SetupBeamable()
+    {
+      _beamableAPI = await Beamable.API.Instance;
+
+      Debug.Log($"beamableAPI.User.id = {_beamableAPI.User.id}");
+      
+      _cloudSavingService = _beamableAPI.CloudSavingService;
+      
+      /* Subscribe to the UpdatedReceived event to call your own 
+      custom code when data on disk does not yet exist and
+      is pulled from the server*/
+      _cloudSavingService.UpdateReceived += CloudSavingService_OnUpdateReceived;
+
+      /* Init the service, which will first download content that the server may have,
+      that the client does not. The client will then upload any content that it has,
+      that the server is missing.*/
+      _cloudSavingService.Init();
+
+      myCustomSettings = ReloadOrCreateAudioSettings();
+    }
+
+    private MyCustomSettings ReloadOrCreateAudioSettings()
     {
       Debug.Log($"ReloadOrCreateAudioSettings()");
       
-      AudioSettings settings;
+      MyCustomSettings settings;
       Directory.CreateDirectory(_cloudSavingService.LocalCloudDataFullPath);
 
       var audioFileName = "audioFile.json";
@@ -66,14 +69,14 @@ namespace Beamable.Examples.Features.CloudSave
         Debug.Log($"Reload AudioSettings");
         
         var json = File.ReadAllText(audioPath);
-        settings = JsonUtility.FromJson<AudioSettings>(json);
+        settings = JsonUtility.FromJson<MyCustomSettings>(json);
       }
       else
       {
         // Create AudioSettings
         Debug.Log($"Create AudioSettings");
         
-        settings = new AudioSettings
+        settings = new MyCustomSettings
         {
           IsMuted = false,
           Volume = 1
@@ -90,6 +93,7 @@ namespace Beamable.Examples.Features.CloudSave
       return settings;
     }
     
+    //  Event Handlers  -------------------------------
     private void CloudSavingService_OnUpdateReceived(ManifestResponse manifest)
     {
       Debug.Log($"CloudSavingService_OnUpdateReceived()");

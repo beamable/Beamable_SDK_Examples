@@ -1,7 +1,7 @@
 using Beamable.Common.Content;
 using UnityEngine;
 
-namespace Beamable.Examples.Features.GameContentDesignerDemo.Content
+namespace Beamable.Examples.Labs.GameContentDesignerDemo.Content
 {
    [ContentType("gcd_weapon")]
    public class GCDWeapon : ContentObject
@@ -22,13 +22,19 @@ namespace Beamable.Examples.Features.GameContentDesignerDemo.Content
    [System.Serializable]
    public class WeaponsContentRef : ContentRef<GCDWeapons> { }
 
+   /// <summary>
+   /// Demonstrates <see cref="GameContentDesignerDemo"/>.
+   /// </summary>
    public class GameContentDesignerDemo_Content : MonoBehaviour
    {
-      [SerializeField]
-      private WeaponsContentRef _weaponsContentRef;
+      //  Fields  ---------------------------------------
+      [SerializeField] private WeaponsContentRef _weaponsContentRef = null;
 
+      //  Unity Methods   -------------------------------
       protected async void Start()
       {
+         Debug.Log($"Start()");
+         
          GCDWeapons weaponsContent = await _weaponsContentRef.Resolve();
 
          foreach (WeaponContentRef weaponContentRef in weaponsContent.WeaponContentRefs)

@@ -1,10 +1,10 @@
 using Beamable.Common.Content;
+using Beamable.Common.Leaderboards;
 using Beamable.Common.Tournaments;
 using UnityEngine;
 
 namespace Beamable.Examples.Services.ContentService
 {
-    [ContentType("samples")]
     public class SampleContent : ContentObject
     {
         public int x;
@@ -20,17 +20,19 @@ namespace Beamable.Examples.Services.ContentService
     /// </summary>
     public class ContentServiceExample : MonoBehaviour
     {
+        //  Fields  ---------------------------------------
         [SerializeField] private TournamentRef _tournamentRef;
         [SerializeField] private TournamentLink _tournamentLink;
 
         private TournamentContent _tournamentContentFromRef = null;
         private TournamentContent _tournamentContentFromLink = null;
         
-        protected void Start()
+        //  Unity Methods  --------------------------------
+        protected async void Start()
         {
             Debug.Log($"Start()");
             
-            _tournamentRef.Resolve()
+            await _tournamentRef.Resolve()
                 .Then(content =>
                 {
                     _tournamentContentFromRef = content; 
@@ -40,8 +42,8 @@ namespace Beamable.Examples.Services.ContentService
                 {
                     Debug.LogError($"_tournamentRef.Resolve() Error!"); 
                 });
-
-            _tournamentLink.Resolve()
+            
+            await _tournamentLink.Resolve()
                 .Then(content =>
                 {
                     _tournamentContentFromLink = content; 

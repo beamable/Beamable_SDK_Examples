@@ -11,6 +11,8 @@ namespace Beamable.Examples.Services.InventoryService
    /// </summary>
    public class InventoryServiceExampleUI : MonoBehaviour
    {
+      //  Fields  ---------------------------------------
+      
       [SerializeField] private InventoryServiceExample _inventoryServiceExample = null;
 
       [SerializeField] private TMP_Text _gameContentBodyText = null;
@@ -21,6 +23,7 @@ namespace Beamable.Examples.Services.InventoryService
       [SerializeField] private Button _deleteAllItemsButton = null;
       [SerializeField] private Button _refreshAllButton = null;
       
+      //  Unity Methods  --------------------------------
       protected void Start()
       {
          _inventoryServiceExample.OnRefreshed += InventoryServiceExample_OnRefreshed;
@@ -30,21 +33,22 @@ namespace Beamable.Examples.Services.InventoryService
          _refreshAllButton.onClick.AddListener(RefreshAllButton_OnClicked);
       }
 
-
+      //  Methods  --------------------------------------
+      
       private void Add1ItemButton_OnClicked()
       {
-         _inventoryServiceExample.Add1Item();
+         _inventoryServiceExample.AddOneItem();
       }
 
 
       private void Delete1ItemButton_OnClicked()
       {
-         _inventoryServiceExample.Delete1Item();
+         _inventoryServiceExample.DeleteOneItem();
       }
 
       private void DeleteAllItemsButton_OnClicked()
       {
-         _inventoryServiceExample.DeleteAllItem();
+         _inventoryServiceExample.DeleteAllItems();
       }
 
       private void RefreshAllButton_OnClicked()
@@ -52,7 +56,7 @@ namespace Beamable.Examples.Services.InventoryService
          _inventoryServiceExample.Refresh();
       }
       
-
+      //  Event Handlers  -------------------------------
       private void InventoryServiceExample_OnRefreshed(List<string> clientContentObjectNames, List<string> playerInventoryItemNames)
       {
          //Show UI: Game Content

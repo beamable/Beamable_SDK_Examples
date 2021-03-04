@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Beamable.Common.Api.Inventory;
 using Beamable.Common.Content;
 using Beamable.Common.Inventory;
@@ -22,6 +23,7 @@ namespace Beamable.Examples.Services.InventoryService
    /// </summary>
    public class InventoryServiceExample : MonoBehaviour
    {
+      //  Fields  ---------------------------------------
       public event Action<List<string>,List<string>> OnRefreshed;
       public ArmorContentRef ItemToAdd;
       public ArmorContentRef ItemToDelete;
@@ -31,7 +33,7 @@ namespace Beamable.Examples.Services.InventoryService
       private List<string> _clientContentObjectNames = new List<string>();
       private List<string> _playerInventoryItemNames = new List<string>();
 
-
+      //  Unity Methods  --------------------------------
       protected void Start()
       {
          Debug.Log($"Start()");
@@ -39,69 +41,83 @@ namespace Beamable.Examples.Services.InventoryService
          SetupBeamable();
       }
 
+      //  Methods  --------------------------------------
       private async void SetupBeamable()
-      {
-         await Beamable.API.Instance.Then(beamableAPI =>
+      { 
+         _beamableAPI = await Beamable.API.Instance;
+            
+         Debug.Log($"beamableAPI.User.id = {_beamableAPI.User.id}");
+         
+         // All items (Available in game)
+         _beamableAPI.ContentService.Subscribe(clientManifest =>
          {
-            _beamableAPI = beamableAPI;
-            
-            Debug.Log($"beamableAPI.User.id = {_beamableAPI.User.id}");
-            
-            // All items (Available in game)
-            _beamableAPI.ContentService.Subscribe(clientManifest =>
+            Debug.Log($"#1. GAME - ContentService, all items count = {clientManifest.entries.Count}");
+
+            _clientContentObjectNames.Clear();
+            foreach (ClientContentInfo clientContentInfo in clientManifest.entries)
             {
-               Debug.Log($"#1. GAME - ContentService, all items count = {clientManifest.entries.Count}");
+               Debug.Log($"\tcontentId = {clientContentInfo.contentId}");
+               _clientContentObjectNames.Add(clientContentInfo.contentId);
+            }
 
-               _clientContentObjectNames.Clear();
-               foreach (ClientContentInfo clientContentInfo in clientManifest.entries)
-               {
-                  Debug.Log($"\tcontentId = {clientContentInfo.contentId}");
-                  _clientContentObjectNames.Add(clientContentInfo.contentId);
-               }
-
-               Refresh();
-            });
-
-            // Filtered items (Available in game)
-            _beamableAPI.ContentService.Subscribe(_contentTypeGeneral, clientManifest =>
-            {
-               Debug.Log($"#2. GAME - ContentService, '{_contentTypeGeneral}' items count = {clientManifest.entries.Count}");
-
-               foreach (ClientContentInfo clientContentInfo in clientManifest.entries)
-               {
-                  Debug.Log($"\tcontentId = {clientContentInfo.contentId}");
-               }
-            });
-            
-            // Filtered items (Owned by current player)
-            _beamableAPI.InventoryService.Subscribe(_contentTypeGeneral, view =>
-            {
-               Debug.Log($"#3. PLAYER - InventoryService, '{_contentTypeGeneral}' items count = {view.items.Count}");
-
-               Refresh();
-            });
-
-            // All items (Owned by current player)
-            _beamableAPI.InventoryService.Subscribe(view =>
-            {
-               Debug.Log($"#4. PLAYER - InventoryService, all items count = {view.items.Count}");
-
-               _playerInventoryItemNames.Clear();
-               foreach (KeyValuePair<string, List<ItemView>> kvp in view.items)
-               {
-                  Debug.Log($"\tkey = {kvp.Key}");
-                  foreach (ItemView itemView in kvp.Value)
-                  {
-                     Debug.Log($"\t\tvalue = {itemView.id}");
-                  }
-                  _playerInventoryItemNames.Add($"{kvp.Key} ({kvp.Value.Count})");
-               }
-
-               Refresh();
-            });
-
-
+            Refresh();
          });
+
+         // Filtered items (Available in game)
+         _beamableAPI.ContentService.Subscribe(_contentTypeGeneral, clientManifest =>
+         {
+            Debug.Log($"#2. GAME - ContentService, '{_contentTypeGeneral}' items count = {clientManifest.entries.Count}");
+
+            foreach (ClientContentInfo clientContentInfo in clientManifest.entries)
+            {
+               Debug.Log($"\tcontentId = {clientContentInfo.contentId}");
+            }
+         });
+         
+         // Filtered items (Owned by current player)
+         _beamableAPI.InventoryService.Subscribe(_contentTypeGeneral, view =>
+         {
+            Debug.Log($"#3. PLAYER - InventoryService, '{_contentTypeGeneral}' items count = {view.items.Count}");
+
+            _playerInventoryItemNames.Clear();
+            foreach (KeyValuePair<string, List<ItemView>> kvp in view.items)
+            {
+               Debug.Log($"\tkey = {kvp.Key}");
+               foreach (ItemView itemView in kvp.Value)
+               {
+                  Debug.Log($"\t\tvalue = {itemView.id}");
+               }
+               _playerInventoryItemNames.Add($"{kvp.Key} ({kvp.Value.Count})");
+               
+               
+               //TODO #1 of 2: Keep the id of each item (itemView.id) for use in deletion.
+            }
+            
+            Refresh();
+         });
+
+         // All items (Owned by current player)
+         _beamableAPI.InventoryService.Subscribe(view =>
+         {
+            Debug.Log($"#4. PLAYER - InventoryService, all items count = {view.items.Count}");
+
+            _playerInventoryItemNames.Clear();
+            foreach (KeyValuePair<string, List<ItemView>> kvp in view.items)
+            {
+               Debug.Log($"\tkey = {kvp.Key}");
+               foreach (ItemView itemView in kvp.Value)
+               {
+                  Debug.Log($"\t\tvalue = {itemView.id}");
+               }
+               _playerInventoryItemNames.Add($"{kvp.Key} ({kvp.Value.Count})");
+               
+               
+               //TODO #1 of 2: Keep the id of each item (itemView.id) for use in deletion.
+            }
+
+            Refresh();
+         });
+
       }
 
       public void Refresh()
@@ -115,37 +131,39 @@ namespace Beamable.Examples.Services.InventoryService
          
       }
 
-      public async void Add1Item()
+      public async void AddOneItem()
       {
          // Give an item (To current player from items available in game)
          await _beamableAPI.InventoryService.AddItem(ItemToAdd.Id, new Dictionary<string, string>()).Then(obj =>
          {
-            Debug.Log($"#5. PLAYER - InventoryService, AddItem = {ItemToAdd.Id}");
+            Debug.Log($"#5. PLAYER - InventoryService, AddOneItem = {ItemToAdd.Id}");
+
+            
          });
 
       }
 
-      public async void Delete1Item()
+      public async void DeleteOneItem()
       {
          string contentId = ItemToDelete.Id;
          
-         //TODO: How do I find this? Afterwards remove the if below - srivello
-         long itemIdToDelete = -1;
+         List<InventoryObject<Armor>> armors = _beamableAPI.InventoryService.GetItems<Armor>().GetResult();
+         long? itemIdToDelete = armors?.First().Id;
 
-         if (itemIdToDelete != -1) 
+         if (!itemIdToDelete.HasValue) 
          {
-            Debug.Log($"#6. PLAYER DeleteItem() failed. Must have a itemIdToDelete value.");
+            Debug.Log($"#6. PLAYER DeleteOneItem() failed. Player has no such item yet.");
             return;
          }
 
-         await _beamableAPI.InventoryService.DeleteItem(contentId, itemIdToDelete).Then(obj =>
+         await _beamableAPI.InventoryService.DeleteItem(contentId, itemIdToDelete.Value).Then(obj =>
          {
-            Debug.Log($"#6. PLAYER DeleteItem() success. 1 player item for {contentId} is deleted.");
+            Debug.Log($"#6. PLAYER DeleteOneItem() success. 1 player item for {contentId} is deleted.");
                      
          });
       }
 
-      public void DeleteAllItem()
+      public void DeleteAllItems()
       {
          throw new NotImplementedException();
       }

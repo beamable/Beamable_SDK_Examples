@@ -1,7 +1,7 @@
 ﻿using Beamable.ConsoleCommands;
 using UnityEngine;
 
-namespace Beamable.Examples.Features.AdminFlow2
+namespace Beamable.Examples.Features.AdminFlow
 {
     [BeamableConsoleCommandProvider]
     public class CustomConsoleCommandProvider 
@@ -20,6 +20,7 @@ namespace Beamable.Examples.Features.AdminFlow2
     /// </summary>
     public class AdminFlowCustomCommandExample : MonoBehaviour
     {
+        //  Unity Methods  --------------------------------
         protected void Start()
         {
             Debug.Log($"Start() Instructions...\n" + 

@@ -1,26 +1,26 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Beamable.Examples.Services.Stats
+namespace Beamable.Examples.Services.StatsService
 {
+    /// <summary>
+    /// Demonstrates <see cref="StatsService"/>.
+    /// </summary>
     public class StatCodingExample : MonoBehaviour
     {
-        //  Unity Methods   ------------------------------
+        //  Unity Methods  --------------------------------
         protected void Start()
         {
             Debug.Log($"Start()");
-            
-            Beamable.API.Instance.Then(beamableAPI =>
-            {
-                Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
-                
-                UseStatCoding(beamableAPI);
-            });
+
+            SetupBeamable();
         }
 
         //  Other Methods   ------------------------------
-        private async void UseStatCoding(IBeamableAPI beamableAPI)
+        private async void SetupBeamable()
         {
+            var beamableAPI = await Beamable.API.Instance;
+
             string statKey = "MyExampleStat";
             string access = "public";
             string domain = "client";

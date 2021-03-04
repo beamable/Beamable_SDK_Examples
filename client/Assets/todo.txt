@@ -1,12 +1,9 @@
 
 Verify that...
-* Address "todo" in example code.
+* Address "todo" in all example code.
 * Naming is consistent
 * classes are consistent with scene naming
 * code compiles
-* every Start has a Debug.Log("Start()"); with optional additional words
-* private classes are above the main example
-* if a folder should NOT have the full code pasted into the readme, then break example into 2+ files, so its clear which one to paste into readme
 
 
 After the above...
