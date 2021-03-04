@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -150,10 +150,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a4a88d17910b5f40b99443da6a7a7fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemToAdd:
-    Id: items.is_armor.SilverArmor01
-  ItemToDelete:
-    Id: items.is_armor.SilverArmor01
+  _itemToAdd:
+    Id: items.armor.HeavyArmor01
+  _itemToDelete:
+    Id: items.armor.HeavyArmor01
 --- !u!4 &31994830
 Transform:
   m_ObjectHideFlags: 0
@@ -355,7 +355,7 @@ RectTransform:
   m_Children:
   - {fileID: 1644378034}
   - {fileID: 1319563129}
-  - {fileID: 546701831}
+  - {fileID: 779408010}
   m_Father: {fileID: 1611377253}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -409,125 +409,6 @@ MonoBehaviour:
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
---- !u!1 &546701827
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 546701831}
-  - component: {fileID: 546701830}
-  - component: {fileID: 546701829}
-  - component: {fileID: 546701828}
-  m_Layer: 5
-  m_Name: DeleteAllItemsButton
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &546701828
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 546701827}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 546701829}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &546701829
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 546701827}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &546701830
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 546701827}
-  m_CullTransparentMesh: 0
---- !u!224 &546701831
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 546701827}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1691167214}
-  m_Father: {fileID: 417626818}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &682591917
 GameObject:
   m_ObjectHideFlags: 0
@@ -743,6 +624,125 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &779408006
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 779408010}
+  - component: {fileID: 779408009}
+  - component: {fileID: 779408008}
+  - component: {fileID: 779408007}
+  m_Layer: 5
+  m_Name: RefreshButton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &779408007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779408006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 779408008}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &779408008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779408006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &779408009
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779408006}
+  m_CullTransparentMesh: 0
+--- !u!224 &779408010
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779408006}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1820191458}
+  m_Father: {fileID: 417626818}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &866707941
 GameObject:
   m_ObjectHideFlags: 0
@@ -1434,7 +1434,7 @@ GameObject:
   - component: {fileID: 1319563131}
   - component: {fileID: 1319563130}
   m_Layer: 5
-  m_Name: Delete1ItemButton
+  m_Name: DeleteOneItemButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1746,401 +1746,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f9eb70e479f547f2bb99bde5281612c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  undoProRecords: []
-  undoState:
-    redoRecords: []
-    undoRecords:
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Assign Asset Reference
-    - Assign Asset Reference Sub Object
-    - Selection Change
-    - Assign Asset Reference
-    - Assign Asset Reference Sub Object
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Inspector
-    - Inspector
-    - Selection Change
-    - Inspector
-    - Inspector
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Inspector
-    - Selection Change
-    - Selection Change
-    - Create Canvas
-    - Create EventSystem
-    - Parent Text (TMP)
-    - Parent Text (TMP)
-    - Create Text (TMP)
-    - Create Text (TMP)
-    - Selection Change
-    - Selection Change
-    - Create Panel
-    - Add Image
-    - 
-    - 
-    - 
-    - Create Panel
-    - Selection Change
-    - Selection Change
-    - Create GameObject
-    - Reparenting
-    - Reparenting
-    - Transform parenting workaround
-    - Add RectTransform
-    - Transform parenting workaround 2
-    - Transform parenting workaround 2
-    - Create GameObject
-    - Selection Change
-    - GameObject Parenting
-    - Rename GameObject
-    - Panel Parenting
-    - Panel Parenting
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Paste Panel
-    - Selection Change
-    - Paste Panel (1)
-    - Selection Change
-    - Add VerticalLayoutGroup
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Selection Change
-    - Selection Change
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Text (TMP) Parenting
-    - Text (TMP) Parenting
-    - Selection Change
-    - Rename Text (TMP)
-    - Selection Change
-    - Paste TitleText
-    - Rename TitleText (1)
-    - Selection Change
-    - Add VerticalLayoutGroup
-    - Selection Change
-    - Selection Change
-    - Driving RectTransform
-    - Selection Change
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Driving RectTransform
-    - Selection Change
-    - Selection Change
-    - Driving RectTransform
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Paste Panel
-    - Selection Change
-    - Paste Panel (3)
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Driving RectTransform
-    - Delete Game Objects
-    - Delete Game Objects
-    - Selection Change
-    - Driving RectTransform
-    - Delete Game Objects
-    - Delete Game Objects
-    - Selection Change
-    - Rename Panel
-    - Selection Change
-    - Rename Panel (3)
-    - Selection Change
-    - Rename Panel (4)
-    - Selection Change
-    - Selection Change
-    - Create GameObject
-    - Driving RectTransform
-    - Reparenting
-    - Transform parenting workaround
-    - Add RectTransform
-    - Driving RectTransform
-    - Transform parenting workaround 2
-    - Create GameObject
-    - Selection Change
-    - Rename GameObject
-    - Parent Button
-    - Parent Button
-    - Create Button
-    - Create Button
-    - Selection Change
-    - Rename Button
-    - Selection Change
-    - Paste AddItemButton
-    - Rename AddItemButton (1)
-    - Selection Change
-    - Add HorizontalLayoutGroup
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Driving RectTransform
-    - Driving RectTransform
-    - Selection Change
-    - Driving RectTransform
-    - Driving RectTransform
-    - Selection Change
-    - Driving RectTransform
-    - Driving RectTransform
-    - Selection Change
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Driving RectTransform
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Selection Change
-    - Selection Change
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Driving RectTransform
-    - Delete Game Objects
-    - Delete Game Objects
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Add LayoutElement
-    - Add LayoutElement
-    - Add LayoutElement
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Add LayoutElement
-    - Add LayoutElement
-    - Add LayoutElement
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Driving RectTransform
-    - Driving RectTransform
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Selection Change
-    - Inspector
-    - Inspector
-    - Inspector
-    - Selection Change
-    - Selection Change
-    - Inspector
-    - Inspector
-    - Inspector
-    - Selection Change
-    - Selection Change
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Selection Change
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Selection Change
-    - Selection Change
-    - Driving RectTransform
-    - Selection Change
-    - Add LayoutElement
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Selection Change
-    - Selection Change
-    - Add LayoutElement
-    - Add LayoutElement
-    - Driving RectTransform
-    - Driving RectTransform
-    - Selection Change
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Selection Change
-    - Driving RectTransform
-    - Selection Change
-    - Driving RectTransform
-    - Selection Change
-    - Selection Change
-    - Rename Canvas
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - EventSystem Parenting
-    - EventSystem Parenting
-    - EventSystem Parenting
-    - Selection Change
-    - Add InventoryServiceExampleUI
-    - Inspector
-    - Inspector
-    - Inspector
-    - Selection Change
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Selection Change
-    - Inspector
-    - Inspector
-    - Selection Change
-    - Rename ContentPanel
-    - Selection Change
-    - Rename InventoryPanel
-    - Selection Change
-    - Inspector
-    - Inspector
-    - Selection Change
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Driving RectTransform
-    - Selection Change
-    - Selection Change
-    - Inspector
-    - Inspector
-    - Selection Change
-    - Inspector
-    - Inspector
-    - Selection Change
-    - Selection Change
-    - Paste DeleteItemButton
-    - Selection Change
-    - Inspector
-    - Inspector
-    - Selection Change
-    - Rename DeleteItemButton (1)
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Driving RectTransform
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Inspector
-    - Selection Change
-    - Selection Change
-    - Driving RectTransform
-    - Selection Change
-    - Selection Change
-    - Selection Change
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Driving RectTransform
-    - Selection Change
-    - Inspector
-    - Inspector
-    - Selection Change
-    - Rename AddItemButton
-    - Selection Change
-    - Rename DeleteItemButton
-    - Selection Change
-    - Selection Change
-    - Inspector
 --- !u!4 &1527653705
 Transform:
   m_ObjectHideFlags: 3
@@ -2273,7 +1878,7 @@ MonoBehaviour:
   _playerInventoryBodyText: {fileID: 866707944}
   _add1ItemButton: {fileID: 1644378035}
   _delete1ItemButton: {fileID: 1319563130}
-  _deleteAllItemsButton: {fileID: 546701828}
+  _refreshAllButton: {fileID: 779408007}
 --- !u!1 &1611377252
 GameObject:
   m_ObjectHideFlags: 0
@@ -2410,7 +2015,7 @@ GameObject:
   - component: {fileID: 1644378036}
   - component: {fileID: 1644378035}
   m_Layer: 5
-  m_Name: Add1ItemButton
+  m_Name: AddOneItemButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2515,162 +2120,6 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1644378033}
-  m_CullTransparentMesh: 0
---- !u!1 &1691167213
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1691167214}
-  - component: {fileID: 1691167216}
-  - component: {fileID: 1691167215}
-  m_Layer: 5
-  m_Name: Text (TMP)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1691167214
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1691167213}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 546701831}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1691167215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1691167213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_text: Delete All Items
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_outlineColor:
-    serializedVersion: 2
-    rgba: 4278190080
-  m_fontSize: 20
-  m_fontSizeBase: 20
-  m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_textAlignment: 514
-  m_characterSpacing: 0
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
-  m_linkedTextComponent: {fileID: 0}
-  m_isLinkedTextComponent: 0
-  m_isTextTruncated: 0
-  m_enableKerning: 1
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_ignoreRectMaskCulling: 0
-  m_ignoreCulling: 1
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_VertexBufferAutoSizeReduction: 1
-  m_firstVisibleCharacter: 0
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
-  m_textInfo:
-    textComponent: {fileID: 1691167215}
-    characterCount: 16
-    spriteCount: 0
-    spaceCount: 2
-    wordCount: 3
-    linkCount: 0
-    lineCount: 1
-    pageCount: 1
-    materialCount: 1
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_spriteAnimator: {fileID: 0}
-  m_hasFontAssetChanged: 0
-  m_subTextObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &1691167216
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1691167213}
   m_CullTransparentMesh: 0
 --- !u!1 &1803097421
 GameObject:
@@ -2827,6 +2276,162 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1803097421}
+  m_CullTransparentMesh: 0
+--- !u!1 &1820191457
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1820191458}
+  - component: {fileID: 1820191460}
+  - component: {fileID: 1820191459}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1820191458
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1820191457}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 779408010}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1820191459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1820191457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Refresh UI
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4281479730
+  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_outlineColor:
+    serializedVersion: 2
+    rgba: 4278190080
+  m_fontSize: 20
+  m_fontSizeBase: 20
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_textAlignment: 514
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_firstOverflowCharacterIndex: -1
+  m_linkedTextComponent: {fileID: 0}
+  m_isLinkedTextComponent: 0
+  m_isTextTruncated: 0
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_ignoreRectMaskCulling: 0
+  m_ignoreCulling: 1
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_VertexBufferAutoSizeReduction: 1
+  m_firstVisibleCharacter: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_textInfo:
+    textComponent: {fileID: 1820191459}
+    characterCount: 10
+    spriteCount: 0
+    spaceCount: 1
+    wordCount: 2
+    linkCount: 0
+    lineCount: 1
+    pageCount: 1
+    materialCount: 1
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_spriteAnimator: {fileID: 0}
+  m_hasFontAssetChanged: 0
+  m_subTextObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1820191460
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1820191457}
   m_CullTransparentMesh: 0
 --- !u!1 &1834694783
 GameObject:

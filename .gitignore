@@ -59,10 +59,13 @@ ExportedObj/
 # Unity3D generated file on crash reports
 sysinfo.txt
 
+# JetBrains Rider auto-generates
+/client/.idea
+/client/.vsconfig
+
 # Builds
 *.apk
 *.unitypackage
 
 # Crashlytics generated file
 crashlytics-build.properties
-
