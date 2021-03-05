@@ -151,9 +151,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemToAdd:
-    Id: items.armor.SoftArmor01
+    Id: items.armor.LightArmor01
   _itemToDelete:
-    Id: items.armor.SoftArmor01
+    Id: items.armor.LightArmor01
 --- !u!4 &31994830
 Transform:
   m_ObjectHideFlags: 0

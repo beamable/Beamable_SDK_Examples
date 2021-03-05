@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: LightArmor01
   m_EditorClassIdentifier: Assembly-CSharp:Beamable.Examples.Services.InventoryService:Armor
-  _tags: []
+  _tags:
+  - base
   Icon:
     m_AssetGUID: 
     m_SubObjectName: 
   clientPermission:
-    write_self: 0
-  Name: 
-  Defense: 0
+    write_self: 1
+  Name: LightArmor01
+  Defense: 10
