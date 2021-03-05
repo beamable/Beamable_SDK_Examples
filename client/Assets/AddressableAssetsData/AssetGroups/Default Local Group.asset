@@ -16,7 +16,11 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: b0470221f95b3b0419501964d6b28640
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: eb4a3584174c96641bc4d5b8f1f5d213
+    m_Address: e/DefaultAssets/currency/icon.pngrency/icon.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5d11321d71a14284fbdf77465beef97a, type: 2}
   m_SchemaSet:

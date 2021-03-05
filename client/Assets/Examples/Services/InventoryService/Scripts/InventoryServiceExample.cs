@@ -52,8 +52,11 @@ namespace Beamable.Examples.Services.InventoryService
             
          Debug.Log($"beamableAPI.User.id = {_beamableAPI.User.id}");
 
-         _itemToAddName = _itemToAdd.Resolve().GetResult().Name;
-         _itemToDeleteName = _itemToDelete.Resolve().GetResult().Name;
+         Armor armorToAdd = await _itemToAdd.Resolve();
+         _itemToAddName = armorToAdd.Name;
+
+         Armor armorToDelete = await _itemToDelete.Resolve();
+         _itemToDeleteName = armorToDelete.Name;
          
          // All items (Available in game)
          _beamableAPI.ContentService.Subscribe(clientManifest =>

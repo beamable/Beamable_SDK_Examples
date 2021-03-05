@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: HeavyArmor01
+  m_Name: LightArmor01
   m_EditorClassIdentifier: Assembly-CSharp:Beamable.Examples.Services.InventoryService:Armor
-  _tags:
-  - base
+  _tags: []
   Icon:
     m_AssetGUID: 
     m_SubObjectName: 
   clientPermission:
     write_self: 0
   Name: 
-  Defense: 
+  Defense: 0
