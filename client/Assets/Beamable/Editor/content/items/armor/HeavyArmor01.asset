@@ -18,6 +18,6 @@ MonoBehaviour:
     m_AssetGUID: 
     m_SubObjectName: 
   clientPermission:
-    write_self: 1
-  Name: Heavy Armor
-  Defense: 90
+    write_self: 0
+  Name: 
+  Defense: 

@@ -11,8 +11,8 @@ namespace Beamable.Examples.Services.InventoryService
    [ContentType("armor")]
    public class Armor : ItemContent
    {
-      public string Name;
-      public string Defense;
+      public string Name = "";
+      public int Defense = 0;
    }
 
    [System.Serializable]
