@@ -9,15 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: HardArmor01
-  m_EditorClassIdentifier: Assembly-CSharp:Beamable.Examples.Services.InventoryService:Armor
-  _tags:
-  - base
+  m_Script: {fileID: 11500000, guid: 377d87f630c142a1b21e7f79b87d02a7, type: 3}
+  m_Name: HeavyArmor01
+  m_EditorClassIdentifier: 
+  _tags: []
   Icon:
     m_AssetGUID: 
     m_SubObjectName: 
   clientPermission:
     write_self: 1
-  Name: HardArmor01
+  Name: Heavy Armor
   Defense: 90

@@ -8,13 +8,6 @@ using UnityEngine;
 
 namespace Beamable.Examples.Services.InventoryService
 {
-   [ContentType("armor")]
-   public class Armor : ItemContent
-   {
-      public string Name = "";
-      public int Defense = 0;
-   }
-
    [System.Serializable]
    public class ArmorContentRef : ContentRef<Armor> { }
 
