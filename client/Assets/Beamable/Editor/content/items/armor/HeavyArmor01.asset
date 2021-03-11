@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: HeavyArmor01
   m_EditorClassIdentifier: 
   _tags: []
-  Icon:
+  icon:
     m_AssetGUID: 
     m_SubObjectName: 
+    m_SubObjectType: 
   clientPermission:
-    write_self: 1
+    writeSelf: 1
   Name: Heavy Armor
   Defense: 90
