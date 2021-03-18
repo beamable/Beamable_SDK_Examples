@@ -21,6 +21,20 @@ MonoBehaviour:
     m_Address: e/DefaultAssets/currency/icon.pngrency/icon.png
     m_ReadOnly: 0
     m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: a9f8722126853314c85f077f8e5239ac
+    m_Address: Assets/Beamable/Examples/Features/InventoryFlow/Sprites/Sword.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 791f464c8908c11468821bc68a79bdaf
+    m_Address: Assets/Beamable/Examples/Features/InventoryFlow/Sprites/Knife.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5d11321d71a14284fbdf77465beef97a, type: 2}
   m_SchemaSet:
