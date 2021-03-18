@@ -151,9 +151,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tournamentRef:
-    Id: tournaments.TournamentContent01
+    Id: tournaments.Tournament01
   _tournamentLink:
-    Id: tournaments.TournamentContent01
+    Id: tournaments.Tournament01
 --- !u!4 &31994830
 Transform:
   m_ObjectHideFlags: 0

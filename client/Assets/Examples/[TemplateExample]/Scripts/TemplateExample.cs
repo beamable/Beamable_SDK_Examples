@@ -5,7 +5,7 @@ namespace Beamable.Examples.Features.XXX
     /// <summary>
     /// Demonstrates <see cref="Example"/>.
     /// </summary>
-    public class Example : MonoBehaviour
+    public class TemplateExample : MonoBehaviour
     {
         //  Properties  -----------------------------------
         //  Fields  ---------------------------------------
