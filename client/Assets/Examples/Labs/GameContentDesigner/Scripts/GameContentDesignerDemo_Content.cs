@@ -10,8 +10,8 @@ namespace Beamable.Examples.Labs.GameContentDesignerDemo.Content
       public string Damage;
    }
 
-   [ContentType("gcd_weapons")]
-   public class GCDWeapons : ContentObject
+   [ContentType("gcd_weaponsgroup")]
+   public class GCDWeaponsGroup : ContentObject
    {
       public WeaponContentRef[] WeaponContentRefs;
    }
@@ -20,7 +20,7 @@ namespace Beamable.Examples.Labs.GameContentDesignerDemo.Content
    public class WeaponContentRef : ContentRef<GCDWeapon> { }
 
    [System.Serializable]
-   public class WeaponsContentRef : ContentRef<GCDWeapons> { }
+   public class WeaponsGroupContentRef : ContentRef<GCDWeaponsGroup> { }
 
    /// <summary>
    /// Demonstrates <see cref="GameContentDesignerDemo"/>.
@@ -28,16 +28,18 @@ namespace Beamable.Examples.Labs.GameContentDesignerDemo.Content
    public class GameContentDesignerDemo_Content : MonoBehaviour
    {
       //  Fields  ---------------------------------------
-      [SerializeField] private WeaponsContentRef _weaponsContentRef = null;
+      [SerializeField] private WeaponsGroupContentRef _weaponsGroupContentRef = null;
 
       //  Unity Methods   -------------------------------
       protected async void Start()
       {
          Debug.Log($"Start()");
          
-         GCDWeapons weaponsContent = await _weaponsContentRef.Resolve();
+         GCDWeaponsGroup weaponsGroupContent = await _weaponsGroupContentRef.Resolve();
 
-         foreach (WeaponContentRef weaponContentRef in weaponsContent.WeaponContentRefs)
+         Debug.Log($"weaponsGroupContent.ContentName ={weaponsGroupContent.ContentName}");
+         
+         foreach (WeaponContentRef weaponContentRef in weaponsGroupContent.WeaponContentRefs)
          {
             GCDWeapon weapon = await weaponContentRef.Resolve();
 

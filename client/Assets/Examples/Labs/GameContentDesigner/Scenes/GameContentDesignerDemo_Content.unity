@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -150,8 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb5beeb6cec4434469bfc0a36f24ec42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponsContentRef:
-    Id: gcd_weapons.Weapons01
+  _weaponsGroupContentRef:
+    Id: gcd_weaponsgroup.WeaponsGroup01
 --- !u!4 &31994830
 Transform:
   m_ObjectHideFlags: 0
@@ -195,11 +195,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f9eb70e479f547f2bb99bde5281612c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  undoProRecords: []
-  undoState:
-    redoRecords: []
-    undoRecords:
-    - Selection Change
 --- !u!4 &342736962
 Transform:
   m_ObjectHideFlags: 3
