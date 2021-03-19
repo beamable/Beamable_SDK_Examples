@@ -22,7 +22,7 @@ namespace Beamable.Examples.Services.StatsService
             var beamableAPI = await Beamable.API.Instance;
 
             Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
-            
+
             string statKey = "MyExampleStat";
             string access = "public";
             string domain = "client";
@@ -33,15 +33,15 @@ namespace Beamable.Examples.Services.StatsService
             Dictionary<string, string> setStats =
                 new Dictionary<string, string>() { { statKey, "99" } };
 
-            await beamableAPI.Stats.SetStats(access, setStats);
+            await beamableAPI.StatsService.SetStats(access, setStats);
 
             // Get Value
-            Dictionary<string, string> getStats = 
-                await beamableAPI.Stats.GetStats(domain, access, type, id);
+            Dictionary<string, string> getStats =
+                await beamableAPI.StatsService.GetStats(domain, access, type, id);
 
             string myExampleStatValue = "";
             getStats.TryGetValue(statKey, out myExampleStatValue);
-         
+
             Debug.Log($"myExampleStatValue = {myExampleStatValue}");
         }
     }
