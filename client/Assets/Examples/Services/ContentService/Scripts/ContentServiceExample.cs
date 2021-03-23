@@ -1,19 +1,8 @@
-using Beamable.Common.Content;
 using Beamable.Common.Tournaments;
 using UnityEngine;
 
 namespace Beamable.Examples.Services.ContentService
 {
-    public class SampleContent : ContentObject
-    {
-        public int x;
-        public int y;
-        public TournamentRef TournamentRef;
-    }
-
-    public class SampleRef : ContentRef<SampleContent> {}
-    public class SampleLink : ContentLink<SampleContent>{}
-    
     /// <summary>
     /// Demonstrates <see cref="ContentService"/>.
     /// </summary>
@@ -31,11 +20,19 @@ namespace Beamable.Examples.Services.ContentService
         {
             Debug.Log($"Start()");
             
+            SetupBeamable();
+        }
+
+        //  Methods  --------------------------------------
+        private async void SetupBeamable()
+        {
+            IBeamableAPI beamableAPI = await Beamable.API.Instance;
+      
             _tournamentRef.Resolve()
                 .Then(content =>
                 {
                     _tournamentContentFromRef = content; 
-                    Debug.Log($"_tournamentRef.Resolve() Success!");
+                    Debug.Log($"_tournamentRef.Resolve() Success! Id={_tournamentContentFromRef.Id}");
                     
                 }).Error(ex =>
                 {
@@ -46,7 +43,7 @@ namespace Beamable.Examples.Services.ContentService
                 .Then(content =>
                 {
                     _tournamentContentFromLink = content; 
-                    Debug.Log($"_tournamentLink.Resolve() Success!");
+                    Debug.Log($"_tournamentLink.Resolve() Success! Id={_tournamentContentFromLink.Id}");
                 })
                 .Error(ex =>
                 {
