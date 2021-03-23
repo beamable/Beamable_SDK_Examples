@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8750b169b4a43a791181c119c4f934, type: 3}
   m_Name: InventoryConfiguration
   m_EditorClassIdentifier: 
-  Groups: []
+  Groups:
+  - ItemRef:
+      Id: items.Knife01
+    DisplayName: Knife
+  - ItemRef:
+      Id: items.Sword01
+    DisplayName: Sword
   DefaultObjectPrefab: {fileID: 4057779143720993516, guid: 5e01421c531e24cdc90b41b04cd49ef5,
     type: 3}
