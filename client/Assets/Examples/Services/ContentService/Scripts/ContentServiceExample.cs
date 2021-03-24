@@ -28,7 +28,7 @@ namespace Beamable.Examples.Services.ContentService
         {
             IBeamableAPI beamableAPI = await Beamable.API.Instance;
       
-            _tournamentRef.Resolve()
+            await _tournamentRef.Resolve()
                 .Then(content =>
                 {
                     _tournamentContentFromRef = content; 
@@ -39,7 +39,7 @@ namespace Beamable.Examples.Services.ContentService
                     Debug.LogError($"_tournamentRef.Resolve() Error!"); 
                 });
             
-            _tournamentLink.Resolve()
+            await _tournamentLink.Resolve()
                 .Then(content =>
                 {
                     _tournamentContentFromLink = content; 
