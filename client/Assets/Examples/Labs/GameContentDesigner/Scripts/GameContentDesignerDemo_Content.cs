@@ -37,7 +37,7 @@ namespace Beamable.Examples.Labs.GameContentDesignerDemo.Content
          
          GCDWeaponsGroup weaponsGroupContent = await _weaponsGroupContentRef.Resolve();
 
-         Debug.Log($"weaponsGroupContent.ContentName ={weaponsGroupContent.ContentName}");
+         Debug.Log($"weaponsGroupContent.ContentName = {weaponsGroupContent.ContentName}");
          
          foreach (WeaponContentRef weaponContentRef in weaponsGroupContent.WeaponContentRefs)
          {

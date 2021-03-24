@@ -32,7 +32,7 @@ namespace Beamable.Examples.Services.ContentService
                 .Then(content =>
                 {
                     _tournamentContentFromRef = content; 
-                    Debug.Log($"_tournamentRef.Resolve() Success! Id={_tournamentContentFromRef.Id}");
+                    Debug.Log($"_tournamentRef.Resolve() Success! Id = {_tournamentContentFromRef.Id}");
                     
                 }).Error(ex =>
                 {
@@ -43,7 +43,7 @@ namespace Beamable.Examples.Services.ContentService
                 .Then(content =>
                 {
                     _tournamentContentFromLink = content; 
-                    Debug.Log($"_tournamentLink.Resolve() Success! Id={_tournamentContentFromLink.Id}");
+                    Debug.Log($"_tournamentLink.Resolve() Success! Id = {_tournamentContentFromLink.Id}");
                 })
                 .Error(ex =>
                 {

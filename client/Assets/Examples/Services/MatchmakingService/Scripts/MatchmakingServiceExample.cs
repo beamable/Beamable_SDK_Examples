@@ -48,8 +48,8 @@ namespace Beamable.Examples.Features.MatchmakingService
         private void MyMatchmaking_OnProgress(MyMatchmakingResult myMatchmakingResult)
         {
             Debug.Log($"MyMatchmaking_OnProgress() " +
-                      $"Players={myMatchmakingResult.Players.Count}/{myMatchmakingResult.TargetPlayerCount} " +
-                      $"RoomId={myMatchmakingResult.RoomId}");
+                      $"Players = {myMatchmakingResult.Players.Count}/{myMatchmakingResult.TargetPlayerCount} " +
+                      $"RoomId = {myMatchmakingResult.RoomId}");
         }
 
         private void MyMatchmaking_OnComplete(MyMatchmakingResult myMatchmakingResult)
@@ -57,12 +57,12 @@ namespace Beamable.Examples.Features.MatchmakingService
             if (string.IsNullOrEmpty(myMatchmakingResult.ErrorMessage))
             {
                 Debug.Log($"MyMatchmaking_OnComplete() Success! " +
-                          $"RoomId={myMatchmakingResult.RoomId}");
+                          $"RoomId = {myMatchmakingResult.RoomId}");
             }
             else
             {
                 Debug.Log($"MyMatchmaking_OnComplete() Failed. " +
-                          $"Error={myMatchmakingResult.ErrorMessage}");
+                          $"Error = {myMatchmakingResult.ErrorMessage}");
                 
             }
         }

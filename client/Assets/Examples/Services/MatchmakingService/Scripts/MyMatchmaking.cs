@@ -43,9 +43,9 @@ namespace Beamable.Examples.Features.MatchmakingService
       public override string ToString()
       {
          return $"[MyMatchmakingResult (" +
-            $"RoomId={RoomId}, " +
-            $"TargetPlayerCount={TargetPlayerCount}, " +
-            $"players.Count={Players.Count})]";
+            $"RoomId = {RoomId}, " +
+            $"TargetPlayerCount = {TargetPlayerCount}, " +
+            $"players.Count = {Players.Count})]";
       }
    }
 
@@ -88,7 +88,7 @@ namespace Beamable.Examples.Features.MatchmakingService
          _myMatchmakingResult.RoomId = "";
          _myMatchmakingResult.SecondsRemaining = 0;
 
-         DebugLog($"MyMatchmaking.Start() TargetPlayerCount={_simGameType.maxPlayers}");
+         DebugLog($"MyMatchmaking.Start() TargetPlayerCount = {_simGameType.maxPlayers}");
          var handle = await _matchmakingService.StartMatchmaking(_simGameType.Id);
 
          try
