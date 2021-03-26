@@ -22,7 +22,7 @@ MonoBehaviour:
     m_IsDefault: 1
   - m_Id: scoped:Beamable
     m_Name: Beamable
-    m_Url: https://nexus.beamable.com/nexus/content/repositories/unity-all
+    m_Url: https://nexus.beamable.com/nexus/content/repositories/unity
     m_Scopes:
     - com.beamable
     m_IsDefault: 0
@@ -33,13 +33,13 @@ MonoBehaviour:
     m_Original:
       m_Id: scoped:Beamable
       m_Name: Beamable
-      m_Url: https://nexus.beamable.com/nexus/content/repositories/unity-all
+      m_Url: https://nexus.beamable.com/nexus/content/repositories/unity
       m_Scopes:
       - com.beamable
       m_IsDefault: 0
     m_Modified: 0
     m_Name: Beamable
-    m_Url: https://nexus.beamable.com/nexus/content/repositories/unity-all
+    m_Url: https://nexus.beamable.com/nexus/content/repositories/unity
     m_Scopes:
     - com.beamable
     m_SelectedScopeIndex: 0

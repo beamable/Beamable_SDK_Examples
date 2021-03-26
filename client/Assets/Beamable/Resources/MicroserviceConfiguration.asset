@@ -15,6 +15,7 @@ MonoBehaviour:
   Microservices: []
   AutoReferenceContent: 1
   ColorLogs: 1
+  EnableDockerBuildkit: 0
   LogProcessLabelColor: {r: 1, g: 1, b: 1, a: 1}
   LogStandardOutColor: {r: 0.2, g: 0.4, b: 1, a: 1}
   LogStandardErrColor: {r: 1, g: 0.44, b: 0.2, a: 1}
