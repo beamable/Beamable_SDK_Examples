@@ -2,19 +2,6 @@ using UnityEngine;
 
 namespace Beamable.Examples.Labs.GameContentDesigner.Json
 {
-   [System.Serializable]
-   public class WeaponJson
-   {
-      public string Name;
-      public string Damage;
-   }
-
-   [System.Serializable]
-   public class WeaponsJson
-   {
-      public WeaponJson[] Weapons;
-   }
-
    /// <summary>
    /// Demonstrates <see cref="GameContentDesignerDemo"/>.
    /// </summary>

@@ -9,12 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Weapons01
-  m_EditorClassIdentifier: Assembly-CSharp:Beamable.Examples.Features.GameContentDesignerDemo.Content:GCDWeapons
+  m_Script: {fileID: 11500000, guid: a9cdc14c1a3d43dea241da633fda5aea, type: 3}
+  m_Name: GCDWeapon01
+  m_EditorClassIdentifier: 
   _tags:
   - base
-  WeaponContentRefs:
-  - Id: gcd_weapon.Dagger01
-  - Id: gcd_weapon.Spear01
-  - Id: gcd_weapon.Sword01
+  Name: ' Weapon 01'
+  Damage: 10

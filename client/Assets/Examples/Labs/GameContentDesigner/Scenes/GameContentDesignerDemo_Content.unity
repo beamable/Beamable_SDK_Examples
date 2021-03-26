@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weaponsGroupContentRef:
-    Id: gcd_weaponsgroup.WeaponsGroup01
+    Id: gcd_weaponsgroup.GCDWeaponsGroup01
 --- !u!4 &31994830
 Transform:
   m_ObjectHideFlags: 0
