@@ -39,16 +39,31 @@ namespace Beamable.Examples.Services.CloudSavingService
       
       _cloudSavingService = _beamableAPI.CloudSavingService;
       
-      /* Subscribe to the UpdatedReceived event to call your own 
-      custom code when data on disk does not yet exist and
-      is pulled from the server*/
-      _cloudSavingService.UpdateReceived += CloudSavingService_OnUpdateReceived;
-
-      /* Init the service, which will first download content that the server may have,
-      that the client does not. The client will then upload any content that it has,
-      that the server is missing.*/
+      // Init the service, which will first download content
+      // that the server may have, that the client does not.
+      // The client will then upload any content that it has,
+      // that the server is missing
       await _cloudSavingService.Init();
+      
+      // Subscribe to the UpdatedReceived event to call
+      // your own custom code when data on disk does not
+      // yet exist and is pulled from the server
+      _cloudSavingService.UpdateReceived += 
+        CloudSavingService_OnUpdateReceived;
+      
+      // Gets the cloud data manifest (ManifestResponse) OR
+      // creates an empty manifest if the user has no
+      // cloud data 
+      await _cloudSavingService.EnsureRemoteManifest();
+      
+      // Resets the local cloud data to match the server cloud
+      // data. Enable this if desired 
+      //
+      //await _cloudSavingService.ReinitializeUserData();
 
+      // Now, attempt to load data from the CloudSavingService,
+      // and if it is not found, create it locally and 
+      // save it to the CloudSavingService
       myCustomSettings = ReloadOrCreateAudioSettings();
     }
 
@@ -56,17 +71,19 @@ namespace Beamable.Examples.Services.CloudSavingService
     {
       Debug.Log($"ReloadOrCreateAudioSettings()");
       
-      MyCustomSettings settings;
+      // Creates all directories and subdirectories in the
+      // specified path unless they already exist
       Directory.CreateDirectory(_cloudSavingService.LocalCloudDataFullPath);
-
+      
+      MyCustomSettings settings;
       var audioFileName = "audioFile.json";
       var audioPath = $"{_cloudSavingService.LocalCloudDataFullPath}{Path.DirectorySeparatorChar}{audioFileName}";
-
       
       if (File.Exists(audioPath))
       {
         // Reload AudioSettings 
-        Debug.Log($"Reload AudioSettings");
+        Debug.Log($"Existing AudioSettings found.");
+        Debug.Log($"Reload AudioSettings.");
         
         var json = File.ReadAllText(audioPath);
         settings = JsonUtility.FromJson<MyCustomSettings>(json);
@@ -74,7 +91,8 @@ namespace Beamable.Examples.Services.CloudSavingService
       else
       {
         // Create AudioSettings
-        Debug.Log($"Create AudioSettings");
+        Debug.Log($"Existing AudioSettings not found.");
+        Debug.Log($"Create AudioSettings.");
         
         settings = new MyCustomSettings
         {
@@ -85,8 +103,8 @@ namespace Beamable.Examples.Services.CloudSavingService
         var json = JsonUtility.ToJson(settings);
         Directory.CreateDirectory(Path.GetDirectoryName(audioPath));
         
-        /* Once the data is written to disk, the service will automatically upload
-        the contents to the cloud.*/
+        // Once the data is written to disk, the service will
+        // automatically upload the contents to the cloud
         File.WriteAllText(audioPath, json);
 
       }
@@ -98,7 +116,7 @@ namespace Beamable.Examples.Services.CloudSavingService
     {
       Debug.Log($"CloudSavingService_OnUpdateReceived()");
       
-      // If the settings are changed by the server, reload the scene.
+      // If the settings are changed by the server, reload the scene
       SceneManager.LoadScene(0);
     }
   }

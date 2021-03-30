@@ -325,9 +325,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e97d728a0ee11db4bbb3c561c06be4c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AudioSettings:
-    Volume: 50
-    IsMuted: 0
+  myCustomSettings:
+    Volume: 100
+    IsMuted: 1
 --- !u!4 &1649044197
 Transform:
   m_ObjectHideFlags: 0
