@@ -6,7 +6,7 @@ namespace Beamable.Examples.LearningFundamentals
     /// <summary>
     /// Demonstrates asynchronous programming.
     /// </summary>
-    public class AsynchronousExample : MonoBehaviour
+    public class AsynchronousProgrammingExample : MonoBehaviour
     {
         //  Unity Methods  --------------------------------
         protected void Start()
