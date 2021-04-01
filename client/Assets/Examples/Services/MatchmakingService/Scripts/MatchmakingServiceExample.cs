@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Beamable.Examples.Features.MatchmakingService
+namespace Beamable.Examples.Services.MatchmakingService
 {
     /// <summary>
     /// Demonstrates the creation of and joining to a
