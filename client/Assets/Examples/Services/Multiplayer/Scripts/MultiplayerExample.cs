@@ -4,7 +4,7 @@ using Beamable.Experimental.Api.Sim;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Beamable.Examples.Features.Multiplayer
+namespace Beamable.Examples.Services.Multiplayer
 {
    public class MyPlayerMoveEvent
    {

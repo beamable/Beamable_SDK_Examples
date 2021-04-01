@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Beamable.Common.Content;
 using UnityEngine;
 
-namespace Beamable.Examples.Features.MatchmakingService
+namespace Beamable.Examples.Services.MatchmakingService
 {
    [Serializable]
    public class SimGameTypeRef : ContentRef<SimGameType> { }
