@@ -1,6 +1,8 @@
 {
-    "name": "Beamable.Examples",
+    "name": "Beamable.Examples.Tests",
     "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
         "Unity.Beamable.Runtime.Common",
         "Unity.Beamable",
         "Beamable.SmallerJSON",
@@ -12,12 +14,18 @@
         "Beamable.JsonSerializable"
     ],
     "includePlatforms": [],
-    "excludePlatforms": [],
+    "excludePlatforms": [
+        "iOS"
+    ],
     "allowUnsafeCode": false,
     "overrideReferences": true,
-    "precompiledReferences": [],
-    "autoReferenced": true,
-    "defineConstraints": [],
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
     "versionDefines": [],
     "noEngineReferences": false
 }
