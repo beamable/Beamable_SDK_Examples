@@ -5,20 +5,26 @@ using Beamable.Common.Api.Inventory;
 using Beamable.Common.Content;
 using Beamable.Common.Inventory;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Beamable.Examples.Services.InventoryService
 {
    [System.Serializable]
    public class ArmorContentRef : ContentRef<Armor> { }
+   
+   [System.Serializable]
+   public class RefreshedUnityEvent : UnityEvent<List<string>,List<string>, string, string> { }
+   
 
    /// <summary>
    /// Demonstrates <see cref="InventoryService"/>.
    /// </summary>
    public class InventoryServiceExample : MonoBehaviour
    {
-      //  Fields  ---------------------------------------
-      public event Action<List<string>,List<string>, string, string> OnRefreshed;
+      //  Events  ---------------------------------------
+      public RefreshedUnityEvent OnRefreshed = new RefreshedUnityEvent();
       
+      //  Fields  ---------------------------------------
       [SerializeField] private ArmorContentRef _itemToAdd = null;
       [SerializeField] private ArmorContentRef _itemToDelete = null;
       

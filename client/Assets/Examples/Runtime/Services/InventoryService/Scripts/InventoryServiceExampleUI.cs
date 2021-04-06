@@ -15,8 +15,8 @@ namespace Beamable.Examples.Services.InventoryService
       
       [SerializeField] private InventoryServiceExample _inventoryServiceExample = null;
 
-      [SerializeField] private TMP_Text _gameContentBodyText = null;
-      [SerializeField] private TMP_Text _playerInventoryBodyText = null;
+      [SerializeField] private TMP_Text _text01 = null;
+      [SerializeField] private TMP_Text _text02 = null;
 
       [SerializeField] private Button _add1ItemButton = null;
       [SerializeField] private Button _delete1ItemButton = null;
@@ -25,7 +25,7 @@ namespace Beamable.Examples.Services.InventoryService
       //  Unity Methods  --------------------------------
       protected void Start()
       {
-         _inventoryServiceExample.OnRefreshed += InventoryServiceExample_OnRefreshed;
+         _inventoryServiceExample.OnRefreshed.AddListener(InventoryServiceExample_OnRefreshed);
          _add1ItemButton.onClick.AddListener(Add1ItemButton_OnClicked);
          _delete1ItemButton.onClick.AddListener(Delete1ItemButton_OnClicked);
          _refreshAllButton.onClick.AddListener(RefreshAllButton_OnClicked);
@@ -59,7 +59,7 @@ namespace Beamable.Examples.Services.InventoryService
          {
             clientContentObjectStringBuilder.Append(clientContentObjectName).AppendLine();
          }
-         _gameContentBodyText.text = clientContentObjectStringBuilder.ToString();
+         _text01.text = clientContentObjectStringBuilder.ToString();
 
          // Show UI: Player Inventory
          StringBuilder playerInventoryStringBuilder = new StringBuilder();
@@ -67,7 +67,7 @@ namespace Beamable.Examples.Services.InventoryService
          {
             playerInventoryStringBuilder.Append(playerInventoryItemName).AppendLine();
          }
-         _playerInventoryBodyText.text = playerInventoryStringBuilder.ToString();
+         _text02.text = playerInventoryStringBuilder.ToString();
 
          // Show UI: Button Content Names
          _add1ItemButton.GetComponentInChildren<TMP_Text>().text = $"Add 1 Item\n({itemToAddName})";

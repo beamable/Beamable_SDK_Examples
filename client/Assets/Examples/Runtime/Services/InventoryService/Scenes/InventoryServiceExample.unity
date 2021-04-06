@@ -150,6 +150,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a4a88d17910b5f40b99443da6a7a7fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnRefreshed:
+    m_PersistentCalls:
+      m_Calls: []
   _itemToAdd:
     Id: items.armor.HeavyArmor01
   _itemToDelete:
@@ -252,12 +255,12 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 18
+  m_fontSizeBase: 16
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 14
+  m_fontSizeMax: 18
   m_fontStyle: 0
   m_textAlignment: 514
   m_characterSpacing: 0
@@ -756,7 +759,7 @@ GameObject:
   - component: {fileID: 866707944}
   - component: {fileID: 866707943}
   m_Layer: 5
-  m_Name: BodyText
+  m_Name: Text02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -820,7 +823,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '{BodyText}'
+  m_text: '{Text02}'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -889,7 +892,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 866707944}
-    characterCount: 10
+    characterCount: 8
     spriteCount: 0
     spaceCount: 0
     wordCount: 1
@@ -1895,8 +1898,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inventoryServiceExample: {fileID: 31994829}
-  _gameContentBodyText: {fileID: 1866864967}
-  _playerInventoryBodyText: {fileID: 866707944}
+  _text01: {fileID: 1866864967}
+  _text02: {fileID: 866707944}
   _add1ItemButton: {fileID: 1644378035}
   _delete1ItemButton: {fileID: 1319563130}
   _refreshAllButton: {fileID: 779408007}
@@ -2226,12 +2229,12 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 18
+  m_fontSizeBase: 16
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 14
+  m_fontSizeMax: 18
   m_fontStyle: 0
   m_textAlignment: 514
   m_characterSpacing: 0
@@ -2382,12 +2385,12 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 18
+  m_fontSizeBase: 16
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 14
+  m_fontSizeMax: 18
   m_fontStyle: 0
   m_textAlignment: 514
   m_characterSpacing: 0
@@ -2533,7 +2536,7 @@ GameObject:
   - component: {fileID: 1866864967}
   - component: {fileID: 1866864969}
   m_Layer: 5
-  m_Name: BodyText
+  m_Name: Text01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2577,7 +2580,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '{BodyText}'
+  m_text: '{Text01}'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2646,7 +2649,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1866864967}
-    characterCount: 10
+    characterCount: 8
     spriteCount: 0
     spaceCount: 0
     wordCount: 1
