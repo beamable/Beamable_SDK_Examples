@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Beamable.Server.Clients;
 
-namespace Beamable.Examples.Services.Microservices
+namespace Beamable.Examples.Features.Microservices
 {
     /// <summary>
     /// Demonstrates <see cref="Microservices"/>.
