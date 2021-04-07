@@ -25,22 +25,22 @@ namespace Beamable.Examples.Services.EventsService
       protected void Start()
       {
          _eventsServiceExample.OnRefreshed.AddListener(EventsServiceExample_OnRefreshed);
-         _setScoreButton.onClick.AddListener(Add1ItemButton_OnClicked);
-         _claimButton.onClick.AddListener(Delete1ItemButton_OnClicked);
+         _setScoreButton.onClick.AddListener(SetScoreButton_OnClicked);
+         _claimButton.onClick.AddListener(ClaimButton_OnClicked);
          _refreshAllButton.onClick.AddListener(RefreshAllButton_OnClicked);
       }
 
       //  Methods  --------------------------------------
       
-      private void Add1ItemButton_OnClicked()
-      {
-         _eventsServiceExample.ClaimRewardsInEvents();
-      }
-
-
-      private void Delete1ItemButton_OnClicked()
+      //  Event Handlers  -------------------------------
+      private void SetScoreButton_OnClicked()
       {
          _eventsServiceExample.SetScoreInEvents();
+      }
+
+      private void ClaimButton_OnClicked()
+      {
+         _eventsServiceExample.ClaimRewardsInEvents();
       }
 
       private void RefreshAllButton_OnClicked()
@@ -48,7 +48,6 @@ namespace Beamable.Examples.Services.EventsService
          _eventsServiceExample.Refresh();
       }
       
-      //  Event Handlers  -------------------------------
       private void EventsServiceExample_OnRefreshed(EventsServiceExampleData 
          eventsServiceExampleData)
       {

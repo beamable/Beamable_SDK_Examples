@@ -32,12 +32,14 @@ namespace Beamable.Examples.Services.InventoryService
       }
 
       //  Methods  --------------------------------------
+
+      
+      //  Event Handlers  -------------------------------
       
       private void Add1ItemButton_OnClicked()
       {
          _inventoryServiceExample.AddOneItem();
       }
-
 
       private void Delete1ItemButton_OnClicked()
       {
@@ -49,7 +51,6 @@ namespace Beamable.Examples.Services.InventoryService
          _inventoryServiceExample.Refresh();
       }
       
-      //  Event Handlers  -------------------------------
       private void InventoryServiceExample_OnRefreshed(List<string> clientContentObjectNames, 
          List<string> playerInventoryItemNames, string itemToAddName, string itemToDeleteName)
       {

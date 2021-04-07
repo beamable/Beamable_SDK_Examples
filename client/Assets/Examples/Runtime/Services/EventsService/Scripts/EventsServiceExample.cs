@@ -111,13 +111,25 @@ namespace Beamable.Examples.Services.EventsService
          EventsGetResponse eventsGetResponse = await _beamableAPI.EventsService.GetCurrent();
          foreach (EventView eventView in eventsGetResponse.running)
          {
-            EventClaimResponse eventClaimResponse = await _beamableAPI.EventsService.Claim(eventView.id);
+            bool canClaim = true;
 
-            string log = $"Claim()" +
-                         $"\n\tname = {eventView.name}" +
-                         $"\n\tscoreRewards = {eventClaimResponse.view.scoreRewards.Count}" +
-                         $"\n\trankRewards = {eventClaimResponse.view.rankRewards.Count}";
-            _data.ClaimLogs.Add(log);
+            if (canClaim)
+            {
+               EventClaimResponse eventClaimResponse = await _beamableAPI.EventsService.Claim(eventView.id);
+
+               string log = $"Claim()" +
+                            $"\n\tname = {eventView.name}" +
+                            $"\n\tscoreRewards = {eventClaimResponse.view.scoreRewards.Count}" +
+                            $"\n\trankRewards = {eventClaimResponse.view.rankRewards.Count}";
+               _data.ClaimLogs.Add(log);
+            }
+            else
+            {
+               string log = $"Claim() not called." +
+                            $"\n\tcanClaim= {canClaim}";
+               _data.ClaimLogs.Add(log);
+            }
+     
          }
       }
       
