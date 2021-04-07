@@ -32,6 +32,7 @@ namespace Beamable.Examples.Services.EventsService
    public class EventsServiceExample : MonoBehaviour
    {
       //  Events  ---------------------------------------
+      [HideInInspector]
       public RefreshedUnityEvent OnRefreshed = new RefreshedUnityEvent();
       
       //  Fields  ---------------------------------------

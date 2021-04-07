@@ -22,6 +22,7 @@ namespace Beamable.Examples.Services.InventoryService
    public class InventoryServiceExample : MonoBehaviour
    {
       //  Events  ---------------------------------------
+      [HideInInspector]
       public RefreshedUnityEvent OnRefreshed = new RefreshedUnityEvent();
       
       //  Fields  ---------------------------------------
