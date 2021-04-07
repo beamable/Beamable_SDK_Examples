@@ -20,4 +20,4 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   clientPermission:
     writeSelf: 1
-  startingAmount: 10
+  startingAmount: 1
