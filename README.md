@@ -2,6 +2,8 @@
 
 This example project demonstrates small, functional code snippets of specific [Beamable](https://beamable.com/) features and services. It is *not* a complete, sample project game.
 
+**Included** are examples for many Beamable features and services. However, the [Beamable_Microservices_Examples](https://github.com/beamable/Beamable_Microservices_Examples) are available separately.
+
 **Project Configuration**
 * `Unity Target` - Standalone MAC/PC
 * `Unity Version` - 2019.4.22f1 or above
