@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text;
+using Beamable.Examples.Shared;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,31 +10,40 @@ namespace Beamable.Examples.Services.InventoryService
    /// <summary>
    /// The UI for the <see cref="InventoryServiceExample"/>.
    /// </summary>
-   public class InventoryServiceExampleUI : MonoBehaviour
+   public class InventoryServiceExampleUI : ExampleCanvasUI
    {
       //  Fields  ---------------------------------------
       
       [SerializeField] private InventoryServiceExample _inventoryServiceExample = null;
 
-      [SerializeField] private TMP_Text _text01 = null;
-      [SerializeField] private TMP_Text _text02 = null;
-
-      [SerializeField] private Button _add1ItemButton = null;
-      [SerializeField] private Button _delete1ItemButton = null;
-      [SerializeField] private Button _refreshAllButton = null;
+      // Content Panel
+      private TMP_Text ContentTitleText { get { return TitleText01; }}
+      private TMP_Text ContentBodyText { get { return BodyText01; }}
+      
+      // Inventory Panel 
+      private TMP_Text InventoryTitleText { get { return TitleText02; }}
+      private TMP_Text InventoryBodyText { get { return BodyText02; }}
+   
+      // Menu Panel
+      private TMP_Text MenuTitleText { get { return TitleText03; }}
+      private Button Add1ItemButton { get { return Button01;}}
+      private Button Delete1ItemButton { get { return Button02;}}
+      private Button RefreshAllButton { get { return Button03;}}
+      
       
       //  Unity Methods  --------------------------------
       protected void Start()
       {
+         ContentTitleText.text = "Content";
+         InventoryTitleText.text = "Inventory";
+         MenuTitleText.text = "Menu";
+         
          _inventoryServiceExample.OnRefreshed.AddListener(InventoryServiceExample_OnRefreshed);
-         _add1ItemButton.onClick.AddListener(Add1ItemButton_OnClicked);
-         _delete1ItemButton.onClick.AddListener(Delete1ItemButton_OnClicked);
-         _refreshAllButton.onClick.AddListener(RefreshAllButton_OnClicked);
+         Add1ItemButton.onClick.AddListener(Add1ItemButton_OnClicked);
+         Delete1ItemButton.onClick.AddListener(Delete1ItemButton_OnClicked);
+         RefreshAllButton.onClick.AddListener(RefreshAllButton_OnClicked);
       }
 
-      //  Methods  --------------------------------------
-
-      
       //  Event Handlers  -------------------------------
       
       private void Add1ItemButton_OnClicked()
@@ -60,7 +70,7 @@ namespace Beamable.Examples.Services.InventoryService
          {
             clientContentObjectStringBuilder.Append(clientContentObjectName).AppendLine();
          }
-         _text01.text = clientContentObjectStringBuilder.ToString();
+         ContentBodyText.text = clientContentObjectStringBuilder.ToString();
 
          // Show UI: Player Inventory
          StringBuilder playerInventoryStringBuilder = new StringBuilder();
@@ -68,11 +78,11 @@ namespace Beamable.Examples.Services.InventoryService
          {
             playerInventoryStringBuilder.Append(playerInventoryItemName).AppendLine();
          }
-         _text02.text = playerInventoryStringBuilder.ToString();
+         InventoryBodyText.text = playerInventoryStringBuilder.ToString();
 
          // Show UI: Button Content Names
-         _add1ItemButton.GetComponentInChildren<TMP_Text>().text = $"Add 1 Item\n({itemToAddName})";
-         _delete1ItemButton.GetComponentInChildren<TMP_Text>().text = $"Delete 1 Item\n({itemToDeleteName})";
+         Add1ItemButton.GetComponentInChildren<TMP_Text>().text = $"Add 1 Item\n({itemToAddName})";
+         Delete1ItemButton.GetComponentInChildren<TMP_Text>().text = $"Delete 1 Item\n({itemToDeleteName})";
       }
    }
 }

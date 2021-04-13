@@ -142,7 +142,6 @@ namespace Beamable.Examples.Services.EventsService
          
          // Send relevant data to the UI for rendering
          OnRefreshed?.Invoke(_data);
-         
       }
    }
 }
