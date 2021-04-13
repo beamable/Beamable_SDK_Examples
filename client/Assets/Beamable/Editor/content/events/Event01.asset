@@ -18,16 +18,42 @@ MonoBehaviour:
   startDate: 2020-01-01T12:00:00Z
   partitionSize: 10
   phases:
-  - name: 
-    durationMinutes: 0
+  - name: Phase 01
+    durationMinutes: 5259492
     rules: []
-  - name: 
-    durationMinutes: 0
-    rules:
-    - rule: 
-      value: 
-  scoreRewards: []
-  rankRewards: []
+  - name: Phase 02
+    durationMinutes: 5259492
+    rules: []
+  scoreRewards:
+  - min: 10
+    max:
+      HasValue: 0
+      Value: 0
+    currencies:
+      HasValue: 1
+      Value:
+      - id: currency.Currency01
+        amount: 1
+    items:
+      HasValue: 0
+      Value: []
+  rankRewards:
+  - min: 1
+    max:
+      HasValue: 1
+      Value: 1
+    currencies:
+      HasValue: 0
+      Value: []
+    items:
+      HasValue: 1
+      Value:
+      - id: items.RewardItem01
+        properties:
+          HasValue: 0
+          Value:
+            keys: []
+            values: []
   stores: []
   permissions:
     writeSelf: 1
