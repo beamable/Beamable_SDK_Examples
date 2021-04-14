@@ -108,8 +108,8 @@ namespace Beamable.Examples.Labs.ChatService
 
          SendMessageButton.GetComponentInChildren<TMP_Text>().text =
             $"Send Message\n({chatServiceExampleData.MessageToSend})";
-         
-         bool isInGroup = chatServiceExampleData.GroupNames.Count > 1;
+
+         bool isInGroup = chatServiceExampleData.IsInGroup;
          CreateGroupButton.interactable = !isInGroup;
          LeaveGroupButton.interactable = isInGroup;
 

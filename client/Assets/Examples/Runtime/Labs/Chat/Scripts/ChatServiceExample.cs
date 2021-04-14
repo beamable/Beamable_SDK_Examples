@@ -20,6 +20,7 @@ namespace Beamable.Examples.Labs.ChatService
         public string GroupToCreateName = "";
         public string GroupToLeaveName = "";
         public string MessageToSend = "";
+        public bool IsInGroup = true;
     }
    
     [System.Serializable]
@@ -55,7 +56,7 @@ namespace Beamable.Examples.Labs.ChatService
             Debug.Log($"beamableAPI.User.id = {_beamableAPI.User.id}");
 
             // Observe GroupsService Changes
-            _beamableAPI.GroupsService.Subscribe(groupsView =>
+            _beamableAPI.GroupsService.Subscribe(async groupsView =>
             {
                 _data.GroupNames.Clear();
                 foreach(var group in groupsView.Groups)
@@ -63,6 +64,7 @@ namespace Beamable.Examples.Labs.ChatService
                     string groupName = $"Name = {group.Group.name}, Members = {group.Group.members.Count}";
                     _data.GroupNames.Add(groupName);
                 }
+                
             });
             
             // Observe ChatService Changes
@@ -132,20 +134,27 @@ namespace Beamable.Examples.Labs.ChatService
             var group = new GroupCreateRequest(groupName, groupTag,
                 "open", 0, 50);
             
-            var result = await _beamableAPI.GroupsService.CreateGroup(group);
+            var result1 = await _beamableAPI.GroupsService.CreateGroup(group);
+            var result2 = await _beamableAPI.GroupsService.JoinGroup(result1.group.id);
 
             // Store, so user can leave if/when desired
-            _data.GroupToLeaveName = groupName;
+            _data.GroupToLeaveName = result1.group.name;
+            
+            _data.IsInGroup = true;
             Refresh();
         }
         
         public async void LeaveGroup()
         {
             var groupsView = await _beamableAPI.GroupsService.GetCurrent();
+            
             foreach(var group in groupsView.Groups)
             {
-                await _beamableAPI.GroupsService.LeaveGroup(group.Group.id);
+                var result = await _beamableAPI.GroupsService.LeaveGroup(group.Group.id);
             }
+
+            _data.IsInGroup = false;
+            
             Refresh();
         }
         
