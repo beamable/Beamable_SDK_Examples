@@ -6,7 +6,7 @@ This example project demonstrates small, functional code snippets of specific [B
 
 **Project Configuration**
 * `Unity Target` - Standalone MAC/PC
-* `Unity Version` - 2019.4.22f1 or above
+* `Unity Version` - See [Version](./client/ProjectSettings/ProjectVersion.txt)
 * `Unity Rendering` - [Universal Render Pipeline (URP)](https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@10.2/manual/index.html)
 
 **Project Structure**
