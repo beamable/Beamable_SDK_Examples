@@ -1,34 +1,47 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Beamable.Common.Api.Inventory;
 using Beamable.Common.Content;
 using Beamable.Common.Inventory;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Beamable.Examples.Services.InventoryService
 {
+   /// <summary>
+   /// Holds data for use in the <see cref="InventoryServiceExampleUI"/>.
+   /// </summary>
+   [System.Serializable]
+   public class InventoryServiceExampleData
+   {
+      public string ItemToAddName = "";
+      public string ItemToDeleteName = "";
+      public List<string> ContentObjectNames = new List<string>();
+      public List<string> InventoryItemNames = new List<string>();
+   }
+   
+   [System.Serializable]
+   public class InventoryServiceExampleEvent : UnityEvent<InventoryServiceExampleData> { }
+
    [System.Serializable]
    public class ArmorContentRef : ContentRef<Armor> { }
-
+   
    /// <summary>
    /// Demonstrates <see cref="InventoryService"/>.
    /// </summary>
    public class InventoryServiceExample : MonoBehaviour
    {
-      //  Fields  ---------------------------------------
-      public event Action<List<string>,List<string>, string, string> OnRefreshed;
+      //  Events  ---------------------------------------
+      [HideInInspector]
+      public InventoryServiceExampleEvent OnRefreshed = new InventoryServiceExampleEvent();
       
+      //  Fields  ---------------------------------------
       [SerializeField] private ArmorContentRef _itemToAdd = null;
       [SerializeField] private ArmorContentRef _itemToDelete = null;
       
       private IBeamableAPI _beamableAPI;
       private const string ContentType = "items";
-      private string _itemToAddName = "";
-      private string _itemToDeleteName = "";
-      
-      private List<string> _clientContentObjectNames = new List<string>();
-      private List<string> _playerInventoryItemNames = new List<string>();
+      private InventoryServiceExampleData _inventoryServiceExampleData = new InventoryServiceExampleData();
 
       //  Unity Methods  --------------------------------
       protected void Start()
@@ -46,21 +59,23 @@ namespace Beamable.Examples.Services.InventoryService
          Debug.Log($"beamableAPI.User.id = {_beamableAPI.User.id}");
 
          Armor armorToAdd = await _itemToAdd.Resolve();
-         _itemToAddName = armorToAdd.Name;
+         _inventoryServiceExampleData.ItemToAddName = armorToAdd.Name;
 
          Armor armorToDelete = await _itemToDelete.Resolve();
-         _itemToDeleteName = armorToDelete.Name;
+         _inventoryServiceExampleData.ItemToDeleteName = armorToDelete.Name;
          
          // All items (Available in game)
          _beamableAPI.ContentService.Subscribe(clientManifest =>
          {
             Debug.Log($"#1. GAME - ContentService, all items count = {clientManifest.entries.Count}");
 
-            _clientContentObjectNames.Clear();
+            _inventoryServiceExampleData.ContentObjectNames.Clear();
             foreach (ClientContentInfo clientContentInfo in clientManifest.entries)
             {
-               Debug.Log($"\tcontentId = {clientContentInfo.contentId}");
-               _clientContentObjectNames.Add(clientContentInfo.contentId);
+               string contentObjectName = $"{clientContentInfo.contentId})";
+               Debug.Log($"\tcontentObjectName = {contentObjectName}");
+               
+               _inventoryServiceExampleData.ContentObjectNames.Add(contentObjectName);
             }
 
             Refresh();
@@ -82,15 +97,18 @@ namespace Beamable.Examples.Services.InventoryService
          {
             Debug.Log($"#3. PLAYER - InventoryService, '{ContentType}' items count = {view.items.Count}");
 
-            _playerInventoryItemNames.Clear();
+            _inventoryServiceExampleData.InventoryItemNames.Clear();
             foreach (KeyValuePair<string, List<ItemView>> kvp in view.items)
             {
-               Debug.Log($"\tkey = {kvp.Key}");
+               string inventoryItemName = $"{kvp.Key} ({kvp.Value.Count})";
+               Debug.Log($"\tinventoryItemName = {inventoryItemName}");
+               
                foreach (ItemView itemView in kvp.Value)
                {
                   Debug.Log($"\t\tvalue = {itemView.id}");
                }
-               _playerInventoryItemNames.Add($"{kvp.Key} ({kvp.Value.Count})");
+
+               _inventoryServiceExampleData.InventoryItemNames.Add(inventoryItemName);
             }
             
             Refresh();
@@ -101,15 +119,18 @@ namespace Beamable.Examples.Services.InventoryService
          {
             Debug.Log($"#4. PLAYER - InventoryService, all items count = {view.items.Count}");
 
-            _playerInventoryItemNames.Clear();
+            _inventoryServiceExampleData.InventoryItemNames.Clear();
             foreach (KeyValuePair<string, List<ItemView>> kvp in view.items)
             {
-               Debug.Log($"\tkey = {kvp.Key}");
+               string inventoryItemName = $"{kvp.Key} ({kvp.Value.Count})";
+               Debug.Log($"\tinventoryItemName = {inventoryItemName}");
+               
                foreach (ItemView itemView in kvp.Value)
                {
                   Debug.Log($"\t\tvalue = {itemView.id}");
                }
-               _playerInventoryItemNames.Add($"{kvp.Key} ({kvp.Value.Count})");
+              
+               _inventoryServiceExampleData.InventoryItemNames.Add(inventoryItemName);
             }
 
             Refresh();
@@ -121,11 +142,10 @@ namespace Beamable.Examples.Services.InventoryService
       {
          Debug.Log($"Refresh()");
          Debug.Log($"\tContentType = {ContentType}");
-         Debug.Log($"\tGameContent.Count = {_clientContentObjectNames.Count}");
-         Debug.Log($"\tPlayerInventory.Count = {_playerInventoryItemNames.Count}");
-         
-         OnRefreshed?.Invoke(_clientContentObjectNames, _playerInventoryItemNames, _itemToAddName, _itemToDeleteName);
-         
+         Debug.Log($"\tGameContent.Count = {_inventoryServiceExampleData.ContentObjectNames.Count}");
+         Debug.Log($"\tPlayerInventory.Count = {_inventoryServiceExampleData.InventoryItemNames.Count}");
+
+         OnRefreshed?.Invoke(_inventoryServiceExampleData);
       }
 
       public async void AddOneItem()
@@ -136,7 +156,6 @@ namespace Beamable.Examples.Services.InventoryService
             Debug.Log($"#5. PLAYER - InventoryService, AddOneItem = {_itemToAdd.Id}");
             
          });
-
       }
 
       public async void DeleteOneItem()
