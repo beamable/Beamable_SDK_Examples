@@ -13,7 +13,7 @@ namespace Beamable.Examples.Shared
       //  Fields  ---------------------------------------
       [SerializeField] protected List<ExamplePanelUI> _examplePanelUIs = null;
 
-      // Shortcuts to the UI API to create concise coding in other classes
+      // Courtesy Shortcuts to UI API. Helps create concise code elsewhere.
       protected TMP_Text TitleText01 { get { return _examplePanelUIs[0].TitleText; }}
       protected TMP_Text TitleText02 { get { return _examplePanelUIs[1].TitleText; }}
       protected TMP_Text TitleText03 { get { return _examplePanelUIs[2].TitleText; }}
@@ -23,15 +23,6 @@ namespace Beamable.Examples.Shared
       protected Button Button01 { get { return _examplePanelUIs[2].Buttons[0];}}
       protected Button Button02 { get { return _examplePanelUIs[2].Buttons[1];}}
       protected Button Button03 { get { return _examplePanelUIs[2].Buttons[2];}}
-      
-      //  Unity Methods  --------------------------------
-      protected void Start()
-      {
-      }
-
-      //  Methods  --------------------------------------
-      
-      //  Event Handlers  -------------------------------
    }
 }
 

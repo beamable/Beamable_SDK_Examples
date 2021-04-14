@@ -12,7 +12,6 @@ namespace Beamable.Examples.Services.EventsService
    public class EventsServiceExampleUI : ExampleCanvasUI
    {
       //  Fields  ---------------------------------------
-      
       [SerializeField] private EventsServiceExample _eventsServiceExample = null;
 
       // Events Panel
@@ -32,17 +31,14 @@ namespace Beamable.Examples.Services.EventsService
       //  Unity Methods  --------------------------------
       protected void Start()
       {
-         EventsTitleText.text = "Events";
-         ClaimsTitleText.text = "Claims";
-         MenuTitleText.text = "Menu";
-         
          _eventsServiceExample.OnRefreshed.AddListener(EventsServiceExample_OnRefreshed);
          SetScoreButton.onClick.AddListener(SetScoreButton_OnClicked);
          ClaimButton.onClick.AddListener(ClaimButton_OnClicked);
          RefreshButton.onClick.AddListener(RefreshButton_OnClicked);
+         
+         // Populate default UI
+         RefreshButton_OnClicked();
       }
-
-      //  Methods  --------------------------------------
       
       //  Event Handlers  -------------------------------
       private void SetScoreButton_OnClicked()
@@ -89,9 +85,19 @@ namespace Beamable.Examples.Services.EventsService
          }
          ClaimsBodyText.text = stringBuilder02.ToString();
 
-         // Show UI: Button Content Names
-         SetScoreButton.GetComponentInChildren<TMP_Text>().text = $"SetScore\n({eventsServiceExampleData.Score})";
-         ClaimButton.GetComponentInChildren<TMP_Text>().text = $"Claim";
+         // Show UI: Other
+         EventsTitleText.text = "Events";
+         ClaimsTitleText.text = "Claims";
+         MenuTitleText.text = "Menu";
+
+         SetScoreButton.GetComponentInChildren<TMP_Text>().text = 
+            $"SetScore\n({eventsServiceExampleData.Score})";
+         
+         ClaimButton.GetComponentInChildren<TMP_Text>().text = 
+            $"Claim";
+         
+         RefreshButton.GetComponentInChildren<TMP_Text>().text = 
+            $"Refresh";
       }
    }
 }

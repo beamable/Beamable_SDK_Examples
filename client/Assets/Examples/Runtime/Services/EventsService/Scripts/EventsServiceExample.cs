@@ -19,13 +19,9 @@ namespace Beamable.Examples.Services.EventsService
       public List<string> ClaimLogs = new List<string>();
    }
    
-   /// <summary>
-   /// Dispatch event, observed by <see cref="EventsServiceExampleUI"/>.
-   /// </summary>
    [System.Serializable]
    public class RefreshedUnityEvent : UnityEvent<EventsServiceExampleData> { }
    
-
    /// <summary>
    /// Demonstrates <see cref="EventsService"/>.
    /// </summary>
@@ -37,7 +33,6 @@ namespace Beamable.Examples.Services.EventsService
       
       //  Fields  ---------------------------------------
       private IBeamableAPI _beamableAPI;
-
       private EventsServiceExampleData _data = new EventsServiceExampleData();
 
       //  Unity Methods  --------------------------------
@@ -69,12 +64,12 @@ namespace Beamable.Examples.Services.EventsService
                string currentPhase = eventView.currentPhase.name;
                string rulesCount = eventView.currentPhase.rules.Count.ToString();
 
-               string log = $"Event #{index}" +
+               string eventLog = $"Event #{index}" +
                             $"\n\tname = {eventView.name}" + 
                             $"\n\tendTime = {endTime}" +
                             $"\n\tcurrentPhase = {currentPhase}" +
                             $"\n\trulesCount = {rulesCount}";
-               _data.RunningEventsLogs.Add(log);
+               _data.RunningEventsLogs.Add(eventLog);
             }
             Refresh();
          });
@@ -95,10 +90,10 @@ namespace Beamable.Examples.Services.EventsService
             Unit unit = await _beamableAPI.EventsService.SetScore(
                eventView.id, _data.Score, false, new Dictionary<string, object>());
 
-            string log = $"SetScore()" +
+            string score = $"SetScore()" +
                          $"\n\tname = {eventView.name}" +
                          $"\n\tscore = {_data.Score}";
-            _data.SetScoreLogs.Add(log);
+            _data.SetScoreLogs.Add(score);
          }
       }
       
@@ -117,17 +112,17 @@ namespace Beamable.Examples.Services.EventsService
             {
                EventClaimResponse eventClaimResponse = await _beamableAPI.EventsService.Claim(eventView.id);
 
-               string log = $"Claim()" +
+               string claim = $"Claim()" +
                             $"\n\tname = {eventView.name}" +
                             $"\n\tscoreRewards = {eventClaimResponse.view.scoreRewards.Count}" +
                             $"\n\trankRewards = {eventClaimResponse.view.rankRewards.Count}";
-               _data.ClaimLogs.Add(log);
+               _data.ClaimLogs.Add(claim);
             }
             else
             {
-               string log = $"Claim() not called." +
+               string claim = $"Claim() not called." +
                             $"\n\tcanClaim= {canClaim}";
-               _data.ClaimLogs.Add(log);
+               _data.ClaimLogs.Add(claim);
             }
      
          }

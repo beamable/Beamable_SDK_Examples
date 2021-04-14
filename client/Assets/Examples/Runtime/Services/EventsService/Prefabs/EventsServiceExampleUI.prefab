@@ -177,7 +177,7 @@ PrefabInstance:
     - target: {fileID: 979444927087578835, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
         type: 3}
       propertyPath: m_Name
-      value: ExampleCanvasUI
+      value: EventsServiceExampleUI
       objectReference: {fileID: 0}
     - target: {fileID: 979444927087578847, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
         type: 3}
