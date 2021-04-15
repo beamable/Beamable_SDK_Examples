@@ -174,7 +174,13 @@ namespace Beamable.Examples.Labs.ChatService
             
             // Create new mock group name
             int groupIndex = _data.RoomNames.Count;
-            _data.RoomToCreateName = $"New Room {groupIndex:000}";
+            _data.RoomToCreateName = $"Room{groupIndex:000}";
+            
+            // Create temp name for pretty UI
+            if (string.IsNullOrEmpty(_data.RoomToLeaveName))
+            {
+                _data.RoomToLeaveName = _data.RoomToCreateName;
+            }
             
             // Log
             Debug.Log($"Refresh()");
@@ -190,7 +196,7 @@ namespace Beamable.Examples.Labs.ChatService
         //  Event Handlers  -------------------------------
         private void Room_OnMessageReceived(Message message)
         {
-            string roomMessage = $"{message.gamerTag} in {message.roomId}: {message.content}";
+            string roomMessage = $"{message.gamerTag}: {message.content}";
             Debug.Log($"Room_OnMessageReceived() roomMessage = {roomMessage}");
             _data.RoomMessages.Add(roomMessage);
             Refresh();

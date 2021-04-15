@@ -81,18 +81,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 979444925954997317, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
         type: 3}
-      propertyPath: m_MinHeight
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 979444925954997317, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
-        type: 3}
       propertyPath: m_FlexibleHeight
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 979444925954997317, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
-        type: 3}
-      propertyPath: m_PreferredHeight
-      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 979444926411943776, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
         type: 3}

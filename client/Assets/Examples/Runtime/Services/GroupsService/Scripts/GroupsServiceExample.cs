@@ -174,12 +174,6 @@ namespace Beamable.Examples.Services.GroupsService
         
         public void Refresh()
         {
-            Debug.Log($"Refresh()");
-            Debug.Log($"\tGroupNames.Count = {_data.GroupNames.Count}");
-            Debug.Log($"\tRoomNames.Count = {_data.RoomNames.Count}");
-            Debug.Log($"\tUserNames.Count = {_data.RoomUsernames.Count}");
-            Debug.Log($"\tIsInGroup = {_data.IsInGroup}");
-            
             // Create new mock message 
             int messageIndex = _data.RoomMessages.Count;
             _data.MessageToSend = $"Hello World {messageIndex:000}!";
@@ -194,6 +188,12 @@ namespace Beamable.Examples.Services.GroupsService
                 _data.GroupToLeaveName = _data.GroupToCreateName;
             }
          
+            Debug.Log($"Refresh()");
+            Debug.Log($"\tGroupNames.Count = {_data.GroupNames.Count}");
+            Debug.Log($"\tRoomNames.Count = {_data.RoomNames.Count}");
+            Debug.Log($"\tUserNames.Count = {_data.RoomUsernames.Count}");
+            Debug.Log($"\tIsInGroup = {_data.IsInGroup}");
+            
             // Send relevant data to the UI for rendering
             OnRefreshed?.Invoke(_data);
         }
