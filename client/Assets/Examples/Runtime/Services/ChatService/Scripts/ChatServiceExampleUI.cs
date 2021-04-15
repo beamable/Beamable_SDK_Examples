@@ -47,19 +47,19 @@ namespace Beamable.Examples.Labs.ChatService
       //  Methods  --------------------------------------
       
       //  Event Handlers  -------------------------------
-      private void SendMessageButton_OnClicked()
+      private async void SendMessageButton_OnClicked()
       {
-         _chatServiceExample.SendRoomMessage();
+         await _chatServiceExample.SendRoomMessage();
       }
 
-      private void CreateRoomButton_OnClicked()
+      private async void CreateRoomButton_OnClicked()
       {
-         _chatServiceExample.CreateRoom();
+         await _chatServiceExample.CreateRoom();
       }
 
-      private void LeaveRoom_OnClicked()
+      private async void LeaveRoom_OnClicked()
       {
-         _chatServiceExample.LeaveRoom();
+         await _chatServiceExample.LeaveRoom();
       }
       
       private void EventsServiceExample_OnRefreshed(ChatServiceExampleData 
@@ -72,7 +72,7 @@ namespace Beamable.Examples.Labs.ChatService
          stringBuilder01.Append("ROOMS").AppendLine();
          foreach (string roomName in chatServiceExampleData.RoomNames)
          {
-            stringBuilder01.Append($"•{roomName}").AppendLine();
+            stringBuilder01.Append($" • {roomName}").AppendLine();
          }
          
          // Show UI: Players
@@ -80,7 +80,7 @@ namespace Beamable.Examples.Labs.ChatService
          stringBuilder01.Append("PLAYERS").AppendLine();
          foreach (string roomPlayer in chatServiceExampleData.RoomPlayers)
          {
-            stringBuilder01.Append($"•{roomPlayer}").AppendLine();
+            stringBuilder01.Append($" • {roomPlayer}").AppendLine();
          }
          RoomsBodyText.text = stringBuilder01.ToString();
          
@@ -88,7 +88,7 @@ namespace Beamable.Examples.Labs.ChatService
          StringBuilder stringBuilder02 = new StringBuilder();
          foreach (string roomMessage in chatServiceExampleData.RoomMessages)
          {
-            stringBuilder02.Append($"•{roomMessage}").AppendLine();
+            stringBuilder02.Append($" • {roomMessage}").AppendLine();
          }
          MessagesBodyText.text = stringBuilder02.ToString();
          

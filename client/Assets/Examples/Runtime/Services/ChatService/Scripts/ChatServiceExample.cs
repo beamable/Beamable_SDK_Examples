@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Beamable.Common.Api;
 using UnityEngine;
 using Beamable.Experimental.Api.Chat;
 using UnityEngine.Events;
@@ -34,7 +35,7 @@ namespace Beamable.Examples.Labs.ChatService
         public RefreshedUnityEvent OnRefreshed = new RefreshedUnityEvent();
         
         //  Fields  ---------------------------------------
-        private ChatView _chatView;
+        private ChatView _chatView = null;
         private IBeamableAPI _beamableAPI = null;
         private ChatServiceExampleData _data = new ChatServiceExampleData();
     
@@ -112,7 +113,7 @@ namespace Beamable.Examples.Labs.ChatService
             return isProfanityText;
         }
         
-        public async void SendRoomMessage()
+        public async Task<EmptyResponse> SendRoomMessage()
         {
             string messageToSend = _data.MessageToSend;
             
@@ -131,9 +132,11 @@ namespace Beamable.Examples.Labs.ChatService
                     await room.SendMessage(messageToSend);
                 }
             }
+
+            return new EmptyResponse();
         }
         
-        public async void CreateRoom ()
+        public async Task<EmptyResponse> CreateRoom ()
         {
             string roomName = _data.RoomToCreateName;
             bool keepSubscribed = false;
@@ -143,9 +146,11 @@ namespace Beamable.Examples.Labs.ChatService
                 roomName, keepSubscribed, players);
             
             Refresh();
+            
+            return new EmptyResponse();
         }
         
-        public async void LeaveRoom()
+        public async Task<EmptyResponse> LeaveRoom()
         {
             var roomInfos = await _beamableAPI.Experimental.ChatService.GetMyRooms();
             
@@ -155,6 +160,8 @@ namespace Beamable.Examples.Labs.ChatService
             }
 
             Refresh();
+            
+            return new EmptyResponse();
         }
         
         public void Refresh()
