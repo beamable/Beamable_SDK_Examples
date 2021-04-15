@@ -64,7 +64,6 @@ namespace Beamable.Examples.Services.GroupsService
                 _data.GroupNames.Clear();
                 
                 _data.IsInGroup = groupsView.Groups.Count > 0;
-                Debug.Log("GroupsService.Subscribe() count: " + groupsView.Groups.Count + " isinGroup: " + _data.IsInGroup);
                 
                 foreach(var groupView in groupsView.Groups)
                 {
@@ -99,10 +98,7 @@ namespace Beamable.Examples.Services.GroupsService
 
                         room.Subscribe().Then(_ =>
                         {
-                            Debug.Log($"Subscribed to {room.Name}");
-
                             _data.RoomMessages.Clear();
-
                             foreach (var message in room.Messages)
                             {
                                 string roomMessage = $"{message.gamerTag}: {message.content}";
@@ -140,17 +136,12 @@ namespace Beamable.Examples.Services.GroupsService
             var groupSearchResponse = await _beamableAPI.GroupsService.Search(groupName, 
                 new List<string> {enrollmentType});
             
-            Debug.Log("x: " + groupSearchResponse.groups.Count);
-
             // Join or Create new group
             if (groupSearchResponse.groups.Count > 0)
             {
                 foreach (var group in groupSearchResponse.groups)
                 {
                     var groupMembershipResponse = await _beamableAPI.GroupsService.JoinGroup(group.id);
-
-                    Debug.Log( ("groupMembershipResponse: " + groupMembershipResponse.member));
-         
                 }
             }
             else
@@ -171,32 +162,11 @@ namespace Beamable.Examples.Services.GroupsService
         
         public async Task<EmptyResponse> LeaveGroup()
         {
-            Debug.Log("TRY 1 -----------------------------");
-            Debug.Log("Before LeaveGroup: c = " + _groupsView.Groups.Count);
-            
             foreach(var group in _groupsView.Groups)
             {
-                Debug.Log("Before LeaveGroup: j = " + group.Joined + ", dbid = " + _beamableAPI.User.id);
                 var result = await _beamableAPI.GroupsService.LeaveGroup(group.Group.id);
-                Debug.Log("After LeaveGroup: m = " + result.member);
             }
-
-            var groupsViewAfter = await _beamableAPI.GroupsService.GetCurrent();
-            Debug.Log("After LeaveGroup: c = " + groupsViewAfter.Groups.Count);
             
-            Debug.Log("TRY 2 -----------------------------");
-            Debug.Log("Before LeaveGroup: c = " + groupsViewAfter.Groups.Count);
-            
-            foreach(var groupAfter in groupsViewAfter.Groups)
-            {
-                Debug.Log("Before LeaveGroup: j = " + groupAfter.Joined + ", dbid = " + _beamableAPI.User.id);
-                var result = await _beamableAPI.GroupsService.LeaveGroup(groupAfter.Group.id);
-                Debug.Log("After LeaveGroup: m = " + result.member);
-            }
-
-            var groupsView3 = await _beamableAPI.GroupsService.GetCurrent();
-            Debug.Log("After LeaveGroup: c = " + groupsView3.Groups.Count);
-
             Refresh();
             
             return new EmptyResponse();
@@ -229,10 +199,9 @@ namespace Beamable.Examples.Services.GroupsService
         }
         
         //  Event Handlers  -------------------------------
-        private async void RoomHandle_OnMessageReceived(Message message)
+        private void RoomHandle_OnMessageReceived(Message message)
         {
             string roomMessage = $"{message.gamerTag}: {message.content}";
-            Debug.Log($"Received Message = {roomMessage} in room = {message.roomId}");
             _data.RoomMessages.Add(roomMessage);
             Refresh();
         }
