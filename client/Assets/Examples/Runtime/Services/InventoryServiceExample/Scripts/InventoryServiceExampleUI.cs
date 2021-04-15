@@ -14,21 +14,20 @@ namespace Beamable.Examples.Services.InventoryService
       //  Fields  ---------------------------------------
       [SerializeField] private InventoryServiceExample _inventoryServiceExample = null;
 
-      // Content Panel
-      private TMP_Text ContentTitleText { get { return TitleText01; }}
-      private TMP_Text ContentBodyText { get { return BodyText01; }}
-      
-      // Inventory Panel 
-      private TMP_Text InventoryTitleText { get { return TitleText02; }}
-      private TMP_Text InventoryBodyText { get { return BodyText02; }}
-   
       // Menu Panel
-      private TMP_Text MenuTitleText { get { return TitleText03; }}
+      private TMP_Text MenuTitleText { get { return TitleText01; }}
       private Button AddItemButton { get { return Button01;}}
       private Button DeleteItemButton { get { return Button02;}}
       private Button RefreshButton { get { return Button03;}}
       
+      // Content Panel
+      private TMP_Text ContentTitleText { get { return TitleText02; }}
+      private TMP_Text ContentBodyText { get { return BodyText02; }}
       
+      // Inventory Panel 
+      private TMP_Text InventoryTitleText { get { return TitleText03; }}
+      private TMP_Text InventoryBodyText { get { return BodyText03; }}
+   
       //  Unity Methods  --------------------------------
       protected void Start()
       {

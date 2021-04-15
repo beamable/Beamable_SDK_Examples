@@ -20,9 +20,9 @@ namespace Beamable.Examples.Shared
       protected TMP_Text BodyText01 { get { return _examplePanelUIs[0].BodyText; }}
       protected TMP_Text BodyText02 { get { return _examplePanelUIs[1].BodyText; }}
       protected TMP_Text BodyText03 { get { return _examplePanelUIs[2].BodyText; }}
-      protected Button Button01 { get { return _examplePanelUIs[2].Buttons[0];}}
-      protected Button Button02 { get { return _examplePanelUIs[2].Buttons[1];}}
-      protected Button Button03 { get { return _examplePanelUIs[2].Buttons[2];}}
+      protected Button Button01 { get { return _examplePanelUIs[0].Buttons[0];}}
+      protected Button Button02 { get { return _examplePanelUIs[0].Buttons[1];}}
+      protected Button Button03 { get { return _examplePanelUIs[0].Buttons[2];}}
    }
 }
 

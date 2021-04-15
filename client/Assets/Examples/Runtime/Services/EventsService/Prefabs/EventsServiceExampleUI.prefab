@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _examplePanelUIs:
+  - {fileID: 348024729123318449}
   - {fileID: 348024730337822312}
   - {fileID: 348024728865382346}
-  - {fileID: 348024729123318449}
   _eventsServiceExample: {fileID: 0}
 --- !u!1001 &667589776031254109
 PrefabInstance:
@@ -178,6 +178,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EventsServiceExampleUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 979444927087578846, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
+        type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 979444927087578847, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
         type: 3}
@@ -502,6 +507,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 667589776031254109}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &348024729123318449 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 979444927697317100, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
+    type: 3}
+  m_PrefabInstance: {fileID: 667589776031254109}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca42fa7d83fa5de4390aa751da95b864, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &348024730337822312 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 979444926763810869, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
@@ -517,18 +534,6 @@ MonoBehaviour:
 --- !u!114 &348024728865382346 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 979444927439313303, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
-    type: 3}
-  m_PrefabInstance: {fileID: 667589776031254109}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca42fa7d83fa5de4390aa751da95b864, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &348024729123318449 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 979444927697317100, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
     type: 3}
   m_PrefabInstance: {fileID: 667589776031254109}
   m_PrefabAsset: {fileID: 0}

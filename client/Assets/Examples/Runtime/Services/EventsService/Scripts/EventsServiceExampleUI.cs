@@ -14,20 +14,20 @@ namespace Beamable.Examples.Services.EventsService
       //  Fields  ---------------------------------------
       [SerializeField] private EventsServiceExample _eventsServiceExample = null;
 
-      // Events Panel
-      private TMP_Text EventsTitleText { get { return TitleText01; }}
-      private TMP_Text EventsBodyText { get { return BodyText01; }}
-      
-      // Claims Panel 
-      private TMP_Text ClaimsTitleText { get { return TitleText02; }}
-      private TMP_Text ClaimsBodyText { get { return BodyText02; }}
-   
       // Menu Panel
-      private TMP_Text MenuTitleText { get { return TitleText03; }}
+      private TMP_Text MenuTitleText { get { return TitleText01; }}
       private Button SetScoreButton { get { return Button01;}}
       private Button ClaimButton { get { return Button02;}}
       private Button RefreshButton { get { return Button03;}}
       
+      // Events Panel
+      private TMP_Text EventsTitleText { get { return TitleText02; }}
+      private TMP_Text EventsBodyText { get { return BodyText02; }}
+      
+      // Claims Panel 
+      private TMP_Text ClaimsTitleText { get { return TitleText03; }}
+      private TMP_Text ClaimsBodyText { get { return BodyText03; }}
+   
       //  Unity Methods  --------------------------------
       protected void Start()
       {

@@ -15,19 +15,21 @@ namespace Beamable.Examples.Labs.ChatService
       
       [SerializeField] private ChatServiceExample _chatServiceExample = null;
 
-      // Events Panel
-      private TMP_Text GroupsTitleText { get { return TitleText01; }}
-      private TMP_Text GroupsBodyText { get { return BodyText01; }}
-      
-      // Claims Panel 
-      private TMP_Text MessagesTitleText { get { return TitleText02; }}
-      private TMP_Text MessagesBodyText { get { return BodyText02; }}
-   
       // Menu Panel
-      private TMP_Text MenuTitleText { get { return TitleText03; }}
+      private TMP_Text MenuTitleText { get { return TitleText01; }}
       private Button SendMessageButton { get { return Button01;}}
-      private Button CreateGroupButton { get { return Button02;}}
-      private Button LeaveGroupButton { get { return Button03;}}
+      private Button CreateRoomButton { get { return Button02;}}
+      private Button LeaveRoomButton { get { return Button03;}}
+      
+      // Rooms Panel
+      private TMP_Text RoomsTitleText { get { return TitleText02; }}
+      private TMP_Text RoomsBodyText { get { return BodyText02; }}
+      
+      // Messages Panel 
+      private TMP_Text MessagesTitleText { get { return TitleText03; }}
+      private TMP_Text MessagesBodyText { get { return BodyText03; }}
+   
+
       
       
       //  Unity Methods  --------------------------------
@@ -35,8 +37,8 @@ namespace Beamable.Examples.Labs.ChatService
       {
          _chatServiceExample.OnRefreshed.AddListener(EventsServiceExample_OnRefreshed);
          SendMessageButton.onClick.AddListener(SendMessageButton_OnClicked);
-         CreateGroupButton.onClick.AddListener(CreateGroupButton_OnClicked);
-         LeaveGroupButton.onClick.AddListener(LeaveGroup_OnClicked);
+         CreateRoomButton.onClick.AddListener(CreateRoomButton_OnClicked);
+         LeaveRoomButton.onClick.AddListener(LeaveRoom_OnClicked);
          
          // Populate default UI
          _chatServiceExample.Refresh();
@@ -50,42 +52,37 @@ namespace Beamable.Examples.Labs.ChatService
          _chatServiceExample.SendRoomMessage();
       }
 
-      private void CreateGroupButton_OnClicked()
+      private void CreateRoomButton_OnClicked()
       {
-         _chatServiceExample.CreateGroup();
+         _chatServiceExample.CreateRoom();
       }
 
-      private void LeaveGroup_OnClicked()
+      private void LeaveRoom_OnClicked()
       {
-         _chatServiceExample.LeaveGroup();
+         _chatServiceExample.LeaveRoom();
       }
       
       private void EventsServiceExample_OnRefreshed(ChatServiceExampleData 
          chatServiceExampleData)
       {
-         // Show UI: Groups
+         // Show UI: Rooms
          StringBuilder stringBuilder01 = new StringBuilder();
-         stringBuilder01.Append("GROUPS").AppendLine();
-         foreach (string groupName in chatServiceExampleData.GroupNames)
-         {
-            stringBuilder01.Append($"•{groupName}").AppendLine();
-         }
          // Show UI: Rooms
          stringBuilder01.AppendLine();
          stringBuilder01.Append("ROOMS").AppendLine();
-         foreach (string setScoreLog in chatServiceExampleData.RoomNames)
+         foreach (string roomName in chatServiceExampleData.RoomNames)
          {
-            stringBuilder01.Append($"•{setScoreLog}").AppendLine();
+            stringBuilder01.Append($"•{roomName}").AppendLine();
          }
          
-         // Show UI: Users
+         // Show UI: Players
          stringBuilder01.AppendLine();
-         stringBuilder01.Append("USERS").AppendLine();
-         foreach (string roomUsername in chatServiceExampleData.RoomUsernames)
+         stringBuilder01.Append("PLAYERS").AppendLine();
+         foreach (string roomPlayer in chatServiceExampleData.RoomPlayers)
          {
-            stringBuilder01.Append($"•{roomUsername}").AppendLine();
+            stringBuilder01.Append($"•{roomPlayer}").AppendLine();
          }
-         GroupsBodyText.text = stringBuilder01.ToString();
+         RoomsBodyText.text = stringBuilder01.ToString();
          
          // Show UI: Messages
          StringBuilder stringBuilder02 = new StringBuilder();
@@ -96,23 +93,23 @@ namespace Beamable.Examples.Labs.ChatService
          MessagesBodyText.text = stringBuilder02.ToString();
          
          // Show UI: Other 
-         GroupsTitleText.text = "Chat";
+         MenuTitleText.text = "Chat Service Example";
+         RoomsTitleText.text = "Rooms";
          MessagesTitleText.text = "Messages";
-         MenuTitleText.text = "Menu";
          
-         CreateGroupButton.GetComponentInChildren<TMP_Text>().text = 
-            $"Create Group\n({chatServiceExampleData.GroupToCreateName})";
+         CreateRoomButton.GetComponentInChildren<TMP_Text>().text = 
+            $"Create Room\n({chatServiceExampleData.RoomToCreateName})";
 
-         LeaveGroupButton.GetComponentInChildren<TMP_Text>().text = 
-            $"Leave Group\n({chatServiceExampleData.GroupToLeaveName})";
+         LeaveRoomButton.GetComponentInChildren<TMP_Text>().text = 
+            $"Leave Room\n({chatServiceExampleData.RoomToLeaveName})";
 
          SendMessageButton.GetComponentInChildren<TMP_Text>().text =
             $"Send Message\n({chatServiceExampleData.MessageToSend})";
 
-         bool isInGroup = chatServiceExampleData.IsInGroup;
-         CreateGroupButton.interactable = !isInGroup;
-         LeaveGroupButton.interactable = isInGroup;
-
+         bool isInRoom = chatServiceExampleData.IsInRoom;
+         SendMessageButton.interactable = isInRoom;
+         CreateRoomButton.interactable = !isInRoom;
+         LeaveRoomButton.interactable = isInRoom;
       }
    }
 }
