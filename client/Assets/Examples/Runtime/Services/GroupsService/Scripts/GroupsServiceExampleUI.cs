@@ -43,19 +43,19 @@ namespace Beamable.Examples.Services.GroupsService
       //  Methods  --------------------------------------
       
       //  Event Handlers  -------------------------------
-      private void SendMessageButton_OnClicked()
+      private async void SendMessageButton_OnClicked()
       {
-         _groupsServiceExample.SendRoomMessage();
+         await _groupsServiceExample.SendGroupMessage();
       }
 
-      private void CreateGroupButton_OnClicked()
+      private async void CreateGroupButton_OnClicked()
       {
-         _groupsServiceExample.CreateGroup();
+         await _groupsServiceExample.CreateGroup();
       }
 
-      private void LeaveGroup_OnClicked()
+      private async void LeaveGroup_OnClicked()
       {
-         _groupsServiceExample.LeaveGroup();
+         await _groupsServiceExample.LeaveGroup();
       }
       
       private void GroupsServiceExample_OnRefreshed(GroupsServiceExampleData 
@@ -66,14 +66,14 @@ namespace Beamable.Examples.Services.GroupsService
          stringBuilder01.Append("GROUPS").AppendLine();
          foreach (string groupName in groupsServiceExampleData.GroupNames)
          {
-            stringBuilder01.Append($"•{groupName}").AppendLine();
+            stringBuilder01.Append($" • {groupName}").AppendLine();
          }
          // Show UI: Rooms
          stringBuilder01.AppendLine();
          stringBuilder01.Append("ROOMS").AppendLine();
          foreach (string setScoreLog in groupsServiceExampleData.RoomNames)
          {
-            stringBuilder01.Append($"•{setScoreLog}").AppendLine();
+            stringBuilder01.Append($" • {setScoreLog}").AppendLine();
          }
          
          // Show UI: Users
@@ -81,7 +81,7 @@ namespace Beamable.Examples.Services.GroupsService
          stringBuilder01.Append("USERS").AppendLine();
          foreach (string roomUsername in groupsServiceExampleData.RoomUsernames)
          {
-            stringBuilder01.Append($"•{roomUsername}").AppendLine();
+            stringBuilder01.Append($" • {roomUsername}").AppendLine();
          }
          GroupsBodyText.text = stringBuilder01.ToString();
          
@@ -89,7 +89,7 @@ namespace Beamable.Examples.Services.GroupsService
          StringBuilder stringBuilder02 = new StringBuilder();
          foreach (string roomMessage in groupsServiceExampleData.RoomMessages)
          {
-            stringBuilder02.Append($"•{roomMessage}").AppendLine();
+            stringBuilder02.Append($" • {roomMessage}").AppendLine();
          }
          MessagesBodyText.text = stringBuilder02.ToString();
          
