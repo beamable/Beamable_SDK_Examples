@@ -34,7 +34,7 @@ namespace Beamable.Examples.Labs.ChatService
         public RefreshedUnityEvent OnRefreshed = new RefreshedUnityEvent();
         
         //  Fields  ---------------------------------------
-        [SerializeField] private ChatView _chatView;
+        private ChatView _chatView;
         private IBeamableAPI _beamableAPI = null;
         private ChatServiceExampleData _data = new ChatServiceExampleData();
     
@@ -56,7 +56,6 @@ namespace Beamable.Examples.Labs.ChatService
             // Observe ChatService Changes
             _beamableAPI.Experimental.ChatService.Subscribe(chatView =>
             {
-                Debug.Log("1 ChatService.Subscribe");
                 _chatView = chatView;
                 
                 // Clear data when ChatService changes
@@ -73,8 +72,6 @@ namespace Beamable.Examples.Labs.ChatService
                     
                     room.Subscribe().Then(_ =>
                     {
-                        Debug.Log("2 Room.Subscribe");
-                        
                         // Clear data (again) when Room changes
                         _data.RoomMessages.Clear();
                         _data.RoomPlayers.Clear();
@@ -97,6 +94,7 @@ namespace Beamable.Examples.Labs.ChatService
                     });
                     room.OnMessageReceived += Room_OnMessageReceived;
                 }
+                Refresh();
             });
         }
 
@@ -130,7 +128,7 @@ namespace Beamable.Examples.Labs.ChatService
             {
                 if (room.Players.Count > 0)
                 {
-                    room.SendMessage(messageToSend);
+                    await room.SendMessage(messageToSend);
                 }
             }
         }

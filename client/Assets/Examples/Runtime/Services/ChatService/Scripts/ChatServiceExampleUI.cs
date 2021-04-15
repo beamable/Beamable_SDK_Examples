@@ -93,7 +93,7 @@ namespace Beamable.Examples.Labs.ChatService
          MessagesBodyText.text = stringBuilder02.ToString();
          
          // Show UI: Other 
-         MenuTitleText.text = "Chat Service Example";
+         MenuTitleText.text = "ChatService Example";
          RoomsTitleText.text = "Rooms";
          MessagesTitleText.text = "Messages";
          

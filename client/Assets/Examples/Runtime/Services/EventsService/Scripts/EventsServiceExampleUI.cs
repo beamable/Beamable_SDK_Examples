@@ -71,6 +71,7 @@ namespace Beamable.Examples.Services.EventsService
          StringBuilder stringBuilder02 = new StringBuilder();
          
          // Show UI: Scores
+         stringBuilder02.AppendLine();
          stringBuilder02.Append("SCORES").AppendLine();
          foreach (string setScoreLog in eventsServiceExampleData.SetScoreLogs)
          {
@@ -78,6 +79,7 @@ namespace Beamable.Examples.Services.EventsService
          }
          
          // Show UI: Claims
+         stringBuilder02.AppendLine();
          stringBuilder02.Append("CLAIMS").AppendLine();
          foreach (string claimLog in eventsServiceExampleData.ClaimLogs)
          {
@@ -86,9 +88,9 @@ namespace Beamable.Examples.Services.EventsService
          ClaimsBodyText.text = stringBuilder02.ToString();
 
          // Show UI: Other
+         MenuTitleText.text = "EventsService Example";
          EventsTitleText.text = "Events";
          ClaimsTitleText.text = "Claims";
-         MenuTitleText.text = "Menu";
 
          SetScoreButton.GetComponentInChildren<TMP_Text>().text = 
             $"SetScore\n({eventsServiceExampleData.Score})";

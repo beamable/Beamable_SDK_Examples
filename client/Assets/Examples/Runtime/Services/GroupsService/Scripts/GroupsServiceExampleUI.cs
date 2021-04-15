@@ -94,9 +94,9 @@ namespace Beamable.Examples.Services.GroupsService
          MessagesBodyText.text = stringBuilder02.ToString();
          
          // Show UI: Other 
+         MenuTitleText.text = "GroupsService Example";
          GroupsTitleText.text = "Groups";
          MessagesTitleText.text = "Messages";
-         MenuTitleText.text = "Menu";
          
          CreateGroupButton.GetComponentInChildren<TMP_Text>().text = 
             $"Create Group\n({groupsServiceExampleData.GroupToCreateName})";

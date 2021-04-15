@@ -76,9 +76,9 @@ namespace Beamable.Examples.Services.InventoryService
          InventoryBodyText.text = playerInventoryStringBuilder.ToString();
 
          // Show UI: Other
+         MenuTitleText.text = "InventoryService Example";
          ContentTitleText.text = "Content";
          InventoryTitleText.text = "Inventory";
-         MenuTitleText.text = "Menu";
          
          AddItemButton.GetComponentInChildren<TMP_Text>().text = 
             $"Add 1 Item\n({inventoryServiceExampleData.ItemToAddName})";

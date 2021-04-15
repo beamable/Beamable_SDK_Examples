@@ -57,7 +57,7 @@ namespace Beamable.Examples.Services.GroupsService
             Debug.Log($"beamableAPI.User.id = {_beamableAPI.User.id}");
 
             // Observe GroupsService Changes
-            _beamableAPI.GroupsService.Subscribe(async groupsView =>
+            _beamableAPI.GroupsService.Subscribe(groupsView =>
             {
                 _data.GroupNames.Clear();
                 foreach(var group in groupsView.Groups)
@@ -123,7 +123,7 @@ namespace Beamable.Examples.Services.GroupsService
             
             foreach(RoomHandle room in _chatView.roomHandles)
             {
-                room.SendMessage(messageToSend);
+                await room.SendMessage(messageToSend);
             }
         }
         

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Beamable.Common;
 using Beamable.Common.Api.Events;
@@ -95,6 +96,7 @@ namespace Beamable.Examples.Services.EventsService
                          $"\n\tscore = {_data.Score}";
             _data.SetScoreLogs.Add(score);
          }
+         Refresh();
       }
       
       public async void ClaimRewardsInEvents()
@@ -110,12 +112,23 @@ namespace Beamable.Examples.Services.EventsService
 
             if (canClaim)
             {
-               EventClaimResponse eventClaimResponse = await _beamableAPI.EventsService.Claim(eventView.id);
+               string claim = "";
 
-               string claim = $"Claim()" +
-                            $"\n\tname = {eventView.name}" +
-                            $"\n\tscoreRewards = {eventClaimResponse.view.scoreRewards.Count}" +
-                            $"\n\trankRewards = {eventClaimResponse.view.rankRewards.Count}";
+               // Claim() fails if there is nothing to be claimed
+               try
+               {
+                  EventClaimResponse eventClaimResponse = await _beamableAPI.EventsService.Claim(eventView.id);
+                  claim += $"Claim() Success" +
+                           $"\n\tname = {eventView.name}" +
+                           $"\n\tscoreRewards = {eventClaimResponse.view.scoreRewards.Count}" +
+                           $"\n\trankRewards = {eventClaimResponse.view.rankRewards.Count}";
+               }
+               catch (Exception e)
+               {
+                  claim += $"Claim() Failed" +
+                           $"\n\terror = {e.Message}";
+               }
+            
                _data.ClaimLogs.Add(claim);
             }
             else
@@ -126,6 +139,7 @@ namespace Beamable.Examples.Services.EventsService
             }
      
          }
+         Refresh();
       }
       
       public void Refresh()
