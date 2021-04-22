@@ -19,13 +19,14 @@ MonoBehaviour:
     amount: 1
   offer:
     titles:
-      HasValue: 0
       Value:
-        listData: []
+        listData:
+        - Sword
     descriptions:
-      HasValue: 0
+      HasValue: 1
       Value:
-        listData: []
+        listData:
+        - Strong And Sharp
     obtainCurrency: []
     obtainItems:
     - contentId: items.Sword01
@@ -62,4 +63,4 @@ MonoBehaviour:
     Value: 0
   buttonText:
     HasValue: 0
-    Value: 
+    Value: Buy Now!

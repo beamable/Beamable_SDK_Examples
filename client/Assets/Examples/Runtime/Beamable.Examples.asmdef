@@ -9,7 +9,9 @@
         "Beamable.Config",
         "Beamable.ConsoleCommands",
         "Unity.TextMeshPro",
-        "Beamable.JsonSerializable"
+        "Beamable.JsonSerializable",
+        "Beamable.Coroutines",
+        "Beamable.Spew"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
