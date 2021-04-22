@@ -1,12 +1,17 @@
-﻿using Beamable.Api.Payments;
-using Beamable.Service;
+﻿using Beamable.Service;
 using UnityEngine;
 
 namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
 {
     /// <summary>
-    /// Demonstrates custom implementation of <see cref="IBeamablePurchaser"/>
-    /// for In-App Purchasing using Beamable.
+    /// Implementation of custom Beamable purchasing.
+    ///
+    /// 1. See the partially-functional <see cref="CustomPurchaser"/> as a template.
+    ///   Copy it and complete your custom implementation.
+    ///
+    /// 2. See the fully-functional <see cref="UnityBeamablePurchaser"/> (Search
+    ///   in Beamable SDK) for inspiration.
+    /// 
     /// </summary>
     public class CustomPurchasingSystemExample : MonoBehaviour
     {
@@ -30,7 +35,7 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
 
             Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
             
-            // Order #2 - Register
+            // Order #2 - Register the resolver
             ServiceManager.Provide(new CustomPurchaserResolver());
             
             // Order #3 - Now use the StoreFlow feature prefab at runtime

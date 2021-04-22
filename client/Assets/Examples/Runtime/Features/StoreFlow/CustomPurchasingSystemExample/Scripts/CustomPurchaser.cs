@@ -11,49 +11,70 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
 {
    /// <summary>
    /// Implementation of custom Beamable purchasing.
+   ///
+   /// 1. See this partially-functional <see cref="CustomPurchaser"/> as a template.
+   ///   Copy it and complete your custom implementation.
+   ///
+   /// 2. See the fully-functional <see cref="UnityBeamablePurchaser"/> (Search
+   ///   in Beamable SDK) for inspiration.
+   /// 
    /// </summary>
-   public class CustomPurchaser : BasePurchaser, ICustomStoreListener, IBeamablePurchaser
+   public class CustomPurchaser : BasePurchaser, IBeamablePurchaser
    {
-      private ICustomStoreController _customStoreController;
-      private readonly Promise<Unit> _initPromise = new Promise<Unit>();
+      //  Fields  ---------------------------------------
+      private List<CustomStoreProduct> _customStoreProducts = new List<CustomStoreProduct>();
 
+      //  Methods  --------------------------------------
+      #region "IBeamablePurchaser"
+      
       /// <summary>
       /// Begin initialization of Beamable purchasing.
       /// </summary>
-      public Promise<Unit> Initialize()
+      public override Promise<Unit> Initialize()
       {
-         ServiceManager.Resolve<PlatformService>().Payments.GetSKUs().Then(rsp =>
+         base.Initialize();
+         
+         Debug.LogError($"Initialize()");
+            
+         _paymentService.GetSKUs().Then(rsp =>
          {
-            List<CustomStoreProduct> customStoreProducts = new List<CustomStoreProduct>();
+            _customStoreProducts = new List<CustomStoreProduct>();
             foreach (SKU sku in rsp.skus.definitions)
             {
                Dictionary<string, string> idDictionary = new Dictionary<string, string>
                {
-                  {sku.productIds.itunes, CustomStoreConstants.AppleAppStore.Name},
-                  {sku.productIds.googleplay, CustomStoreConstants.GooglePlay.Name}
+                  {sku.productIds.itunes, AppleAppStore},
+                  {sku.productIds.googleplay, GooglePlay}
                };
 
-               customStoreProducts.Add(
+               _customStoreProducts.Add(
                      new CustomStoreProduct(sku, ProductType.Consumable, idDictionary));
             }
 
-            // Will respond with OnInitialized or OnInitializeFailed.
-            CustomStore.Initialize(this, customStoreProducts);
+            // Todo Your Implementation: Determine initialization pass/fail
+            OnInitialized();
+            
+            //or
+            
+            //OnInitializeFailed("tbd error");
+            
          });
 
-         return _initPromise;
+         return _initializePromise;
       }
-
-      #region "IBeamablePurchaser"
+      
       
       /// <summary>
       /// Get the localized price string for a given SKU.
       /// </summary>
       public string GetLocalizedPrice(string skuSymbol)
       {
-         var product =
-            (_customStoreController?.CustomStoreProducts)?.FirstOrDefault(p => p.SKU.name == skuSymbol);
+         Debug.LogError($"GetLocalizedPrice() skuSymbol = {skuSymbol}");
          
+         var product = _customStoreProducts.FirstOrDefault(
+               p => p.SKU.name == skuSymbol);
+         
+         // Todo Your Implementation: Get the localized price. Not this.
          return product?.SKU.realPrice.ToString() ?? "???";
       }
 
@@ -66,52 +87,40 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
       /// <returns>Promise containing completed transaction.</returns>
       public Promise<CompletedTransaction> StartPurchase(string listingSymbol, string skuSymbol)
       {
-         var result = new Promise<CompletedTransaction>();
-         _txid = 0;
-         _onPurchaseSuccess = result.CompleteSuccess;
-         _onPurchaseError = result.CompleteError;
-         if (_cancelled == null) _cancelled = () =>
-         { result.CompleteError(
-            new ErrorCode(400, GameSystem.GAME_CLIENT, "Purchase Cancelled"));
-         };
+         Debug.LogError($"StartPurchase() skuSymbol = {skuSymbol}");
+         
+         _transactionId = 0;
+         var completedTransactionPromise = new Promise<CompletedTransaction>();
+         
+         _onBeginPurchaseSuccess = completedTransactionPromise.CompleteSuccess;
+         _onBeginPurchaseError = completedTransactionPromise.CompleteError;
 
-         ServiceManager.Resolve<PlatformService>().Payments.BeginPurchase(listingSymbol).Then(rsp =>
+         if (_onBeginPurchaseCancelled == null)
          {
-            _txid = rsp.txid;
-            _customStoreController.InitiatePurchase(skuSymbol, _txid.ToString());
+            _onBeginPurchaseCancelled = () =>
+            { 
+               completedTransactionPromise.CompleteError( 
+                  new ErrorCode(400, GameSystem.GAME_CLIENT, "Purchase Cancelled"));
+            };
+         }
+
+         _paymentService.BeginPurchase(listingSymbol).Then(rsp =>
+         {
+            _transactionId = rsp.txid;
+            PaymentService_OnBeginPurchase(skuSymbol, _transactionId);
+            
          }).Error(err =>
          {
-            Debug.LogError($"There was an exception making the begin purchase request: {err}");
-            _onPurchaseError?.Invoke(err as ErrorCode);
+            Debug.LogError($"OnBeginPurchaseError() error = {err}");
+            _onBeginPurchaseError?.Invoke(err as ErrorCode);
          });
 
-         return result;
+         return completedTransactionPromise;
       }
+
       #endregion
 
-      #region "ICustomStoreListener"
-      
-      /// <summary>
-      /// React to successful Unity IAP initialization.
-      /// </summary>
-      /// <param name="controller"></param>
-      public void OnInitialized(ICustomStoreController controller)
-      {
-         Debug.Log($"OnInitialized() count = {controller.CustomStoreProducts.Count}");
-         
-         _customStoreController = controller;
-         RestorePurchases();
-         _initPromise.CompleteSuccess(PromiseBase.Unit);
-      }
 
-      
-      /// <summary>
-      /// Handle failed initialization by logging the error.
-      /// </summary>
-      public void OnInitializeFailed(string error)
-      {
-         Debug.Log($"OnInitializeFailed() error = {error}");
-      }
 
       
       /// <summary>
@@ -119,7 +128,7 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
       /// </summary>
       /// <param name="product"></param>
       /// <returns></returns>
-      public CustomStoreConstants.ProcessingResult ProcessPurchase(CustomStoreProduct product)
+      public ProcessingResult ProcessPurchase(CustomStoreProduct product)
       {
          Debug.Log($"ProcessPurchase() product = {product}");
          
@@ -137,7 +146,7 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
          }
 
          var transaction = new CompletedTransaction(
-            _txid,
+            _transactionId,
             rawReceipt,
             GetLocalizedPrice(product.SKU.name),
             "tbdIsoCurrencyCode"
@@ -145,7 +154,7 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
          
          FulfillTransaction(transaction, product);
 
-         return CustomStoreConstants.ProcessingResult.Pending;
+         return ProcessingResult.Pending;
       }
 
       /// <summary>
@@ -155,26 +164,30 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
       /// <param name="failureReason">Information about why the purchase failed</param>
       public void OnPurchaseFailed(CustomStoreProduct product, string failureReason)
       {
-         var platform = ServiceManager.Resolve<PlatformService>();
+         Debug.LogError($"OnPurchaseFailed() product = {product.SKU.name}");
          
+         // Todo Your Implementation: Setup custom reasons...
          if (failureReason == "tbdSomeReason")
          {
-            platform.Payments.CancelPurchase(_txid);
-            _cancelled?.Invoke();
+            // Maybe cancel...
+            _paymentService.CancelPurchase(_transactionId);
+            _onBeginPurchaseCancelled?.Invoke();
          }
          else
          {
-            int reasonInt = 1; //tbdReason
+            // Todo Your Implementation: Setup custom reasons...
+            int reasonInt = 1;
             string reason = product.SKU.name+ ":" + failureReason;
-            platform.Payments.FailPurchase(_txid, reason);
+            
+            // Maybe fail...
+            _paymentService.FailPurchase(_transactionId, reason);
 
             var errorCode = new ErrorCode(reasonInt, GameSystem.GAME_CLIENT, reason);
-            _onPurchaseError?.Invoke(errorCode);
+            _onBeginPurchaseError?.Invoke(errorCode);
          }
 
          ClearCallbacks();
       }
-      #endregion
 
       /// <summary>
       /// Initiate transaction restoration if needed.
@@ -186,11 +199,11 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
          if (Application.platform == RuntimePlatform.IPhonePlayer ||
              Application.platform == RuntimePlatform.OSXPlayer)
          {
-            // Todo: For iOS...
+            // Todo Your Implementation: For iOS...
          }
          else
          {
-            // Todo: For other platform(s)...
+            // Todo Your Implementation: For other platform(s)...
          }
       }
       
@@ -207,34 +220,66 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
          
          Debug.Log($"FulfillTransaction() SKUSymbol = {transaction.SKUSymbol}");
          
-         ServiceManager.Resolve<PlatformService>().Payments.CompletePurchase(transaction).Then(_ =>
+         _paymentService.CompletePurchase(transaction).Then(_ =>
          {
-            _customStoreController.ConfirmPendingPurchase(product);
-            _onPurchaseSuccess?.Invoke(transaction);
+            PaymentService_OnCompletePurchase(product);
+            _onBeginPurchaseSuccess?.Invoke(transaction);
             ClearCallbacks();
          }).Error(ex =>
          {
             Debug.Log($"error = {ex.Message}");
-            var err = ex as ErrorCode;
+            var errorCode = ex as ErrorCode;
 
-            if (err == null)
+            if (errorCode == null)
             {
                return;
             }
 
-            var retryable = err.Code >= 500 || err.Code == 429 || err.Code == 0;   // Server error or rate limiting or network error
-            if (retryable)
+            var isRetryable = IsRetryable(errorCode);
+            if (isRetryable)
             {
                ServiceManager.Resolve<CoroutineService>().StartCoroutine(
                   RetryTransaction(transaction, product));
             }
             else
             {
-               _customStoreController.ConfirmPendingPurchase(product);
-               _onPurchaseError?.Invoke(err);
+               PaymentService_OnCompletePurchase(product);
+               _onBeginPurchaseError?.Invoke(errorCode);
                ClearCallbacks();
             }
          });
+      }
+      
+      //  Event Handlers  -------------------------------
+      
+      private void OnInitialized()
+      {
+         Debug.Log($"OnInitialized() count = {_customStoreProducts.Count}");
+         
+         RestorePurchases();
+         _initializePromise.CompleteSuccess(PromiseBase.Unit);
+      }
+
+      private void OnInitializeFailed(string error)
+      {
+         Debug.Log($"OnInitializeFailed() error = {error}");
+         
+         // Todo Your Implementation: handle failure
+      }
+      
+      private void PaymentService_OnBeginPurchase(string skuSymbol, long transactionId)
+      {
+         Debug.Log($"OnBeginPurchase() skuSymbol = {skuSymbol}, " +
+                   $"transactionId = {transactionId}");
+         
+         // Todo Your Implementation: implement purchase
+      }
+      
+      private void PaymentService_OnCompletePurchase(CustomStoreProduct product)
+      {
+         Debug.Log($"OnCompletePurchase() product = {product.SKU.name}"); 
+         
+         // Todo Your Implementation: Complete the purchase
       }
    }
 }

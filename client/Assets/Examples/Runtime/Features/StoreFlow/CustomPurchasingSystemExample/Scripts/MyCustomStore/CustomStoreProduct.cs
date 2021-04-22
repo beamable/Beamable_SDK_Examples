@@ -8,14 +8,16 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
    /// </summary>
    public class CustomStoreProduct
    {
-      //TODO: Implement Receipt
-      public string Receipt { get; internal set; }
-      
-      public bool HasReceipt { get { return !string.IsNullOrEmpty(Receipt); }  }
-
+      //  Properties  -----------------------------------
       public SKU SKU { get; private set; }
       public ProductType ProductType { get; private set; }
       public Dictionary<string, string> Ids { get; private set; }
+      
+      // Todo Your Implementation: Setup custom receipt...
+      public string Receipt { get; internal set; }
+      public bool HasReceipt { get { return !string.IsNullOrEmpty(Receipt); }  }
+      
+      //  Methods  --------------------------------------
       public CustomStoreProduct(SKU sku, ProductType productType, Dictionary<string, string> iIds)
       {
          SKU = sku;
