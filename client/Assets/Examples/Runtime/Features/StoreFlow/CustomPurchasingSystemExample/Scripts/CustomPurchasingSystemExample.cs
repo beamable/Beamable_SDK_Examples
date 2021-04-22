@@ -18,7 +18,6 @@ namespace Beamable.Examples.Features.StoreFlow
         protected void Start()
         {
             Debug.Log("Start()");
-
             SetupBeamable();
         }
         
@@ -42,8 +41,6 @@ namespace Beamable.Examples.Features.StoreFlow
             // Use it as a reference to create your own client/server purchasing system
             // which is compatible with Beamable.
         }
-        
-        
         //  Event Handlers  -------------------------------
     }
 }
