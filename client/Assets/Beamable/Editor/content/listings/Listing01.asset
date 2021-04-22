@@ -19,6 +19,7 @@ MonoBehaviour:
     amount: 1
   offer:
     titles:
+      HasValue: 1
       Value:
         listData:
         - Sword
