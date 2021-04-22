@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Beamable.Examples.Features.StoreFlow
+namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
 {
     /// <summary>
     /// Move the <see cref="StoreFlow"/> fully onscreen

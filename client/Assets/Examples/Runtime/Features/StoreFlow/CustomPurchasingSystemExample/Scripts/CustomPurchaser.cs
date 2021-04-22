@@ -4,11 +4,10 @@ using Beamable.Api;
 using Beamable.Api.Payments;
 using Beamable.Common;
 using Beamable.Coroutines;
-using Beamable.Examples.Features.StoreFlow.MyCustomStore;
 using Beamable.Service;
 using UnityEngine;
 
-namespace Beamable.Examples.Features.StoreFlow
+namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
 {
    /// <summary>
    /// Implementation of custom Beamable purchasing.

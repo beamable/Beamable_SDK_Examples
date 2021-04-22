@@ -1,9 +1,8 @@
 ﻿using Beamable.Api.Payments;
-using Beamable.Examples.Features.StoreFlow.MyCustomStore;
 using Beamable.Service;
 using UnityEngine;
 
-namespace Beamable.Examples.Features.StoreFlow
+namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
 {
     /// <summary>
     /// Demonstrates custom implementation of <see cref="IBeamablePurchaser"/>
