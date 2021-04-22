@@ -1,7 +1,8 @@
-﻿using Beamable.Service;
+﻿using Beamable.Api.Payments;
+using Beamable.Service;
 using UnityEngine;
 
-namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
+namespace Beamable.Examples.Features.StoreFlow.MyCustomPurchaser
 {
     /// <summary>
     /// Implementation of custom Beamable purchasing.
@@ -15,10 +16,7 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
     /// </summary>
     public class CustomPurchasingSystemExample : MonoBehaviour
     {
-        //  Properties  -----------------------------------
-        //  Fields  ---------------------------------------
         //  Unity Methods  --------------------------------
-
         protected void Start()
         {
             Debug.Log("Start()");
@@ -28,23 +26,21 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
         //  Methods  --------------------------------------
         private async void SetupBeamable()
         {
-            // Order is important
+            // Order is important here...
             
             // Order #1 - Call for Instance
             var beamableAPI = await Beamable.API.Instance;
-
             Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
             
-            // Order #2 - Register the resolver
+            // Order #2 - Register the purchaser
             ServiceManager.Provide(new CustomPurchaserResolver());
-            
+            var customPurchaser = ServiceManager.Resolve<IBeamablePurchaser>();
+            await customPurchaser.Initialize();
+            beamableAPI.BeamableIAP.CompleteSuccess(customPurchaser);
+                
             // Order #3 - Now use the StoreFlow feature prefab at runtime
-            // and 'Buy' an item. Watch the Unity Console Window for logging.
-            
-            // Note: This "CustomPurchaser" implementation is partially functional. 
-            // Use it as a reference to create your own client/server purchasing system
-            // which is compatible with Beamable.
+            // and 'Buy' an item. Watch the Unity Console Window for logging
+            // to verify success
         }
-        //  Event Handlers  -------------------------------
     }
 }

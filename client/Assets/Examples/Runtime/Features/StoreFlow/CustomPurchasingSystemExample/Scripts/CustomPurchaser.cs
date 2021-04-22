@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Beamable.Api;
@@ -7,7 +8,7 @@ using Beamable.Coroutines;
 using Beamable.Service;
 using UnityEngine;
 
-namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
+namespace Beamable.Examples.Features.StoreFlow.MyCustomPurchaser
 {
    /// <summary>
    /// Implementation of custom Beamable purchasing.
@@ -34,11 +35,11 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
       {
          base.Initialize();
          
-         Debug.LogError($"Initialize()");
+         Debug.Log($"CustomPurchaser.Initialize()");
             
          _paymentService.GetSKUs().Then(rsp =>
          {
-            _customStoreProducts = new List<CustomStoreProduct>();
+            _customStoreProducts.Clear();
             foreach (SKU sku in rsp.skus.definitions)
             {
                Dictionary<string, string> idDictionary = new Dictionary<string, string>
@@ -46,17 +47,16 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
                   {sku.productIds.itunes, AppleAppStore},
                   {sku.productIds.googleplay, GooglePlay}
                };
-
+              
                _customStoreProducts.Add(
                      new CustomStoreProduct(sku, ProductType.Consumable, idDictionary));
             }
 
-            // Todo Your Implementation: Determine initialization pass/fail
+            // Todo Your Implementation: Determine initialization Success/Failure
+            // Success
             OnInitialized();
-            
-            //or
-            
-            //OnInitializeFailed("tbd error");
+            // or Failure
+            // OnInitializeFailed("tbd error");
             
          });
 
@@ -69,7 +69,7 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
       /// </summary>
       public string GetLocalizedPrice(string skuSymbol)
       {
-         Debug.LogError($"GetLocalizedPrice() skuSymbol = {skuSymbol}");
+         Debug.Log($"CustomPurchaser.GetLocalizedPrice() skuSymbol = {skuSymbol}");
          
          var product = _customStoreProducts.FirstOrDefault(
                p => p.SKU.name == skuSymbol);
@@ -87,7 +87,7 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
       /// <returns>Promise containing completed transaction.</returns>
       public Promise<CompletedTransaction> StartPurchase(string listingSymbol, string skuSymbol)
       {
-         Debug.LogError($"StartPurchase() skuSymbol = {skuSymbol}");
+         Debug.Log($"CustomPurchaser.StartPurchase() skuSymbol = {skuSymbol}");
          
          _transactionId = 0;
          var completedTransactionPromise = new Promise<CompletedTransaction>();
@@ -111,16 +111,13 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
             
          }).Error(err =>
          {
-            Debug.LogError($"OnBeginPurchaseError() error = {err}");
+            Debug.LogError($"CustomPurchaser.OnBeginPurchaseError() error = {err}");
             _onBeginPurchaseError?.Invoke(err as ErrorCode);
          });
 
          return completedTransactionPromise;
       }
-
       #endregion
-
-
 
       
       /// <summary>
@@ -130,7 +127,7 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
       /// <returns></returns>
       public ProcessingResult ProcessPurchase(CustomStoreProduct product)
       {
-         Debug.Log($"ProcessPurchase() product = {product}");
+         Debug.Log($"CustomPurchaser.ProcessPurchase() product = {product}");
          
          string rawReceipt;
          if (product.HasReceipt)
@@ -157,14 +154,15 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
          return ProcessingResult.Pending;
       }
 
+      
       /// <summary>
-      /// Handle a purchase failure event from Unity IAP.
+      /// Handle a purchase failure event from IAP.
       /// </summary>
       /// <param name="product">The product whose purchase was attempted</param>
       /// <param name="failureReason">Information about why the purchase failed</param>
       public void OnPurchaseFailed(CustomStoreProduct product, string failureReason)
       {
-         Debug.LogError($"OnPurchaseFailed() product = {product.SKU.name}");
+         Debug.LogError($"CustomPurchaser.OnPurchaseFailed() product = {product.SKU.name}");
          
          // Todo Your Implementation: Setup custom reasons...
          if (failureReason == "tbdSomeReason")
@@ -189,12 +187,13 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
          ClearCallbacks();
       }
 
+      
       /// <summary>
       /// Initiate transaction restoration if needed.
       /// </summary>
       public void RestorePurchases()
       {
-         Debug.Log($"RestorePurchases() platform = {Application.platform}");
+         Debug.Log($"CustomPurchaser.RestorePurchases() platform = {Application.platform}");
          
          if (Application.platform == RuntimePlatform.IPhonePlayer ||
              Application.platform == RuntimePlatform.OSXPlayer)
@@ -207,9 +206,10 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
          }
       }
       
+      
       /// <summary>
       /// Fulfill a completed transaction by completing the purchase in the
-      /// payments service and informing Unity IAP of completion.
+      /// payments service and informing IAP completion.
       /// </summary>
       /// <param name="transaction"></param>
       /// <param name="product"></param>
@@ -218,7 +218,7 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
       {
          base.FulfillTransaction(transaction, product);
          
-         Debug.Log($"FulfillTransaction() SKUSymbol = {transaction.SKUSymbol}");
+         Debug.Log($"CustomPurchaser.FulfillTransaction() SKUSymbol = {transaction.SKUSymbol}");
          
          _paymentService.CompletePurchase(transaction).Then(_ =>
          {
@@ -227,7 +227,7 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
             ClearCallbacks();
          }).Error(ex =>
          {
-            Debug.Log($"error = {ex.Message}");
+            Debug.LogError($"error = {ex.Message}");
             var errorCode = ex as ErrorCode;
 
             if (errorCode == null)
@@ -250,30 +250,35 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
          });
       }
       
-      //  Event Handlers  -------------------------------
       
+      //  Event Handlers  -------------------------------
       private void OnInitialized()
       {
-         Debug.Log($"OnInitialized() count = {_customStoreProducts.Count}");
-         
+         Debug.Log($"CustomPurchaser.OnInitialized() count = {_customStoreProducts.Count}");
          RestorePurchases();
          _initializePromise.CompleteSuccess(PromiseBase.Unit);
+         
+         // Todo Your Implementation: Handle success
       }
 
+      
       private void OnInitializeFailed(string error)
       {
-         Debug.Log($"OnInitializeFailed() error = {error}");
+         Debug.LogError($"CustomPurchaser.OnInitializeFailed() error = {error}");
+         _initializePromise.CompleteError(new Exception(error));
          
-         // Todo Your Implementation: handle failure
+         // Todo Your Implementation: Handle failure
       }
+      
       
       private void PaymentService_OnBeginPurchase(string skuSymbol, long transactionId)
       {
          Debug.Log($"OnBeginPurchase() skuSymbol = {skuSymbol}, " +
                    $"transactionId = {transactionId}");
          
-         // Todo Your Implementation: implement purchase
+         // Todo Your Implementation: Implement purchase
       }
+      
       
       private void PaymentService_OnCompletePurchase(CustomStoreProduct product)
       {

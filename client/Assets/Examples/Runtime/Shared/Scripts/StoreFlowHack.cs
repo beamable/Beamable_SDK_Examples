@@ -3,10 +3,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace Beamable.Examples.Shared
-{
+{ 
     /// <summary>
     /// Move the <see cref="StoreFlow"/> fully onscreen
     /// so the buy button can take user input.
+    ///
+    /// Note: This is a temporary HACK.
+    /// 
     /// </summary>
     public class StoreFlowHack : MonoBehaviour
     {
@@ -48,12 +51,6 @@ namespace Beamable.Examples.Shared
             float x = child.GetComponent<RectTransform>().localPosition.x;
             child.GetComponent<RectTransform>().localPosition = new Vector3(x, -50);
 
-            // Click the button via C#
-            Button button = child.GetComponentInChildren<Button>();
-            button.onClick.Invoke();
-
         }
-        
-        //  Event Handlers  -------------------------------
     }
 }

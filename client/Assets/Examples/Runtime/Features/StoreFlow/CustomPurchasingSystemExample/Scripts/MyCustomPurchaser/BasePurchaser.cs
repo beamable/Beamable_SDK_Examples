@@ -7,7 +7,7 @@ using Beamable.Service;
 using Beamable.Spew;
 using UnityEngine;
 
-namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
+namespace Beamable.Examples.Features.StoreFlow.MyCustomPurchaser
 {
    //  Supporting Types  -----------------------------
    // Todo Your Implementation: Set your own receipt...
@@ -33,27 +33,27 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
       NonConsumable,
       Subscription
    }
-   
+
    /// <summary>
    /// Implementation of base for custom Beamable purchasing.
    /// </summary>
-   public class BasePurchaser 
+   public class BasePurchaser
    {
       //  Events  ---------------------------------------
       protected Action<CompletedTransaction> _onBeginPurchaseSuccess;
       protected Action<ErrorCode> _onBeginPurchaseError;
       protected Action _onBeginPurchaseCancelled;
-      
+
       //  Constants  ------------------------------------
-      private static readonly int[] RetryDelays = { 1, 2, 5, 10, 20 }; 
+      private static readonly int[] RetryDelays = {1, 2, 5, 10, 20};
       protected const string AppleAppStore = "AppleAppStore";
       protected const string GooglePlay = "GooglePlay";
-      
+
       //  Fields  ---------------------------------------
       protected long _transactionId = 0;
       protected readonly Promise<Unit> _initializePromise = new Promise<Unit>();
       protected PaymentService _paymentService = null;
-      
+
       //  Methods  --------------------------------------
       public virtual Promise<Unit> Initialize()
       {
@@ -61,7 +61,7 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
 
          return _initializePromise;
       }
-      
+
       /// <summary>
       /// Determines if <see cref="ErrorCode"/> can be retried again
       /// </summary>
@@ -70,9 +70,9 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
       protected bool IsRetryable(ErrorCode errorCode)
       {
          // Server error or rate limiting or network error
-         return errorCode.Code >= 500 || errorCode.Code == 429 || errorCode.Code == 0;   
+         return errorCode.Code >= 500 || errorCode.Code == 429 || errorCode.Code == 0;
       }
-      
+
       /// <summary>
       /// Clear all the callbacks and zero out the transaction ID.
       /// </summary>
@@ -83,20 +83,21 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
          _onBeginPurchaseCancelled = null;
          _transactionId = 0;
       }
-      
+
       /// <summary>
       /// If fulfillment failed, retry fulfillment with a backoff, as a coroutine.
       /// </summary>
       /// <param name="transaction"></param>
       /// <param name="purchasedCustomStoreProduct"></param>
       /// <returns></returns>
-      protected IEnumerator RetryTransaction(CompletedTransaction transaction, 
+      protected IEnumerator RetryTransaction(CompletedTransaction transaction,
          CustomStoreProduct purchasedCustomStoreProduct)
       {
          // This block should only be hit when the error returned from the request is retryable. This lives down here
          // because C# doesn't allow you to yield return from inside a try..catch block.
          var waitTime = RetryDelays[Math.Min(transaction.Retries, RetryDelays.Length - 1)];
-         InAppPurchaseLogger.Log($"Got a retryable error from platform. Retrying complete purchase request in {waitTime} seconds.");
+         InAppPurchaseLogger.Log(
+            $"Got a retryable error from platform. Retrying complete purchase request in {waitTime} seconds.");
 
          // Avoid incrementing the backoff if the device is definitely not connected to the network at all.
          // This is narrow, and would still increment if the device is connected, but the internet has other problems
@@ -122,6 +123,6 @@ namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
       {
          // Todo Your Implementation: Override this by subclass and implement
       }
-
+   }
 
 }

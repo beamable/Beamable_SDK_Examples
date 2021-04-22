@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Beamable.Api.Payments;
 
-namespace Beamable.Examples.Features.StoreFlow.MyCustomStore
+namespace Beamable.Examples.Features.StoreFlow.MyCustomPurchaser
 {
    /// <summary>
    /// Implementation of custom store product for Beamable purchasing.
