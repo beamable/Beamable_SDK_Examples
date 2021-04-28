@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _examplePanelUIs:
-  - {fileID: 348024729123318449}
+  - {fileID: 9030621481568498778}
   - {fileID: 348024730337822312}
   - {fileID: 348024728865382346}
   _eventsServiceExample: {fileID: 0}
@@ -507,9 +507,9 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 667589776031254109}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &348024729123318449 stripped
+--- !u!114 &9030621481568498778 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 979444927697317100, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
+  m_CorrespondingSourceObject: {fileID: 8363456333921415687, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
     type: 3}
   m_PrefabInstance: {fileID: 667589776031254109}
   m_PrefabAsset: {fileID: 0}
