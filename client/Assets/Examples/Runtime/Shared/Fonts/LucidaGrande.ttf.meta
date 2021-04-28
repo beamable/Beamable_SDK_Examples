@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 3a7643deb56c4194abbe1ef075e1a57e
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Lucida Grande
+  fontNames:
+  - Lucida Grande
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: d5c2fddbcc8372c45883044aa25ddbaf, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
