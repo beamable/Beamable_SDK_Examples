@@ -44,10 +44,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 979444925891811828, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 979444925891811828, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 979444925891811829, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
         type: 3}
       propertyPath: m_fontSize
-      value: 25.8
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 979444925954997316, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
         type: 3}
@@ -377,7 +387,7 @@ PrefabInstance:
     - target: {fileID: 979444927260294313, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
         type: 3}
       propertyPath: m_PreferredWidth
-      value: 1000
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 979444927401929215, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
         type: 3}
@@ -497,17 +507,37 @@ PrefabInstance:
     - target: {fileID: 979444927731364148, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
         type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 979444927874618312, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 979444927874618312, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
+        type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 979444927874618313, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
         type: 3}
       propertyPath: m_fontSize
-      value: 25.8
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 979444927891156068, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 979444927891156068, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 979444927891156069, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
         type: 3}
       propertyPath: m_fontSize
-      value: 25.8
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 979444927945072576, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
         type: 3}

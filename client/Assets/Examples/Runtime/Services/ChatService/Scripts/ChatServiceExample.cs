@@ -170,7 +170,7 @@ namespace Beamable.Examples.Labs.ChatService
             
             // Create new mock message 
             int messageIndex = _data.RoomMessages.Count;
-            _data.MessageToSend = $"Hello World {messageIndex:000}!";
+            _data.MessageToSend = $"Hello {messageIndex:000}!";
             
             // Create new mock group name
             int groupIndex = _data.RoomNames.Count;
