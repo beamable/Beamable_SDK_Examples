@@ -20,10 +20,14 @@ MonoBehaviour:
   phases:
   - name: Phase 01
     durationMinutes: 5259492
-    rules: []
+    rules:
+    - rule: IsFunExampleRepo
+      value: true
   - name: Phase 02
     durationMinutes: 5259492
-    rules: []
+    rules:
+    - rule: IsCoolExampleRepo
+      value: true
   scoreRewards:
   - min: 10
     max:

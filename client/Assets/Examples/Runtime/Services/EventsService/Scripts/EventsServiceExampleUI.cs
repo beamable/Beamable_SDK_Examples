@@ -93,13 +93,13 @@ namespace Beamable.Examples.Services.EventsService
          ClaimsTitleText.text = "Claims";
 
          SetScoreButton.GetComponentInChildren<TMP_Text>().text = 
-            $"SetScore\n({eventsServiceExampleData.Score})";
+            $"SetScore\nTo {eventsServiceExampleData.Score}";
          
          ClaimButton.GetComponentInChildren<TMP_Text>().text = 
-            $"Claim";
+            $"Attemp\nClaim";
          
          RefreshButton.GetComponentInChildren<TMP_Text>().text = 
-            $"Refresh";
+            $"Refresh\nUI";
       }
    }
 }

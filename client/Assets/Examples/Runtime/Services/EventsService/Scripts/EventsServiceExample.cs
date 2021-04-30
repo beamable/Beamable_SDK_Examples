@@ -60,16 +60,24 @@ namespace Beamable.Examples.Services.EventsService
             foreach (EventView eventView in eventsGetResponse.running)
             {
                index++;
+               string totalPhaseCount = eventView.allPhases.Count.ToString();
+               string totalRulesCount = eventView.currentPhase.rules.Count.ToString();
+               string currentPhase = eventView.currentPhase.name;
                string endTime = $"{eventView.endTime.ToShortDateString()} at " +
                                 $"{eventView.endTime.ToShortTimeString()}";
-               string currentPhase = eventView.currentPhase.name;
-               string rulesCount = eventView.currentPhase.rules.Count.ToString();
+               
+               foreach (var x in eventView.allPhases)
+               {
+                  Debug.Log(x.rules.Count);
+               }
 
                string eventLog = $"Event #{index}" +
-                            $"\n\tname = {eventView.name}" + 
-                            $"\n\tendTime = {endTime}" +
-                            $"\n\tcurrentPhase = {currentPhase}" +
-                            $"\n\trulesCount = {rulesCount}";
+                      $"\n\tname = {eventView.name}" + 
+                      $"\n\tendTime = {endTime}" +
+                      $"\n\ttotalPhaseCount = {totalPhaseCount}" +
+                      $"\n\ttotalRulesCount = {totalRulesCount}" + 
+                      $"\n\tcurrentPhase = {currentPhase}";
+               
                _data.RunningEventsLogs.Add(eventLog);
             }
             Refresh();
@@ -108,12 +116,25 @@ namespace Beamable.Examples.Services.EventsService
          EventsGetResponse eventsGetResponse = await _beamableAPI.EventsService.GetCurrent();
          foreach (EventView eventView in eventsGetResponse.running)
          {
-            bool canClaim = true;
-
+            // The systems supports scoreRewards (redeemable at any time)
+            // and rankRewards (redeemable only at end of phase)
+            // For this example, we'll honor only scoreRewards
+            bool hasClaimableScoreReward = false;
+            foreach (var eventReward in eventView.scoreRewards)
+            {
+               if (eventReward.earned && !eventReward.claimed)
+               {
+                  Debug.Log($"ClaimableScore. min = {eventReward.min}, " +
+                            $"max = {eventReward.max}");
+                  
+                  hasClaimableScoreReward = true;
+               }
+            }
+            
+            bool canClaim = hasClaimableScoreReward;
+            string claim = "";
             if (canClaim)
             {
-               string claim = "";
-
                // Claim() fails if there is nothing to be claimed
                try
                {
@@ -126,17 +147,19 @@ namespace Beamable.Examples.Services.EventsService
                catch (Exception e)
                {
                   claim += $"Claim() Failed" +
+                           $"\n\tname = {eventView.name}" +
                            $"\n\terror = {e.Message}";
                }
-            
-               _data.ClaimLogs.Add(claim);
             }
             else
             {
-               string claim = $"Claim() not called." +
-                            $"\n\tcanClaim= {canClaim}";
-               _data.ClaimLogs.Add(claim);
+               claim += $"Claim() not called." +
+                        $"\n\tname = {eventView.name}";
             }
+            
+            claim += $"\n\tcanClaim= {canClaim}" +
+                     $"\n\thasClaimableScoreReward = {hasClaimableScoreReward}";
+            _data.ClaimLogs.Add(claim);
      
          }
          Refresh();
