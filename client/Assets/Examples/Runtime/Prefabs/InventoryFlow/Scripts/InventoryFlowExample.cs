@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Beamable.Examples.Features.InventoryFlow
+namespace Beamable.Examples.Prefabs.InventoryFlow
 {
     /// <summary>
     /// Demonstrates <see cref="InventoryFlow"/>.
