@@ -96,7 +96,7 @@ namespace Beamable.Examples.Services.EventsService
             $"SetScore\nTo {eventsServiceExampleData.Score}";
          
          ClaimButton.GetComponentInChildren<TMP_Text>().text = 
-            $"Attemp\nClaim";
+            $"Attempt\nClaim";
          
          RefreshButton.GetComponentInChildren<TMP_Text>().text = 
             $"Refresh\nUI";
