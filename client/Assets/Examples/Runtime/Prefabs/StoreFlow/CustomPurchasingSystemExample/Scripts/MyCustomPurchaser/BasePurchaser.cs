@@ -7,7 +7,7 @@ using Beamable.Service;
 using Beamable.Spew;
 using UnityEngine;
 
-namespace Beamable.Examples.Features.StoreFlow.MyCustomPurchaser
+namespace Beamable.Examples.Prefabs.StoreFlow.MyCustomPurchaser
 {
    //  Supporting Types  -----------------------------
    // Todo Your Implementation: Set your own receipt...

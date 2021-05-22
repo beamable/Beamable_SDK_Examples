@@ -1,7 +1,7 @@
 using Beamable.Api.Payments;
 using Beamable.Service;
 
-namespace Beamable.Examples.Features.StoreFlow.MyCustomPurchaser
+namespace Beamable.Examples.Prefabs.StoreFlow.MyCustomPurchaser
 {
    /// <summary>
    /// Beamable <see cref="IServiceResolver{IBeamablePurchaser}"/> for

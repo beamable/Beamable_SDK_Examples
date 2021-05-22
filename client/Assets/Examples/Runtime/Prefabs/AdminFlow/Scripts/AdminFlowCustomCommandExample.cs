@@ -1,7 +1,7 @@
 ﻿using Beamable.ConsoleCommands;
 using UnityEngine;
 
-namespace Beamable.Examples.Features.AdminFlow
+namespace Beamable.Examples.Prefabs.AdminFlow
 {
     [BeamableConsoleCommandProvider]
     public class CustomConsoleCommandProvider 

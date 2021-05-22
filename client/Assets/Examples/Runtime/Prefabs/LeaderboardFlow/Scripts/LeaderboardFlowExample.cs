@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Beamable.Examples.Features.LeaderboardFlow
+namespace Beamable.Examples.Prefabs.LeaderboardFlow
 {
     /// <summary>
     /// Demonstrates <see cref="LeaderboardFlow"/>.

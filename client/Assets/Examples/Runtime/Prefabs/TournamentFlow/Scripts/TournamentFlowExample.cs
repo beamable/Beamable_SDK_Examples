@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Beamable.Examples.Features.TournamentFlow
+namespace Beamable.Examples.Prefabs.TournamentFlow
 {
     /// <summary>
     /// Demonstrates <see cref="TournamentFlow"/>.

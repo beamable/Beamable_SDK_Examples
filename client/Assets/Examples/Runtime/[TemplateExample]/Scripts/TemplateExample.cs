@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Beamable.Examples.Features.XXX
+namespace Beamable.Examples.Prefabs.XXX
 {
     /// <summary>
     /// Demonstrates <see cref="Example"/>.
