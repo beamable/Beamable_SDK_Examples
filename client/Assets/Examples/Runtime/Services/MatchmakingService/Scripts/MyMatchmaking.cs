@@ -95,7 +95,9 @@ namespace Beamable.Examples.Services.MatchmakingService
          {
             _matchmakingOngoing = new CancellationTokenSource();
             var token = _matchmakingOngoing.Token;
-            while (!handle.Status.GameStarted)
+
+            Debug.Log("handle.Status.MinPlayersReached: " + handle.Status.MinPlayersReached);
+            do
             {
                if (token.IsCancellationRequested) return;
 
@@ -104,7 +106,7 @@ namespace Beamable.Examples.Services.MatchmakingService
                _myMatchmakingResult.RoomId = handle.Status.GameId;
                OnProgress?.Invoke(_myMatchmakingResult);
                await Task.Delay(1000, token);
-            }
+            } while (!handle.Status.MinPlayersReached);
          }
          finally
          {

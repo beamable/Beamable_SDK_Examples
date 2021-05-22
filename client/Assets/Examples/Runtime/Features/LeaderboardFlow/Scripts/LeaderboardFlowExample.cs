@@ -15,8 +15,6 @@ namespace Beamable.Examples.Features.LeaderboardFlow
                       " * See UI representing leaderboard on-screen\n" +
                       " * No leaderboard items shown? That's ok. Run the LeaderboardServiceExample.unity first");
         }
-
-        //  Methods  --------------------------------------
     }
 }
 

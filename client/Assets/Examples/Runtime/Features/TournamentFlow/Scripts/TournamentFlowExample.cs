@@ -13,20 +13,9 @@ namespace Beamable.Examples.Features.TournamentFlow
 
         protected void Start()
         {
-            Debug.Log("Start()");
-
-            SetupBeamable();
+            Debug.Log($"Start() Instructions...\n" +
+                      " * Run The Scene\n" +
+                      " * See UI representing tournament on-screen\n");
         }
-        
-        //  Methods  --------------------------------------
-        private async void SetupBeamable()
-        {
-            var beamableAPI = await Beamable.API.Instance;
-
-            Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
-        }
-        
-        
-        //  Event Handlers  -------------------------------
     }
 }
