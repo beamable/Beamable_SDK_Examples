@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Beamable.Examples.LearningFundamentals
+namespace Beamable.Examples.LearningFundamentals.AsynchronousProgramming
 {
     /// <summary>
     /// Demonstrates asynchronous programming.
