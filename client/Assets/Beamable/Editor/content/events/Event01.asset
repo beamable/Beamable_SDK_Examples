@@ -61,7 +61,7 @@ MonoBehaviour:
   stores: []
   groupRewards:
     scoreRewards:
-    - min: 0
+    - min: 15
       max:
         HasValue: 0
         Value: 0
@@ -69,7 +69,13 @@ MonoBehaviour:
         HasValue: 0
         Value: []
       items:
-        HasValue: 0
-        Value: []
+        HasValue: 1
+        Value:
+        - id: items.RewardItem02
+          properties:
+            HasValue: 0
+            Value:
+              keys: []
+              values: []
   permissions:
     writeSelf: 1

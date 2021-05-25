@@ -18,7 +18,7 @@ namespace Beamable.Examples.Services.EventsService
       private TMP_Text MenuTitleText { get { return TitleText01; }}
       private Button SetScoreButton { get { return Button01;}}
       private Button ClaimButton { get { return Button02;}}
-      private Button RefreshButton { get { return Button03;}}
+      private Button ResetUserProgressButton { get { return Button03;}}
       
       // Events Panel
       private TMP_Text EventsTitleText { get { return TitleText02; }}
@@ -34,11 +34,12 @@ namespace Beamable.Examples.Services.EventsService
          _eventsServiceExample.OnRefreshed.AddListener(EventsServiceExample_OnRefreshed);
          SetScoreButton.onClick.AddListener(SetScoreButton_OnClicked);
          ClaimButton.onClick.AddListener(ClaimButton_OnClicked);
-         RefreshButton.onClick.AddListener(RefreshButton_OnClicked);
+         ResetUserProgressButton.onClick.AddListener(ResetUserProgressButton_OnClicked);
          
          // Populate default UI
-         RefreshButton_OnClicked();
+         _eventsServiceExample.Refresh();
       }
+      
       
       //  Event Handlers  -------------------------------
       private void SetScoreButton_OnClicked()
@@ -46,15 +47,18 @@ namespace Beamable.Examples.Services.EventsService
          _eventsServiceExample.SetScoreInEvents();
       }
 
+      
       private void ClaimButton_OnClicked()
       {
          _eventsServiceExample.ClaimRewardsInEvents();
       }
 
-      private void RefreshButton_OnClicked()
+      
+      private void ResetUserProgressButton_OnClicked()
       {
-         _eventsServiceExample.Refresh();
+         _eventsServiceExample.ResetUserProgress();
       }
+      
       
       private void EventsServiceExample_OnRefreshed(EventsServiceExampleData 
          eventsServiceExampleData)
@@ -72,15 +76,16 @@ namespace Beamable.Examples.Services.EventsService
          
          // Show UI: Scores
          stringBuilder02.AppendLine();
-         stringBuilder02.Append("SCORES").AppendLine();
+         stringBuilder02.Append("SCORES").AppendLine().AppendLine();
          foreach (string setScoreLog in eventsServiceExampleData.SetScoreLogs)
          {
             stringBuilder02.Append(setScoreLog).AppendLine();
          }
+         stringBuilder02.AppendLine();
          
          // Show UI: Claims
          stringBuilder02.AppendLine();
-         stringBuilder02.Append("CLAIMS").AppendLine();
+         stringBuilder02.Append("CLAIMS").AppendLine().AppendLine();
          foreach (string claimLog in eventsServiceExampleData.ClaimLogs)
          {
             stringBuilder02.Append(claimLog).AppendLine();
@@ -88,18 +93,20 @@ namespace Beamable.Examples.Services.EventsService
          ClaimsBodyText.text = stringBuilder02.ToString();
 
          // Show UI: Other
+         SetScoreButton.interactable = eventsServiceExampleData.SetScoreButtonIsInteractable;
          MenuTitleText.text = "EventsService Example";
          EventsTitleText.text = "Events";
          ClaimsTitleText.text = "Claims";
 
+         double nextScore = eventsServiceExampleData.Score + 1;
          SetScoreButton.GetComponentInChildren<TMP_Text>().text = 
-            $"SetScore\nTo {eventsServiceExampleData.Score}";
+            $"SetScore\nTo {nextScore}";
          
          ClaimButton.GetComponentInChildren<TMP_Text>().text = 
             $"Attempt\nClaim";
          
-         RefreshButton.GetComponentInChildren<TMP_Text>().text = 
-            $"Refresh\nUI";
+         ResetUserProgressButton.GetComponentInChildren<TMP_Text>().text = 
+            $"Reset\nUser Progress";
       }
    }
 }
