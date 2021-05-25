@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Beamable.Common;
 using Beamable.Common.Api.Events;
 using UnityEngine;
@@ -62,6 +63,7 @@ namespace Beamable.Examples.Services.EventsService
                index++;
                string totalPhaseCount = eventView.allPhases.Count.ToString();
                string totalRulesCount = eventView.currentPhase.rules.Count.ToString();
+               string score = eventView.score.ToString();
                string currentPhase = eventView.currentPhase.name;
                string endTime = $"{eventView.endTime.ToShortDateString()} at " +
                                 $"{eventView.endTime.ToShortTimeString()}";
@@ -76,7 +78,8 @@ namespace Beamable.Examples.Services.EventsService
                       $"\n\tendTime = {endTime}" +
                       $"\n\ttotalPhaseCount = {totalPhaseCount}" +
                       $"\n\ttotalRulesCount = {totalRulesCount}" + 
-                      $"\n\tcurrentPhase = {currentPhase}";
+                      $"\n\tcurrentPhase = {currentPhase}" +
+                      $"\n\tscore = {score}";
                
                _data.RunningEventsLogs.Add(eventLog);
             }
@@ -110,6 +113,10 @@ namespace Beamable.Examples.Services.EventsService
       public async void ClaimRewardsInEvents()
       {
          _data.ClaimLogs.Clear();
+         
+         //HACK: Force refresh here (0.10.1), wait for refresh to complete (arbitrary 1s)
+         _beamableAPI.EventsService.Subscribable.ForceRefresh();
+         await Task.Delay(1000);
          
          // Claim() in **ALL** events.
          // Typical usage is to Claim() in just one event.

@@ -24,6 +24,9 @@ MonoBehaviour:
     HasValue: 0
     Value: 
   attachments: []
+  statRequirements:
+    HasValue: 0
+    Value: []
   clientData:
     HasValue: 0
     Value:

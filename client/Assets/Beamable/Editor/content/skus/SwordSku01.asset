@@ -16,5 +16,14 @@ MonoBehaviour:
   description: The Sword
   realPrice: 1
   productIds:
-    googleplay: the.sword.googleplay
-    itunes: the.sword.itunes
+    itunes:
+      HasValue: 1
+      Value: the.sword.itunes
+    googleplay:
+      HasValue: 1
+      Value: the.sword.googleplay
+    steam:
+      HasValue: 0
+      Value: 0
+    googleplay_legacy: 
+    itunes_legacy: 

@@ -59,5 +59,17 @@ MonoBehaviour:
             keys: []
             values: []
   stores: []
+  groupRewards:
+    scoreRewards:
+    - min: 0
+      max:
+        HasValue: 0
+        Value: 0
+      currencies:
+        HasValue: 0
+        Value: []
+      items:
+        HasValue: 0
+        Value: []
   permissions:
     writeSelf: 1
