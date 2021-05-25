@@ -39,21 +39,20 @@ namespace Beamable.Examples.Services.CloudSavingService
       
       _cloudSavingService = _beamableAPI.CloudSavingService;
       
-      // Init the service, which will first download content
-      // that the server may have, that the client does not.
-      // The client will then upload any content that it has,
-      // that the server is missing
-      await _cloudSavingService.Init();
-      
       // Subscribe to the UpdatedReceived event to call
       // your own custom code when data on disk does not
       // yet exist and is pulled from the server
       _cloudSavingService.UpdateReceived += 
         CloudSavingService_OnUpdateReceived;
       
+      // Init the service, which will first download content
+      // that the server may have, that the client does not.
+      // The client will then upload any content that it has,
+      // that the server is missing
+      await _cloudSavingService.Init();
+      
       // Gets the cloud data manifest (ManifestResponse) OR
-      // creates an empty manifest if the user has no
-      // cloud data 
+      // creates an empty manifest if the user has no cloud data 
       await _cloudSavingService.EnsureRemoteManifest();
       
       // Resets the local cloud data to match the server cloud
