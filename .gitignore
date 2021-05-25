@@ -8,6 +8,7 @@
 /client/[Tt]emp/
 /client/[Oo]bj/
 /client/[Ll]ogs/
+/client/UserSettings/
 /[Bb]uild/
 /[Bb]uilds/
 /[Mm]emoryCaptures/
@@ -71,3 +72,4 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
+
