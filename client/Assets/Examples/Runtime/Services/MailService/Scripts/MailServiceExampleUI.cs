@@ -16,9 +16,9 @@ namespace Beamable.Examples.Services.MailService
 
       // Menu Panel
       private TMP_Text MenuTitleText { get { return TitleText01; }}
-      private Button SendMailMessageButton { get { return Button01;}}
-      private Button UpdateMailMessagesButton { get { return Button02;}}
-      private Button RefreshButton { get { return Button03;}}
+      private Button UpdateMailMessagesButton { get { return Button01;}}
+      private Button RefreshButton { get { return Button02;}}
+      private Button ResetUserProgressButton { get { return Button03;}}
       
       // Events Panel
       private TMP_Text OverviewTitleText { get { return TitleText02; }}
@@ -32,67 +32,60 @@ namespace Beamable.Examples.Services.MailService
       protected void Start()
       {
          _mailServiceExample.OnRefreshed.AddListener(EventsServiceExample_OnRefreshed);
-         SendMailMessageButton.onClick.AddListener(SendMailMessageButton_OnClicked);
          UpdateMailMessagesButton.onClick.AddListener(UpdateMailMessagesButton_OnClicked);
-         RefreshButton.onClick.AddListener(RefreshButton_OnClicked);
+         ResetUserProgressButton.onClick.AddListener(ResetUserProgressButton_OnClicked);
          
-         // Populate default UI
-         RefreshButton_OnClicked();
+         RefreshButton.onClick.AddListener(RefreshButton_OnClicked);
       }
       
       //  Event Handlers  -------------------------------
-      private void SendMailMessageButton_OnClicked()
-      {
-         _mailServiceExample.SendMailMessage();
-      }
 
       private void UpdateMailMessagesButton_OnClicked()
       {
          _mailServiceExample.UpdateMail();
       }
 
+      
       private void RefreshButton_OnClicked()
       {
          _mailServiceExample.Refresh();
       }
       
+      private void ResetUserProgressButton_OnClicked()
+      {
+         _mailServiceExample.ResetUserProgress();
+      }
+      
+      
       private void EventsServiceExample_OnRefreshed(MailServiceExampleData 
          mailServiceExampleData)
       {
-         StringBuilder overviewStringBuilder = new StringBuilder();
          
          // Show UI: Overview
-         overviewStringBuilder.Append("UNREAD MAIL").AppendLine();
+         StringBuilder overviewStringBuilder = new StringBuilder();
+         overviewStringBuilder.Append("UNREAD MAIL").AppendLine().AppendLine();
          foreach (string unreadMailLog in mailServiceExampleData.UnreadMailLogs)
          {
-            overviewStringBuilder.Append(unreadMailLog).AppendLine();
+            overviewStringBuilder.Append("\t" + unreadMailLog).AppendLine();
          }
          
          // Show UI: Updates
          overviewStringBuilder.AppendLine();
-         overviewStringBuilder.Append("UPDATE MAIL").AppendLine();
+         overviewStringBuilder.Append("UPDATE MAIL").AppendLine().AppendLine();
          foreach (string updateMailLog in mailServiceExampleData.UpdateMailLogs)
          {
-            overviewStringBuilder.Append(updateMailLog).AppendLine();
+            overviewStringBuilder.Append("\t" + updateMailLog).AppendLine();
          }
-         
-         // Show UI: Send
-         overviewStringBuilder.AppendLine();
-         overviewStringBuilder.Append("SEND MAIL").AppendLine();
-         foreach (string sendMailMessageLog in mailServiceExampleData.SendMailMessageLogs)
-         {
-            overviewStringBuilder.Append(sendMailMessageLog).AppendLine();
-         }
-         
          OverviewBodyText.text = overviewStringBuilder.ToString();
-         StringBuilder mailMessagesStringBuilder = new StringBuilder();
+         
          
          // Show UI: Messages
+         StringBuilder mailMessagesStringBuilder = new StringBuilder();
          mailMessagesStringBuilder.AppendLine();
-         mailMessagesStringBuilder.Append("MAIL MESSAGES").AppendLine();
+         mailMessagesStringBuilder.Append("MAIL MESSAGES").AppendLine().AppendLine();
          foreach (string mailMessageLog in mailServiceExampleData.MailMessageLogs)
          {
-            mailMessagesStringBuilder.Append(mailMessageLog).AppendLine();
+            mailMessagesStringBuilder.Append("\t" + mailMessageLog).AppendLine();
          }
          MailMessagesBodyText.text = mailMessagesStringBuilder.ToString();
 
@@ -101,15 +94,14 @@ namespace Beamable.Examples.Services.MailService
          OverviewTitleText.text = "Overview";
          MailMessagesTitleText.text = "Mail";
 
-         int nextMailIndex = mailServiceExampleData.MailMessageLogs.Count + 1;
-         SendMailMessageButton.GetComponentInChildren<TMP_Text>().text = 
-            $"Send Mail\n#{nextMailIndex}";
-
          UpdateMailMessagesButton.GetComponentInChildren<TMP_Text>().text =
             $"Update\nMail";
          
          RefreshButton.GetComponentInChildren<TMP_Text>().text = 
             $"Refresh\nUI";
+         
+         ResetUserProgressButton.GetComponentInChildren<TMP_Text>().text = 
+            $"Reset\nUser Progress";
       }
    }
 }
