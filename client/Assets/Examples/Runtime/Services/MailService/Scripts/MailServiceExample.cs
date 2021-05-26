@@ -48,13 +48,13 @@ namespace Beamable.Examples.Services.MailService
       //  Unity Methods  --------------------------------
       protected void Start()
       {
-         string startLog = $"Start() Instructions...\n" +
-                           $"\n * Play Scene\n\n" +
-                           $"\n * Check for mail using UI. Probably none.\n\n" +
+         string startLog = $"Start() Instructions..." +
+                           $"\n * Play Scene" +
+                           $"\n * Check for mail using UI. Probably none" +
                            $"\n * Stop Scene" +
-                           $"\n * Unity → Window → Beamable → Examples → Send Test Mail To Active User" +
-                           $"\n * Play Scene\n\n" +
-                           $"\n * Check for mail using UI. Probably some.\n\n";
+                           $"\n * Unity → Window → Beamable → Examples → MailService → Send Test Mail To Active User" +
+                           $"\n * Play Scene" +
+                           $"\n * Check for mail using UI. Probably some\n\n";
          
          Debug.Log(startLog);
 
@@ -165,7 +165,7 @@ namespace Beamable.Examples.Services.MailService
       {
          if (Application.isPlaying)
          {
-            Debug.Log ($"SendMailMessage() Failed. Must call at edit-time!");
+            Debug.Log ($"SendMailMessage() Failed. Must call at edit-time.");
             return;
          }
          

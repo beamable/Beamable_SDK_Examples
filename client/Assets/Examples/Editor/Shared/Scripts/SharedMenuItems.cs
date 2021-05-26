@@ -11,7 +11,7 @@ namespace Beamable.Examples.Shared
         //  Fields  ---------------------------------------
         private const int MENU_ITEM_PRIORITY_EXAMPLES = BeamableConstants.MENU_ITEM_PATH_WINDOW_PRIORITY_3;
         private const string MENU_ITEM_PATH_EXAMPLES =  BeamableConstants.MENU_ITEM_PATH_WINDOW_BEAMABLE + "/Examples";
-        private const string MENU_ITEM_PATH_SEND_TEST_MAIL = MENU_ITEM_PATH_EXAMPLES + "/Send Test Mail To Active User";
+        private const string MENU_ITEM_PATH_SEND_TEST_MAIL = MENU_ITEM_PATH_EXAMPLES + "/MailService/Send Test Mail To Active User";
         
         //  Methods  --------------------------------------
         
