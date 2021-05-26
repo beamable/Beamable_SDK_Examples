@@ -199,7 +199,6 @@ namespace Beamable.Examples.Services.MailService
             Debug.Log ($"SendMailMessage() Success!");
          }
       }
-
    }
 }
 
