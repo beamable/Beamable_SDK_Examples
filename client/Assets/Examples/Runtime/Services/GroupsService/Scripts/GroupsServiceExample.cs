@@ -15,13 +15,15 @@ namespace Beamable.Examples.Services.GroupsService
     public class GroupsServiceExampleData
     {
         public List<string> GroupNames = new List<string>();
+        public List<string> GroupPlayerNames = new List<string>();
         public List<string> RoomNames = new List<string>();
-        public List<string> RoomUsernames = new List<string>();
+        public List<string> RoomPlayerNames = new List<string>();
         public List<string> RoomMessages = new List<string>();
         public string GroupToCreateName = "";
-        public string GroupToLeaveName = "";
         public bool IsInGroup = false;
+        public bool IsInRoom = false;
         public string MessageToSend = "";
+      
     }
    
     [System.Serializable]
@@ -61,24 +63,29 @@ namespace Beamable.Examples.Services.GroupsService
             _beamableAPI.GroupsService.Subscribe(async groupsView =>
             {
                 _groupsView = groupsView;
+                _data.IsInGroup = _groupsView.Groups.Count > 0;
+                
+                Debug.Log("GroupsService.Subscribe 1: " + _groupsView.Groups.Count);
+                
                 _data.GroupNames.Clear();
-                
-                _data.IsInGroup = groupsView.Groups.Count > 0;
-                
+                _data.GroupPlayerNames.Clear();
                 foreach(var groupView in groupsView.Groups)
                 {
-                    string groupName = $"Name = {groupView.Group.name}, Members = {groupView.Group.members.Count}";
+                    string groupName = $"Name = {groupView.Group.name}, Players = {groupView.Group.members.Count}";
                     _data.GroupNames.Add(groupName);
 
+                    foreach (var member in groupView.Group.members)
+                    {
+                        string groupPlayerName = $"Name = {member.gamerTag}";
+                        _data.GroupPlayerNames.Add(groupPlayerName);
+                    }
+
                     // Create a new chat room for the group
-                    string roomName = $"Room For Group {groupView.Group.name}";
-                    await _beamableAPI.Experimental.ChatService.CreateRoom(groupName, false,
+                    string roomName = $"Room For {groupView.Group.name}";
+                    await _beamableAPI.Experimental.ChatService.CreateRoom(roomName, false,
                         new List<long> {_beamableAPI.User.id});
                     
-                    // Store, so user can leave if/when desired
-                    _data.GroupToLeaveName = groupView.Group.name;
                 }
-                
                 Refresh();
             });
             
@@ -86,15 +93,25 @@ namespace Beamable.Examples.Services.GroupsService
             _beamableAPI.Experimental.ChatService.Subscribe(chatView =>
             {
                 _chatView = chatView;
+
+                int roomsWithPlayers = 0;
                 _data.RoomNames.Clear();
-                
+                _data.RoomPlayerNames.Clear();
                 foreach(RoomHandle room in chatView.roomHandles)
                 {
                     // Optional: Only setup non-empty rooms
                     if (room.Players.Count > 0)
                     {
+                        roomsWithPlayers++;
+                        
                         string roomName = $"Name = {room.Name}, Players = {room.Players.Count}";
                         _data.RoomNames.Add(roomName);
+
+                        foreach (var roomPlayerDbid in room.Players)
+                        {
+                            string roomPlayerName = $"Player = {roomPlayerDbid}";
+                            _data.RoomPlayerNames.Add(roomPlayerName);
+                        }
 
                         room.Subscribe().Then(_ =>
                         {
@@ -110,6 +127,10 @@ namespace Beamable.Examples.Services.GroupsService
                         });
                     }
                 }
+
+                _data.IsInRoom = roomsWithPlayers > 0;
+                Debug.Log("ChatService.Subscribe 1: " + roomsWithPlayers);
+                
                 Refresh();
             });
         }
@@ -126,7 +147,7 @@ namespace Beamable.Examples.Services.GroupsService
         public async Task<EmptyResponse> CreateGroup ()
         {
             // Leave any existing group
-            await LeaveGroup();
+            await LeaveGroups();
             
             string groupName = _data.GroupToCreateName;
             string groupTag = "t01";
@@ -152,47 +173,73 @@ namespace Beamable.Examples.Services.GroupsService
 
                 // Join new group
                 await _beamableAPI.GroupsService.JoinGroup(createdGroup.id);
-    
             }
-   
+
+            // HACK: Force refresh here (0.10.1)
+            // Wait (arbitrary milliseconds) for refresh to complete 
+            _beamableAPI.GroupsService.Subscribable.ForceRefresh();
+            await Task.Delay(300); 
+            
             Refresh();
 
             return new EmptyResponse();
         }
         
-        public async Task<EmptyResponse> LeaveGroup()
+        public async Task<EmptyResponse> LeaveGroups()
         {
+            // Leave any existing room
+            await LeaveRooms();
+            
+            // Leave any existing groups
             foreach(var group in _groupsView.Groups)
             {
                 var result = await _beamableAPI.GroupsService.LeaveGroup(group.Group.id);
             }
             
+            // HACK: Force refresh here (0.10.1)
+            // Wait (arbitrary milliseconds) for refresh to complete 
+            _beamableAPI.GroupsService.Subscribable.ForceRefresh();
+            await Task.Delay(300); 
+            
             Refresh();
             
+            return new EmptyResponse();
+        }
+        
+        public async Task<EmptyResponse> LeaveRooms()
+        {
+            
+            Debug.Log("_chatView 1: " + _chatView.roomHandles.Count);
+            foreach(var room in _chatView.roomHandles)
+            {
+                var result = await _beamableAPI.Experimental.ChatService.LeaveRoom(room.Id);
+            }
+            
+            Debug.Log("_chatView 2: " + _chatView.roomHandles.Count);
+            
+            _data.RoomMessages.Clear();
+            Refresh();
             return new EmptyResponse();
         }
         
         public void Refresh()
         {
             // Create new mock message 
-            int messageIndex = _data.RoomMessages.Count;
+            int messageIndex = _data.RoomMessages.Count + 1;
             _data.MessageToSend = $"Hello {messageIndex:000}!";
             
             // Create new mock group name
-            int groupIndex = _data.GroupNames.Count;
+            int groupIndex = _data.GroupNames.Count + 1;
             _data.GroupToCreateName = $"Group{groupIndex:000}";
 
-            // Create temp name for pretty UI
-            if (string.IsNullOrEmpty(_data.GroupToLeaveName))
-            {
-                _data.GroupToLeaveName = _data.GroupToCreateName;
-            }
-         
-            Debug.Log($"Refresh()");
-            Debug.Log($"\tGroupNames.Count = {_data.GroupNames.Count}");
-            Debug.Log($"\tRoomNames.Count = {_data.RoomNames.Count}");
-            Debug.Log($"\tUserNames.Count = {_data.RoomUsernames.Count}");
-            Debug.Log($"\tIsInGroup = {_data.IsInGroup}");
+            string refreshLog = $"Refresh() ...\n" +
+                                $"\n * GroupNames.Count = {_data.GroupNames.Count}" +
+                                $"\n * GroupPlayerNames.Count = {_data.GroupPlayerNames.Count}" +
+                                $"\n * RoomNames.Count = {_data.RoomNames.Count}" +
+                                $"\n * RoomUserNames.Count = {_data.RoomPlayerNames.Count}" +
+                                $"\n * IsInGroup = {_data.IsInGroup}" +
+                                $"\n * IsInRoom = {_data.IsInRoom}\n\n";
+            Debug.Log(refreshLog);
             
             // Send relevant data to the UI for rendering
             OnRefreshed?.Invoke(_data);

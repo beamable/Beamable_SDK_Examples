@@ -55,7 +55,7 @@ namespace Beamable.Examples.Services.GroupsService
 
       private async void LeaveGroup_OnClicked()
       {
-         await _groupsServiceExample.LeaveGroup();
+         await _groupsServiceExample.LeaveGroups();
       }
       
       private void GroupsServiceExample_OnRefreshed(GroupsServiceExampleData 
@@ -63,14 +63,23 @@ namespace Beamable.Examples.Services.GroupsService
       {
          // Show UI: Groups
          StringBuilder stringBuilder01 = new StringBuilder();
-         stringBuilder01.Append("GROUPS").AppendLine();
+         stringBuilder01.Append("GROUP NAMES").AppendLine();
          foreach (string groupName in groupsServiceExampleData.GroupNames)
          {
             stringBuilder01.Append($" • {groupName}").AppendLine();
          }
+         
+         // Show UI: Group Players
+         stringBuilder01.AppendLine();
+         stringBuilder01.Append("GROUP PLAYERS").AppendLine();
+         foreach (string groupPlayerName in groupsServiceExampleData.GroupPlayerNames)
+         {
+            stringBuilder01.Append($" • {groupPlayerName}").AppendLine();
+         }
+         
          // Show UI: Rooms
          stringBuilder01.AppendLine();
-         stringBuilder01.Append("ROOMS").AppendLine();
+         stringBuilder01.Append("ROOM NAMES").AppendLine();
          foreach (string setScoreLog in groupsServiceExampleData.RoomNames)
          {
             stringBuilder01.Append($" • {setScoreLog}").AppendLine();
@@ -78,8 +87,8 @@ namespace Beamable.Examples.Services.GroupsService
          
          // Show UI: Users
          stringBuilder01.AppendLine();
-         stringBuilder01.Append("USERS").AppendLine();
-         foreach (string roomUsername in groupsServiceExampleData.RoomUsernames)
+         stringBuilder01.Append("ROOM PLAYERS").AppendLine();
+         foreach (string roomUsername in groupsServiceExampleData.RoomPlayerNames)
          {
             stringBuilder01.Append($" • {roomUsername}").AppendLine();
          }
@@ -102,12 +111,13 @@ namespace Beamable.Examples.Services.GroupsService
             $"Create Group\n({groupsServiceExampleData.GroupToCreateName})";
 
          LeaveGroupButton.GetComponentInChildren<TMP_Text>().text = 
-            $"Leave Group\n({groupsServiceExampleData.GroupToLeaveName})";
+            $"Leave Group";
 
          SendMessageButton.GetComponentInChildren<TMP_Text>().text =
             $"Send Message\n({groupsServiceExampleData.MessageToSend})";
 
          bool isInGroup = groupsServiceExampleData.IsInGroup;
+         SendMessageButton.interactable = groupsServiceExampleData.IsInRoom;
          CreateGroupButton.interactable = !isInGroup;
          LeaveGroupButton.interactable = isInGroup;
 
