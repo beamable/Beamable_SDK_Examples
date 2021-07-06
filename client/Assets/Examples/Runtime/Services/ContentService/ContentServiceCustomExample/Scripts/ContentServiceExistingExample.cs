@@ -14,11 +14,11 @@ namespace Beamable.Examples.Services.ContentService
     public class ContentServiceExistingExample : MonoBehaviour
     {
         //  Fields  ---------------------------------------
-        [SerializeField] private ItemRef _itemRef;
         [SerializeField] private ItemLink _itemLink;
+        [SerializeField] private ItemRef _itemRef;
 
-        private ItemContent _itemContentFromRef = null;
         private ItemContent _itemContentFromLink = null;
+        private ItemContent _itemContentFromRef = null;
         
         //  Unity Methods  --------------------------------
         protected void Start()
@@ -35,18 +35,6 @@ namespace Beamable.Examples.Services.ContentService
       
             Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
             
-            await _itemRef.Resolve()
-                .Then(content =>
-                {
-                    _itemContentFromRef = content; 
-                    Debug.Log($"_itemContentFromRef.Resolve() Success! " +
-                              $"Id = {_itemContentFromRef.Id}");
-                    
-                }).Error(ex =>
-                {
-                    Debug.LogError($"_itemContentFromRef.Resolve() Error!"); 
-                });
-            
             await _itemLink.Resolve()
                 .Then(content =>
                 {
@@ -57,6 +45,18 @@ namespace Beamable.Examples.Services.ContentService
                 .Error(ex =>
                 {
                     Debug.LogError($"_itemContentFromLink.Resolve() Error!"); 
+                });
+            
+            await _itemRef.Resolve()
+                .Then(content =>
+                {
+                    _itemContentFromRef = content; 
+                    Debug.Log($"_itemContentFromRef.Resolve() Success! " +
+                              $"Id = {_itemContentFromRef.Id}");
+                    
+                }).Error(ex =>
+                {
+                    Debug.LogError($"_itemContentFromRef.Resolve() Error!"); 
                 });
         }
     }

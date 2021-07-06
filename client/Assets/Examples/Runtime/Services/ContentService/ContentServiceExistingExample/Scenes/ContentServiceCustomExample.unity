@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 31994830}
   - component: {fileID: 31994829}
   m_Layer: 0
-  m_Name: ContentServiceExistingExample
+  m_Name: ContentServiceCustomExample
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -153,10 +153,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87bd6e18a2ee54844a11fd3b78dd6466, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemRef:
-    Id: items.Knife01
-  _itemLink:
-    Id: items.Sword01
+  _armorLink:
+    Id: items.armor.HeavyArmor01
+  _armorRef:
+    Id: items.armor.LightArmor01
 --- !u!4 &31994830
 Transform:
   m_ObjectHideFlags: 0
