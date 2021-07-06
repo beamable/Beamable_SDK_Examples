@@ -6,7 +6,7 @@ namespace Beamable.Examples.Services.ContentService
     /// <summary>
     /// Demonstrates <see cref="ContentService"/>.
     /// </summary>
-    public class ContentServiceExample : MonoBehaviour
+    public class ContentServiceExistingExample : MonoBehaviour
     {
         //  Fields  ---------------------------------------
         [SerializeField] private TournamentRef _tournamentRef;
@@ -28,6 +28,8 @@ namespace Beamable.Examples.Services.ContentService
         {
             IBeamableAPI beamableAPI = await Beamable.API.Instance;
       
+            Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
+            
             await _tournamentRef.Resolve()
                 .Then(content =>
                 {
