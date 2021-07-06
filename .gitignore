@@ -12,6 +12,7 @@
 /[Bb]uild/
 /[Bb]uilds/
 /[Mm]emoryCaptures/
+/[Us]User[Ss]ettings/
 # /[Mm]icroservice/ IGNORE THIS LATER #
 
 # Logging
@@ -73,4 +74,3 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
-client/UserSettings/EditorUserSettings.asset
