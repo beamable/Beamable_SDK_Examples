@@ -17,17 +17,19 @@ MonoBehaviour:
   name: Event 01
   startDate: 2020-01-01T12:00:00Z
   partitionSize: 10
+  legacyPhases: []
   phases:
-  - name: Phase 01
-    durationMinutes: 5259492
-    rules:
-    - rule: IsFunExampleRepo
-      value: true
-  - name: Phase 02
-    durationMinutes: 5259492
-    rules:
-    - rule: IsCoolExampleRepo
-      value: true
+    listData:
+    - name: Phase 01
+      durationMinutes: 5259492
+      rules:
+      - rule: IsFunExampleRepo
+        value: true
+    - name: Phase 02
+      durationMinutes: 5259492
+      rules:
+      - rule: IsCoolExampleRepo
+        value: true
   scoreRewards:
   - min: 10
     max:

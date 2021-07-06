@@ -1,19 +1,24 @@
-using Beamable.Common.Tournaments;
+using System;
+using Beamable.Common.Content;
+using Beamable.Common.Inventory;
 using UnityEngine;
 
 namespace Beamable.Examples.Services.ContentService
 {
+    [Serializable]
+    public class ItemLink : ContentLink<ItemContent> {}
+    
     /// <summary>
     /// Demonstrates <see cref="ContentService"/>.
     /// </summary>
     public class ContentServiceExistingExample : MonoBehaviour
     {
         //  Fields  ---------------------------------------
-        [SerializeField] private TournamentRef _tournamentRef;
-        [SerializeField] private TournamentLink _tournamentLink;
+        [SerializeField] private ItemRef _itemRef;
+        [SerializeField] private ItemLink _itemLink;
 
-        private TournamentContent _tournamentContentFromRef = null;
-        private TournamentContent _tournamentContentFromLink = null;
+        private ItemContent _itemContentFromRef = null;
+        private ItemContent _itemContentFromLink = null;
         
         //  Unity Methods  --------------------------------
         protected void Start()
@@ -30,26 +35,28 @@ namespace Beamable.Examples.Services.ContentService
       
             Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
             
-            await _tournamentRef.Resolve()
+            await _itemRef.Resolve()
                 .Then(content =>
                 {
-                    _tournamentContentFromRef = content; 
-                    Debug.Log($"_tournamentRef.Resolve() Success! Id = {_tournamentContentFromRef.Id}");
+                    _itemContentFromRef = content; 
+                    Debug.Log($"_itemContentFromRef.Resolve() Success! " +
+                              $"Id = {_itemContentFromRef.Id}");
                     
                 }).Error(ex =>
                 {
-                    Debug.LogError($"_tournamentRef.Resolve() Error!"); 
+                    Debug.LogError($"_itemContentFromRef.Resolve() Error!"); 
                 });
             
-            await _tournamentLink.Resolve()
+            await _itemLink.Resolve()
                 .Then(content =>
                 {
-                    _tournamentContentFromLink = content; 
-                    Debug.Log($"_tournamentLink.Resolve() Success! Id = {_tournamentContentFromLink.Id}");
+                    _itemContentFromLink = content; 
+                    Debug.Log($"_itemContentFromLink.Resolve() Success! " +
+                              $"Id = {_itemContentFromLink.Id}");
                 })
                 .Error(ex =>
                 {
-                    Debug.LogError($"_tournamentLink.Resolve() Error!"); 
+                    Debug.LogError($"_itemContentFromLink.Resolve() Error!"); 
                 });
         }
     }

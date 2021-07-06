@@ -153,10 +153,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87bd6e18a2ee54844a11fd3b78dd6466, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tournamentRef:
-    Id: tournaments.Tournament01
-  _tournamentLink:
-    Id: tournaments.Tournament01
+  _itemRef:
+    Id: items.Knife01
+  _itemLink:
+    Id: items.Sword01
 --- !u!4 &31994830
 Transform:
   m_ObjectHideFlags: 0
