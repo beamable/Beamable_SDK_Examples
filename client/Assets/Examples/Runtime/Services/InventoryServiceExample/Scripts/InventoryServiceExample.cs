@@ -52,45 +52,31 @@ namespace Beamable.Examples.Services.InventoryService
       }
 
       //  Methods  --------------------------------------
-      private async void SetupBeamable()
-      { 
-         _beamableAPI = await Beamable.API.Instance;
-            
-         Debug.Log($"beamableAPI.User.id = {_beamableAPI.User.id}");
+private async void SetupBeamable()
+{ 
+   _beamableAPI = await Beamable.API.Instance;
+      
+   Debug.Log($"beamableAPI.User.id = {_beamableAPI.User.id}");
 
-         Armor armorToAdd = await _itemToAdd.Resolve();
-         _inventoryServiceExampleData.ItemToAddName = armorToAdd.Name;
+   Armor armorToAdd = await _itemToAdd.Resolve();
+   _inventoryServiceExampleData.ItemToAddName = armorToAdd.Name;
 
-         Armor armorToDelete = await _itemToDelete.Resolve();
-         _inventoryServiceExampleData.ItemToDeleteName = armorToDelete.Name;
-         
-         // All items (Available in game)
-         _beamableAPI.ContentService.Subscribe(clientManifest =>
-         {
-            Debug.Log($"#1. GAME - ContentService, all items count = {clientManifest.entries.Count}");
+   Armor armorToDelete = await _itemToDelete.Resolve();
+   _inventoryServiceExampleData.ItemToDeleteName = armorToDelete.Name;
 
-            _inventoryServiceExampleData.ContentObjectNames.Clear();
-            foreach (ClientContentInfo clientContentInfo in clientManifest.entries)
-            {
-               string contentObjectName = $"{clientContentInfo.contentId})";
-               Debug.Log($"\tcontentObjectName = {contentObjectName}");
-               
-               _inventoryServiceExampleData.ContentObjectNames.Add(contentObjectName);
-            }
+   var beamableAPI = await Beamable.API.Instance;
+      
+   // All items (Available in game)
+   beamableAPI.ContentService.Subscribe(clientManifest =>
+   {
+      Debug.Log($"#1. ContentService, all object count = {clientManifest.entries.Count}");
+   });
 
-            Refresh();
-         });
-
-         // Filtered items (Available in game)
-         _beamableAPI.ContentService.Subscribe(ContentType, clientManifest =>
-         {
-            Debug.Log($"#2. GAME - ContentService, '{ContentType}' items count = {clientManifest.entries.Count}");
-
-            foreach (ClientContentInfo clientContentInfo in clientManifest.entries)
-            {
-               Debug.Log($"\tcontentId = {clientContentInfo.contentId}");
-            }
-         });
+   // Filtered items (Available in game)
+   beamableAPI.ContentService.Subscribe("items", clientManifest =>
+   {
+      Debug.Log($"#2. ContentService, filtered 'items' object count = {clientManifest.entries.Count}");
+   });
          
          // Filtered items (Owned by current player)
          _beamableAPI.InventoryService.Subscribe(ContentType, view =>
