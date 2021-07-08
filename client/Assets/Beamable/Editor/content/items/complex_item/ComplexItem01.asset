@@ -19,9 +19,9 @@ MonoBehaviour:
     m_SubObjectType: 
   clientPermission:
     writeSelf: 0
-  Name: 
-  FavoriteLetters: abcdefg
-  Defense: -10
+  Name: The Complex Item 01
+  FavoriteLetters: abc
+  Defense: 100
   Health:
     HasValue: 0
     Value: 0
