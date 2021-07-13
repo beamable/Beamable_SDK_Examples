@@ -22,11 +22,16 @@ namespace Beamable.Examples.Services.AuthService
       {
          Alias = alias;
          Password = password;
+         Email = email;
+      }
 
-         // Randomize for demo usage
-         Email = Random.Range(10000, 99999) +  email; 
+      // Randomize for demo usage
+      public static string GetMockEmail(string index)
+      {
+         return "blah@blah" + Random.Range(10000, 99999) + "_" + index + ".com";
       }
    }
+   
    
    /// <summary>
    /// Holds data for use in the <see cref="AuthServiceExampleUI"/>.
@@ -38,6 +43,7 @@ namespace Beamable.Examples.Services.AuthService
       public List<string> DetailTexts = new List<string>();
       public bool IsBeamableSetup = false;
    }
+   
    
    [System.Serializable]
    public class AuthServiceExampleExampleEvent : UnityEvent<AuthServiceExampleData> { }
@@ -56,26 +62,38 @@ namespace Beamable.Examples.Services.AuthService
       [HideInInspector]
       public AuthServiceExampleExampleEvent OnRefreshed = new AuthServiceExampleExampleEvent();
       
-      //  Fields  ---------------------------------------
       
+      //  Fields  ---------------------------------------
       private IBeamableAPI _beamableAPI;
       private AuthServiceExampleData _authServiceExampleData = new AuthServiceExampleData();
       private MockUser _mockUser01 = null;
       private MockUser _mockUser02 = null;
       private string _lastRegisteredEmail = "";
 
+      
       //  Unity Methods  --------------------------------
       protected void Start()
       {
          Debug.Log($"Start()");
 
          // Create 2 new mock users for demo purposes
-         _mockUser01 = new MockUser ("Alias01", "blah@blah01.com", "myPasswordFoo");
-         _mockUser02 = new MockUser ("Alias02", "blah@blah02.com", "myPasswordBar");
+         string mockEmail01 = MockUser.GetMockEmail("01");
+         string mockEmail02 = MockUser.GetMockEmail("02");
+         _mockUser01 = new MockUser ("Alias01", mockEmail01, "myPasswordFoo");
+         _mockUser02 = new MockUser ("Alias02", mockEmail02, "myPasswordBar");
       
          SetupBeamable();
       }
 
+      
+      protected void OnDestroy()
+      {
+         // Unsubscribe to events
+         _beamableAPI.OnUserChanged += BeamableAPI_OnUserChanged;
+         _beamableAPI.OnUserLoggingOut += BeamableAPI_OnUserLoggingOut;
+      }
+
+      
       //  Methods  --------------------------------------
       private async void SetupBeamable()
       { 
@@ -86,6 +104,7 @@ namespace Beamable.Examples.Services.AuthService
          // Create 2 new users from mock users for demo purposes,
          // Then later from UI: switch and update the active user
          _authServiceExampleData.DetailTexts.Clear();
+ 
          await CreateUser(_mockUser01.Alias);
          await UpdateCurrentUser();
          
@@ -94,9 +113,13 @@ namespace Beamable.Examples.Services.AuthService
          
          _authServiceExampleData.IsBeamableSetup = _beamableAPI != null;
          
+         // Subscribe to events
+         _beamableAPI.OnUserChanged += BeamableAPI_OnUserChanged;
+         _beamableAPI.OnUserLoggingOut += BeamableAPI_OnUserLoggingOut;
+         
          Refresh();
-
       }
+      
       
       private async Task<EmptyResponse> CreateUser(string alias)
       {
@@ -114,9 +137,10 @@ namespace Beamable.Examples.Services.AuthService
          return new EmptyResponse();
       }
 
+      
       public void Refresh()
       {
-         Debug.Log($"Refresh()");
+         //Debug.Log($"Refresh()");
 
          if (_authServiceExampleData.IsBeamableSetup)
          {
@@ -128,6 +152,7 @@ namespace Beamable.Examples.Services.AuthService
          OnRefreshed?.Invoke(_authServiceExampleData);
       }
 
+      
       /// <summary>
       /// Attach an email/password to active user
       /// </summary>
@@ -169,17 +194,17 @@ namespace Beamable.Examples.Services.AuthService
          }
          else
          {
-            string warningText = $"\nThat update failed because the email is already registered. That is ok.";
-            Debug.LogWarning(warningText);
+            string warningText = $"\nThat email was already registered. That is ok.";
             _authServiceExampleData.DetailTexts.Add(warningText);
+            //Debug.Log(warningText);
          }
          
-
          Refresh();
 
          return new EmptyResponse();
       }
 
+      
       public async Task<EmptyResponse> SwitchCurrentUser()
       {
          // Choose the OTHER mock user
@@ -189,7 +214,7 @@ namespace Beamable.Examples.Services.AuthService
             nextMockUser = _mockUser01;
          }
          
-         Debug.Log($"SwitchCurrentUser() From Email = {_beamableAPI.User.email}");
+         Debug.Log($"SwitchCurrentUser() From User.id = {_beamableAPI.User.id}");
 
          bool isSuccess = false;
          string error = "";
@@ -211,7 +236,7 @@ namespace Beamable.Examples.Services.AuthService
          
          // Update UI
          _authServiceExampleData.DetailTexts.Clear();
-         string detailText = $"SwitchCurrentUser() To Email = {nextMockUser.Email}, isSuccess = {isSuccess}";
+         string detailText = $"SwitchCurrentUser() To User.Email = {nextMockUser.Email}, isSuccess = {isSuccess}";
          if (!isSuccess)
          {
             detailText += $", Error = {error}";
@@ -227,6 +252,19 @@ namespace Beamable.Examples.Services.AuthService
          Refresh();
 
          return new EmptyResponse();
+      }
+      
+      
+      //  Event Handlers  -------------------------------
+      private void BeamableAPI_OnUserLoggingOut(User user)
+      {
+         Debug.Log($"OnUserLoggingOut() User.id = {user.id}");
+      }
+
+      
+      private void BeamableAPI_OnUserChanged(User user)
+      {
+         Debug.Log($"OnUserChanged() User.id = {user.id}");
       }
    }
 }

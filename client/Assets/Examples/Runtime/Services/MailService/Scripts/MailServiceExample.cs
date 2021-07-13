@@ -70,7 +70,7 @@ namespace Beamable.Examples.Services.MailService
 
          _data.Dbid = _beamableAPI.User.id;
          Debug.Log($"beamableAPI.User.id = {_data.Dbid}");
-
+         
          // Fetch All Mail
          _beamableAPI.MailService.Subscribe(async mailQueryResponse =>
          {
