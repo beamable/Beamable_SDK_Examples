@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Beamable.Api.CloudSaving;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -51,21 +52,39 @@ namespace Beamable.Examples.Services.CloudSavingService
       // Subscribe to the OnError event to handle
       // when the service fails
       _cloudSavingService.OnError += CloudSavingService_OnError;
-      
-      // Init the service, which will first download content
-      // that the server may have, that the client does not.
-      // The client will then upload any content that it has,
-      // that the server is missing
-      await _cloudSavingService.Init();
+
+      // Check isInitializing, as best practice
+      if (!_cloudSavingService.isInitializing)
+      {
+        // Init the service, which will first download content
+        // that the server may have, that the client does not.
+        // The client will then upload any content that it has,
+        // that the server is missing
+        await _cloudSavingService.Init();
+      }
+      else
+      {
+        throw new Exception($"Cannot call Init() when " +
+                            $"isInitializing = {_cloudSavingService.isInitializing}");
+      }
       
       // Gets the cloud data manifest (ManifestResponse) OR
       // creates an empty manifest if the user has no cloud data 
       await _cloudSavingService.EnsureRemoteManifest();
       
-      // Resets the local cloud data to match the server cloud
-      // data. Enable this if desired 
-      //
-      //await _cloudSavingService.ReinitializeUserData();
+      // Check isInitializing, as best practice
+      if (!_cloudSavingService.isInitializing)
+      {
+        // Resets the local cloud data to match the server cloud
+        // data. Enable this if desired 
+        //
+        //await _cloudSavingService.ReinitializeUserData();
+      }
+      else
+      {
+        throw new Exception($"Cannot call Init() when " +
+                            $"isInitializing = {_cloudSavingService.isInitializing}");
+      }
 
       // Now, attempt to load data from the CloudSavingService,
       // and if it is not found, create it locally and 
@@ -89,8 +108,8 @@ namespace Beamable.Examples.Services.CloudSavingService
       if (File.Exists(audioPath))
       {
         // Reload AudioSettings 
-        Debug.Log($"Existing AudioSettings found.");
-        Debug.Log($"Reload AudioSettings.");
+        Debug.Log($"Existing AudioSettings found");
+        Debug.Log($"Reload AudioSettings");
         
         var json = File.ReadAllText(audioPath);
         settings = JsonUtility.FromJson<MyCustomSettings>(json);
@@ -98,8 +117,8 @@ namespace Beamable.Examples.Services.CloudSavingService
       else
       {
         // Create AudioSettings
-        Debug.Log($"Existing AudioSettings not found.");
-        Debug.Log($"Create AudioSettings.");
+        Debug.Log($"Existing AudioSettings not found");
+        Debug.Log($"Create AudioSettings");
         
         settings = new MyCustomSettings
         {
