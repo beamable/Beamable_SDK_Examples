@@ -12,6 +12,7 @@ namespace Beamable.Examples.Services.CloudSavingService
     public bool IsMuted = false;
   }
   
+  
   /// <summary>
   /// Demonstrates <see cref="CloudSavingService"/>.
   /// </summary>
@@ -22,6 +23,7 @@ namespace Beamable.Examples.Services.CloudSavingService
     private IBeamableAPI _beamableAPI;
     private Api.CloudSaving.CloudSavingService _cloudSavingService;
 
+    
     //  Unity Methods  --------------------------------
     protected void Start()
     {
@@ -30,6 +32,7 @@ namespace Beamable.Examples.Services.CloudSavingService
       SetupBeamable();
     }
 
+    
     //  Methods  --------------------------------------
     private async void SetupBeamable()
     {
@@ -39,11 +42,15 @@ namespace Beamable.Examples.Services.CloudSavingService
       
       _cloudSavingService = _beamableAPI.CloudSavingService;
       
-      // Subscribe to the UpdatedReceived event to call
-      // your own custom code when data on disk does not
-      // yet exist and is pulled from the server
+      // Subscribe to the UpdatedReceived event to handle
+      // when data on disk does not yet exist and is pulled
+      // from the server
       _cloudSavingService.UpdateReceived += 
         CloudSavingService_OnUpdateReceived;
+      
+      // Subscribe to the OnError event to handle
+      // when the service fails
+      _cloudSavingService.OnError += CloudSavingService_OnError;
       
       // Init the service, which will first download content
       // that the server may have, that the client does not.
@@ -66,6 +73,7 @@ namespace Beamable.Examples.Services.CloudSavingService
       myCustomSettings = ReloadOrCreateAudioSettings();
     }
 
+    
     private MyCustomSettings ReloadOrCreateAudioSettings()
     {
       Debug.Log($"ReloadOrCreateAudioSettings()");
@@ -110,6 +118,7 @@ namespace Beamable.Examples.Services.CloudSavingService
       return settings;
     }
     
+    
     //  Event Handlers  -------------------------------
     private void CloudSavingService_OnUpdateReceived(ManifestResponse manifest)
     {
@@ -117,6 +126,12 @@ namespace Beamable.Examples.Services.CloudSavingService
       
       // If the settings are changed by the server, reload the scene
       SceneManager.LoadScene(0);
+    }
+    
+    
+    private void CloudSavingService_OnError(CloudSavingError cloudSavingError)
+    {
+      Debug.Log($"CloudSavingService_OnError() Message = {cloudSavingError.Message}");
     }
   }
 }
