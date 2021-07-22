@@ -40,7 +40,7 @@ namespace Beamable.Examples.Services.ConnectivityService
       
       
       //  Event Handlers  -------------------------------
-      private async void SetHasInternetButton_OnClicked()
+      private void SetHasInternetButton_OnClicked()
       {
          _connectivityServiceExample.ToggleHasInternet();
       }
