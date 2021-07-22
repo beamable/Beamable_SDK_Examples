@@ -29,7 +29,7 @@ namespace Beamable.Examples.Services.ConnectivityService
       //  Unity Methods  --------------------------------
       protected void Start()
       {
-         _connectivityServiceExample.OnRefreshed.AddListener(GroupsServiceExample_OnRefreshed);
+         _connectivityServiceExample.OnRefreshed.AddListener(ConnectivityServiceExample_OnRefreshed);
          SetHasInternetButton.onClick.AddListener(SetHasInternetButton_OnClicked);
          
          // Populate default UI
@@ -46,7 +46,7 @@ namespace Beamable.Examples.Services.ConnectivityService
       }
 
       
-      private void GroupsServiceExample_OnRefreshed(ConnectivityServiceExampleData 
+      private void ConnectivityServiceExample_OnRefreshed(ConnectivityServiceExampleData 
          connectivityServiceExampleData)
       {
          // Show UI: HasInternet
