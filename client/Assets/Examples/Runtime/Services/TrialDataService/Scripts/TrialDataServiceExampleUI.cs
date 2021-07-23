@@ -1,4 +1,5 @@
 using System.Text;
+using Beamable.Common.Api.CloudData;
 using Beamable.Examples.Shared;
 using TMPro;
 using UnityEngine;
@@ -38,57 +39,64 @@ namespace Beamable.Examples.Services.TrialDataService
          _trialDataServiceExample.Refresh();
       }
 
-
-
       //  Methods  --------------------------------------
       
       
       //  Event Handlers  -------------------------------
       private async void TogglePlayerLevelButton_OnClicked()
       {
-         await _trialDataServiceExample.TogglePlayerlevel();
+         await _trialDataServiceExample.TogglePlayerlevelStat();
       }
+      
       
       private void RefreshButton_OnClicked()
       {
          _trialDataServiceExample.Refresh();
       }
       
+      
       private void TrialDataServiceExample_OnRefreshed(TrialDataServiceExampleData 
          trialDataServiceExampleData)
       {
-         // Show UI: HasInternet
+         // Show UI: Main
          StringBuilder stringBuilder01 = new StringBuilder();
          
-         stringBuilder01.Append($" • IsDataExistingOnFirstFrame = " + 
-            $"{trialDataServiceExampleData.IsDataExistingOnFirstFrame}").AppendLine();
          stringBuilder01.Append($" • PlayerLevel = " + 
                                 $"{trialDataServiceExampleData.PlayerLevel}").AppendLine();
          stringBuilder01.Append($" • IsInABTest = " + 
                                 $"{trialDataServiceExampleData.IsInABTest}").AppendLine();
          stringBuilder01.Append($" • CloudMetaDatas.Count = " + 
             $"{trialDataServiceExampleData.CloudMetaDatas.Count}").AppendLine();
+
+         foreach (CloudMetaData cloudMetaData in trialDataServiceExampleData.CloudMetaDatas)
+         {
+            stringBuilder01.Append($"\tcohort = {cloudMetaData.cohort.cohort}").AppendLine();
+            stringBuilder01.Append($"\ttrial = {cloudMetaData.cohort.trial}").AppendLine();
+         }
          
          MainBodyText.text = stringBuilder01.ToString();
          
          // Show UI: Logs
          StringBuilder stringBuilder02 = new StringBuilder();
-         if (trialDataServiceExampleData.OutputLogs.Count > 0)
+         MyPlayerProgression myPlayerProgression = trialDataServiceExampleData.MyPlayerProgression;
+         if (myPlayerProgression != null)
          {
-            foreach (string log in trialDataServiceExampleData.OutputLogs)
-            {
-               stringBuilder02.Append($" • {log}").AppendLine();
-            }
+            // Show loaded data
+            stringBuilder02.Append($"<b>Data</b>").AppendLine();
+            stringBuilder02.Append($" • MyPlayerProgression").AppendLine();
+            stringBuilder02.Append($"\tMaxHealth = {myPlayerProgression.MaxHealth}").AppendLine();
+            stringBuilder02.Append($"\tMaxInventorySpace = {myPlayerProgression.MaxInventorySpace}").AppendLine();
+            
+            // Show summary of example
             stringBuilder02.AppendLine();
-
             stringBuilder02.Append($"<b>Summary</b>").AppendLine();
-            string consequence = " is the same values for all users.";
+            string consequence = " has the same values for all users.";
             if (trialDataServiceExampleData.IsInABTest)
             {
                consequence = " has values driven by the AB Test.";
             }
          
-            stringBuilder02.Append($"Because IsInABTest = {trialDataServiceExampleData.IsInABTest}, " +
+            stringBuilder02.Append($" • Because IsInABTest = {trialDataServiceExampleData.IsInABTest}, " +
                                    $"{trialDataServiceExampleData.DataName}" +
                                    $"{consequence}").AppendLine();
          }
@@ -105,6 +113,9 @@ namespace Beamable.Examples.Services.TrialDataService
          {
             nextPlayerLevel = 1;
          }
+
+         TogglePlayerLevelButton.interactable = trialDataServiceExampleData.IsInABTest;
+         RefreshButton.interactable = trialDataServiceExampleData.IsInABTest;
          
          TogglePlayerLevelButton.GetComponentInChildren<TMP_Text>().text =
             $"Toggle\n(PlayerLevel to {nextPlayerLevel})";
