@@ -23,9 +23,8 @@ namespace Beamable.Examples.Shared
         /// </summary>
         public static async Task<string> GetPublicPlayerStat(IBeamableAPI beamableAPI, string statKey)
         {
-            Debug.Log("GetPublicPlayerStat()");
             string domain = "game";
-            string access = "private";
+            string access = "public";
             string type = "player";
             long id = beamableAPI.User.id;
 
@@ -47,7 +46,6 @@ namespace Beamable.Examples.Shared
                 getStats.TryGetValue(statKey, out value);
             }
 
-            Debug.Log("GetPublicPlayerStat() 2" );
             return value;
         }
         
@@ -56,10 +54,7 @@ namespace Beamable.Examples.Shared
         /// </summary>
         public static async Task<EmptyResponse> SetPublicPlayerStat(IBeamableAPI beamableAPI, string statKey, string statValue)
         {
-            statKey = "TEST_123";
-            
-            Debug.Log("SetPublicPlayerStat()");
-            string access = "private";
+            string access = "public";
             long id = beamableAPI.User.id;
 
             Dictionary<string, string> setStats =
@@ -67,7 +62,6 @@ namespace Beamable.Examples.Shared
 
             await beamableAPI.StatsService.SetStats(access, setStats);
 
-            Debug.Log("SetPublicPlayerStat() 2 "  +statKey + " and " + statValue);
             return new EmptyResponse();
         }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Beamable.Common.Api;
 using Beamable.Common.Api.CloudData;
@@ -28,7 +27,7 @@ namespace Beamable.Examples.Services.TrialDataService
     [System.Serializable]
     public class TrialDataServiceExampleData
     {
-        public int PlayerLevel = -1;
+        public bool IsUIInteractable = false;
         public string DataName = "MyPlayerProgression";
         public MyPlayerProgression MyPlayerProgression = null;
         public List<CloudMetaData> CloudMetaDatas = new List<CloudMetaData>();
@@ -52,7 +51,6 @@ namespace Beamable.Examples.Services.TrialDataService
         [HideInInspector] public RefreshedUnityEvent OnRefreshed = new RefreshedUnityEvent();
 
         //  Fields  ---------------------------------------
-        private const string StatKey = "PLAYER_LEVEL";
         private TrialDataServiceExampleData _data = new TrialDataServiceExampleData();
         private ICloudDataApi _trialDataService;
         private IBeamableAPI _beamableAPI;
@@ -64,7 +62,9 @@ namespace Beamable.Examples.Services.TrialDataService
                       " * Setup AB Testing in Portal per https://docs.beamable.com/docs/abtesting-code\n" +
                       " * Run The Scene\n" +
                       " * See onscreen UI for results.\n" +
-                      " * If IsInABTest is false, then repeat these steps.\n");
+                      " * If IsInABTest is false, something is incorrect. Repeat these steps.\n" + 
+                      " * If IsInABTest is true, everything is correct. Visit the portal to change " +
+                      "the `PLAYER_LEVEL` stat value, then repeat these steps see load other data.\n");
 
             SetupBeamable();
         }
@@ -79,43 +79,10 @@ namespace Beamable.Examples.Services.TrialDataService
 
             _trialDataService = _beamableAPI.TrialDataService;
 
-            await TogglePlayerlevelStat();
-        }
-
-        
-        public async Task<EmptyResponse> TogglePlayerlevelStat()
-        {
-            // Get Value
-            string playerLevel = await ExampleProjectHelper.GetPublicPlayerStat(
-                _beamableAPI, StatKey);
-
-            _data.PlayerLevel = -1;
-            if (!string.IsNullOrEmpty(playerLevel))
-            {
-                _data.PlayerLevel = Int32.Parse(playerLevel);
-            }
-
-            // Toggle Value
-            if (_data.PlayerLevel != 1)
-            {
-                _data.PlayerLevel = 1;
-            }
-            else
-            {
-                _data.PlayerLevel = 2;
-            }
-
-            // Set Value
-            await ExampleProjectHelper.SetPublicPlayerStat(
-                _beamableAPI, StatKey, _data.PlayerLevel.ToString());
-
-            // Reload the trial
             await LoadTrialData();
-            return new EmptyResponse();
         }
 
-
-        private async Task<EmptyResponse> LoadTrialData()
+        public async Task<EmptyResponse> LoadTrialData()
         {
             // Load any trials
             GetCloudDataManifestResponse playerManifestResponse =
@@ -128,6 +95,7 @@ namespace Beamable.Examples.Services.TrialDataService
             {
                 string path = $"http://{cloudMetaData.uri}";
 
+                // Load the data, respecting GZip format
                 string response = 
                     await ExampleProjectHelper.GetResponseFromHttpWebRequest(path);
 
@@ -141,6 +109,7 @@ namespace Beamable.Examples.Services.TrialDataService
                 }
             }
 
+            _data.IsUIInteractable = true;
             Refresh();
             return new EmptyResponse();
         }
@@ -149,7 +118,7 @@ namespace Beamable.Examples.Services.TrialDataService
         public void Refresh()
         {
             string refreshLog = $"Refresh() ..." +
-                                $"\n * PlayerLevel = {_data.PlayerLevel}" +
+                                $"\n * IsInABTest = {_data.IsInABTest}" +
                                 $"\n * CloudMetaDatas.Count = {_data.CloudMetaDatas.Count}" +
                                 $"\n\n";
 

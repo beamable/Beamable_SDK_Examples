@@ -17,8 +17,7 @@ namespace Beamable.Examples.Services.TrialDataService
 
       // Menu Panel
       private TMP_Text MenuTitleText { get { return TitleText01; }}
-      private Button TogglePlayerLevelButton { get { return Button01;}}
-      private Button RefreshButton { get { return Button02;}}
+      private Button LoadTrialDataButton { get { return Button01;}}
       
       // Groups Panel
       private TMP_Text MainTitleText { get { return TitleText02; }}
@@ -32,8 +31,7 @@ namespace Beamable.Examples.Services.TrialDataService
       protected void Start()
       {
          _trialDataServiceExample.OnRefreshed.AddListener(TrialDataServiceExample_OnRefreshed);
-         TogglePlayerLevelButton.onClick.AddListener(TogglePlayerLevelButton_OnClicked);
-         RefreshButton.onClick.AddListener(RefreshButton_OnClicked);
+         LoadTrialDataButton.onClick.AddListener(LoadTrialDataButton_OnClicked);
          
          // Populate default UI
          _trialDataServiceExample.Refresh();
@@ -43,17 +41,11 @@ namespace Beamable.Examples.Services.TrialDataService
       
       
       //  Event Handlers  -------------------------------
-      private async void TogglePlayerLevelButton_OnClicked()
+      private async void LoadTrialDataButton_OnClicked()
       {
-         await _trialDataServiceExample.TogglePlayerlevelStat();
+         LoadTrialDataButton.interactable = false;
+         await _trialDataServiceExample.LoadTrialData();
       }
-      
-      
-      private void RefreshButton_OnClicked()
-      {
-         _trialDataServiceExample.Refresh();
-      }
-      
       
       private void TrialDataServiceExample_OnRefreshed(TrialDataServiceExampleData 
          trialDataServiceExampleData)
@@ -61,8 +53,6 @@ namespace Beamable.Examples.Services.TrialDataService
          // Show UI: Main
          StringBuilder stringBuilder01 = new StringBuilder();
          
-         stringBuilder01.Append($" • PlayerLevel = " + 
-                                $"{trialDataServiceExampleData.PlayerLevel}").AppendLine();
          stringBuilder01.Append($" • IsInABTest = " + 
                                 $"{trialDataServiceExampleData.IsInABTest}").AppendLine();
          stringBuilder01.Append($" • CloudMetaDatas.Count = " + 
@@ -106,21 +96,11 @@ namespace Beamable.Examples.Services.TrialDataService
          MenuTitleText.text = "TrialData Service Example";
          MainTitleText.text = "Main";
          LogsTitleText.text = "Logs";
-         
-         // Toggle Value
-         int nextPlayerLevel = 2;
-         if (trialDataServiceExampleData.PlayerLevel != 1)
-         {
-            nextPlayerLevel = 1;
-         }
 
-         TogglePlayerLevelButton.interactable = trialDataServiceExampleData.IsInABTest;
-         RefreshButton.interactable = trialDataServiceExampleData.IsInABTest;
+         LoadTrialDataButton.interactable = trialDataServiceExampleData.IsUIInteractable;
          
-         TogglePlayerLevelButton.GetComponentInChildren<TMP_Text>().text =
-            $"Toggle\n(PlayerLevel to {nextPlayerLevel})";
-         RefreshButton.GetComponentInChildren<TMP_Text>().text =
-            $"Refresh\n(Debug)";
+         LoadTrialDataButton.GetComponentInChildren<TMP_Text>().text =
+            $"Reload Trial";
       }
    }
 }
