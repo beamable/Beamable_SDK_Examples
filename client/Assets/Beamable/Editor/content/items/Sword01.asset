@@ -18,5 +18,6 @@ MonoBehaviour:
     m_AssetGUID: 791f464c8908c11468821bc68a79bdaf
     m_SubObjectName: Knife
     m_SubObjectType: 
+    m_EditorAssetChanged: 0
   clientPermission:
     writeSelf: 1

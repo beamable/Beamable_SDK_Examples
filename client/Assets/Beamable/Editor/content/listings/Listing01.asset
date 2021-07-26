@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tags: []
   price:
-    type: sku
-    symbol: skus.SwordSku01
+    type: currency
+    symbol: currency.Coin
     amount: 1
   offer:
     titles:

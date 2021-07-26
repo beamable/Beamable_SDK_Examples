@@ -38,7 +38,7 @@ MonoBehaviour:
     currencies:
       HasValue: 1
       Value:
-      - id: currency.Currency01
+      - id: currency.Coin
         amount: 1
     items:
       HasValue: 0

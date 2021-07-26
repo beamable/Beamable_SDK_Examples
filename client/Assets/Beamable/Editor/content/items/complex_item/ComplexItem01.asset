@@ -17,6 +17,7 @@ MonoBehaviour:
     m_AssetGUID: eb4a3584174c96641bc4d5b8f1f5d213
     m_SubObjectName: icon
     m_SubObjectType: 
+    m_EditorAssetChanged: 0
   clientPermission:
     writeSelf: 0
   Name: The Complex Item 01

@@ -1,5 +1,6 @@
 {
     "name": "Beamable.Examples",
+    "rootNamespace": "",
     "references": [
         "Unity.Beamable.Runtime.Common",
         "Unity.Beamable",
@@ -11,7 +12,9 @@
         "Unity.TextMeshPro",
         "Beamable.JsonSerializable",
         "Beamable.Coroutines",
-        "Beamable.Spew"
+        "Beamable.Spew",
+        "Unity.Addressables",
+        "Unity.ResourceManager"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
