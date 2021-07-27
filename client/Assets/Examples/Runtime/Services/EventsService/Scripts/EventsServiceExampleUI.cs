@@ -18,7 +18,7 @@ namespace Beamable.Examples.Services.EventsService
       private TMP_Text MenuTitleText { get { return TitleText01; }}
       private Button SetScoreButton { get { return Button01;}}
       private Button ClaimButton { get { return Button02;}}
-      private Button ResetUserProgressButton { get { return Button03;}}
+      private Button ResetPlayerButton { get { return Button03;}}
       
       // Events Panel
       private TMP_Text EventsTitleText { get { return TitleText02; }}
@@ -34,7 +34,7 @@ namespace Beamable.Examples.Services.EventsService
          _eventsServiceExample.OnRefreshed.AddListener(EventsServiceExample_OnRefreshed);
          SetScoreButton.onClick.AddListener(SetScoreButton_OnClicked);
          ClaimButton.onClick.AddListener(ClaimButton_OnClicked);
-         ResetUserProgressButton.onClick.AddListener(ResetUserProgressButton_OnClicked);
+         ResetPlayerButton.onClick.AddListener(ResetUserProgressButton_OnClicked);
          
          // Populate default UI
          _eventsServiceExample.Refresh();
@@ -104,9 +104,9 @@ namespace Beamable.Examples.Services.EventsService
          
          ClaimButton.GetComponentInChildren<TMP_Text>().text = 
             $"Attempt\nClaim";
-         
-         ResetUserProgressButton.GetComponentInChildren<TMP_Text>().text = 
-            $"Reset\nUser Progress";
+
+         ResetPlayerButton.GetComponentInChildren<TMP_Text>().text =
+            $"Debug\n(Reset Player)";
       }
    }
 }
