@@ -22,14 +22,14 @@ namespace Beamable.Examples.LearningFundamentals.AsynchronousProgramming
         private async void MyMethodViaAsyncAwait()
         {
             var beamableAPI = await Beamable.API.Instance;
-            Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
+            Debug.Log($"1 beamableAPI.User.id = {beamableAPI.User.id}");
         }
     
         private void MyMethodViaCallback()
         {
             Beamable.API.Instance.Then(beamableAPI =>
             {
-                Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
+                Debug.Log($"2 beamableAPI.User.id = {beamableAPI.User.id}");
             });
         }
     
@@ -39,7 +39,7 @@ namespace Beamable.Examples.LearningFundamentals.AsynchronousProgramming
             yield return promise.ToYielder();
             var beamableAPI = promise.GetResult();
     
-            Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
+            Debug.Log($"3 beamableAPI.User.id = {beamableAPI.User.id}");
         }
         
         //  Event Handlers  -------------------------------
