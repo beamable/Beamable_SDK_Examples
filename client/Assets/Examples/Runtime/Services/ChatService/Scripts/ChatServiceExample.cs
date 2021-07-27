@@ -183,11 +183,13 @@ namespace Beamable.Examples.Labs.ChatService
             }
             
             // Log
-            Debug.Log($"Refresh()");
-            Debug.Log($"\tRoomNames.Count = {_data.RoomNames.Count}");
-            Debug.Log($"\tRoomPlayers.Count = {_data.RoomPlayers.Count}");
-            Debug.Log($"\tRoomMessages.Count = {_data.RoomMessages.Count}");
-            Debug.Log($"\tIsInRoom = {_data.IsInRoom}");
+            string refreshLog = $"Refresh() ...\n" +
+                                $"\n * RoomNames.Count = {_data.RoomNames.Count}" +
+                                $"\n * RoomPlayers.Count = {_data.RoomPlayers.Count}" +
+                                $"\n * RoomMessages.Count = {_data.RoomMessages.Count}" +
+                                $"\n * IsInRoom = {_data.IsInRoom}\n\n";
+            
+            Debug.Log(refreshLog);
             
             // Send relevant data to the UI for rendering
             OnRefreshed?.Invoke(_data);
