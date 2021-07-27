@@ -2,6 +2,7 @@ using System.Text;
 using Beamable.Examples.Shared;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 
 namespace Beamable.Examples.Services.CommerceService
@@ -13,7 +14,9 @@ namespace Beamable.Examples.Services.CommerceService
    {
       //  Fields  ---------------------------------------
       [SerializeField] private CommerceServiceExample _commerceServiceExample = null;
-
+      [SerializeField] private Image _iconImage01 = null;
+      [SerializeField] private Image _iconImage02 = null;
+      
       // Menu Panel
       private TMP_Text MenuTitleText { get { return TitleText01; }}
       private Button BuyButton { get { return Button01;}}
@@ -26,6 +29,9 @@ namespace Beamable.Examples.Services.CommerceService
       // Messages Panel 
       private TMP_Text LogsTitleText { get { return TitleText03; }}
       private TMP_Text LogsBodyText { get { return BodyText03; }}
+      
+      // Icons Panel 
+      private TMP_Text IconsTitleText { get { return _examplePanelUIs[3].TitleText; }}
       
       //  Unity Methods  --------------------------------
       protected void Start()
@@ -97,16 +103,37 @@ namespace Beamable.Examples.Services.CommerceService
          MenuTitleText.text = "Commerce Service Example";
          MainTitleText.text = "Main";
          LogsTitleText.text = "Instructions";
+         IconsTitleText.text = "Icon Images";
+
 
          // Button Interactable
          BuyButton.interactable = commerceServiceExampleData.CanAffordSelectedStoreItemData;
          ResetPlayerButton.interactable = true;
 
+         // Icon images
+         if (commerceServiceExampleData.SelectedItemData != null)
+         {
+            AssetReferenceSprite assetReferenceSprite01 = 
+               commerceServiceExampleData.SelectedItemData.ItemContent.icon;
+            
+            CommerceServiceHelper.AddressablesLoadAssetAsync<Image>(assetReferenceSprite01, _iconImage01);
+            
+         }
+         
+         if (commerceServiceExampleData.CurrencyContent != null)
+         {
+            AssetReferenceSprite assetReferenceSprite02 = 
+               commerceServiceExampleData.CurrencyContent.icon;
+            
+            CommerceServiceHelper.AddressablesLoadAssetAsync<Image>(assetReferenceSprite02, _iconImage02);
+         }
+         
+         
          // Button Text
          string itemName = "";
          if (commerceServiceExampleData.CanAffordSelectedStoreItemData)
          {
-            itemName = commerceServiceExampleData.StoreItemDatas[0].Title;
+            itemName = commerceServiceExampleData.SelectedItemData.Title;
          }
          
          BuyButton.GetComponentInChildren<TMP_Text>().text =

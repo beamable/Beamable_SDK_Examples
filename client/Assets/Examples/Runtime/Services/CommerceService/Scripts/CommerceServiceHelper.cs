@@ -14,17 +14,27 @@ namespace Beamable.Examples.Services.CommerceService
     public static class CommerceServiceHelper
     {
         //  Other Methods --------------------------------
-
-        public static string GetDisplayNameFromKey(string contentId)
-        {
-            //Change "items.foo.Blah" to "Blah"
-            var tokens = contentId.Split('.');
-            return tokens[tokens.Length - 1];
-        }
-
+        
+        /// <summary>
+        /// Load full details of a Beamable Item
+        /// </summary>
+        /// <param name="_beamableAPI"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static async Task<ItemContent> GetItemContentById(IBeamableAPI _beamableAPI, string id)
         {
             return await _beamableAPI.ContentService.GetContent(id, typeof(ItemContent)) as ItemContent;
+        }
+        
+        /// <summary>
+        /// Load full details of a Beamable Currency
+        /// </summary>
+        /// <param name="_beamableAPI"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static async Task<CurrencyContent> GetCurrencyContentById(IBeamableAPI _beamableAPI, string id)
+        {
+            return await _beamableAPI.ContentService.GetContent(id, typeof(CurrencyContent)) as CurrencyContent;
         }
 
         /// <summary>
@@ -47,6 +57,12 @@ namespace Beamable.Examples.Services.CommerceService
             };
         }
 
+        /// <summary>
+        /// Lazily Load an addressable <see cref="Sprite"/> into a UI <see cref="Image"/>.
+        /// </summary>
+        /// <param name="assetReferenceSprite"></param>
+        /// <param name="destinationImage"></param>
+        /// <typeparam name="T"></typeparam>
         public static async void AddressablesLoadAssetAsync<T>(AssetReferenceSprite assetReferenceSprite, Image destinationImage)
         {
             // Check before await
@@ -67,6 +83,7 @@ namespace Beamable.Examples.Services.CommerceService
             if (sprite != null)
             {
                 destinationImage.sprite = sprite;
+                destinationImage.preserveAspect = true;
             }
         }
     }

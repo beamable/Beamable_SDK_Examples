@@ -63,6 +63,7 @@ namespace Beamable.Examples.Services.CommerceService
             _beamableAPI.CommerceService.Subscribe(_storeContent.Id, CommerceService_OnChanged);
             
             // Update UI Immediately
+            Refresh();
         }
         
         public async void Buy()
@@ -79,8 +80,11 @@ namespace Beamable.Examples.Services.CommerceService
                 return;
             }
 
-            await _beamableAPI.CommerceService.Purchase(_storeContent.Id,
-                _data.SelectedItemData.PlayerListingView.symbol);
+            // Buy!
+            string storeSymbol = _storeContent.Id;
+            string listingSymbol = _data.SelectedItemData.PlayerListingView.symbol;
+            await _beamableAPI.CommerceService.Purchase(storeSymbol, listingSymbol);
+            
         }
 
         public void ResetPlayer()
@@ -99,7 +103,6 @@ namespace Beamable.Examples.Services.CommerceService
             _data.InstructionLogs.Add("Click `Buy` to add 1 item to Inventory");
             _data.InstructionLogs.Add("or Click `Reset` to delete and create a new player");
                                
-            
             //Debug.Log(refreshLog);
             
             // Send relevant data to the UI for rendering
@@ -112,7 +115,7 @@ namespace Beamable.Examples.Services.CommerceService
             _data.InventoryItemDatas.Clear();
             foreach (KeyValuePair<string, List<ItemView>> kvp in inventoryView.items)
             {
-                string itemName = CommerceServiceHelper.GetDisplayNameFromKey(kvp.Key);
+                string itemName = ExampleProjectHelper.GetDisplayNameFromContentId(kvp.Key);
                 ItemContent itemContent = await CommerceServiceHelper.GetItemContentById(_beamableAPI, kvp.Key);
 
                 string title = $"{itemName} x {kvp.Value.Count}";
@@ -129,7 +132,7 @@ namespace Beamable.Examples.Services.CommerceService
             Refresh();
         }
 
-        private void Currency_OnChanged(InventoryView inventoryViewForCurrencies)
+        private async void Currency_OnChanged(InventoryView inventoryViewForCurrencies)
         {
             _data.CurrencyAmount = 0;
             _data.CurrencyLogs.Clear();
@@ -139,7 +142,9 @@ namespace Beamable.Examples.Services.CommerceService
                 {
                     _data.CurrencyAmount = (int)kvp.Value;
                 }
-                string itemName = CommerceServiceHelper.GetDisplayNameFromKey(kvp.Key);
+                string itemName = ExampleProjectHelper.GetDisplayNameFromContentId(kvp.Key);
+                CurrencyContent currencyContent = await CommerceServiceHelper.GetCurrencyContentById(_beamableAPI, kvp.Key);
+                _data.CurrencyContent = currencyContent;
                 _data.CurrencyLogs.Add($"{itemName} x {kvp.Value}");
                 break;
             }
@@ -158,9 +163,9 @@ namespace Beamable.Examples.Services.CommerceService
 
             foreach (PlayerListingView playerListingView in playerStoreView.listings)
             {
-                int price = playerListingView.offer.price.amount;
+                int price = playerListingView.offer.price.amount;   
                 string contentId = playerListingView.offer.obtainItems[0].contentId;
-                string itemName = CommerceServiceHelper.GetDisplayNameFromKey(contentId);
+                string itemName = ExampleProjectHelper.GetDisplayNameFromContentId(contentId);
                 ItemContent itemContent = await CommerceServiceHelper.GetItemContentById(_beamableAPI, contentId);
 
                 string title = $"{itemName} ({price} {CurrencyDisplayName})";

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Beamable.Common.Inventory;
 
 namespace Beamable.Examples.Services.CommerceService
 {
@@ -36,10 +37,12 @@ namespace Beamable.Examples.Services.CommerceService
                 }
             }
         }
+
         public List<ItemData> StoreItemDatas = new List<ItemData>();
         public List<ItemData> InventoryItemDatas = new List<ItemData>();
         public List<string> InstructionLogs = new List<string>();
         public List<string> CurrencyLogs = new List<string>();
+        public CurrencyContent CurrencyContent = null;
         public int CurrencyAmount = 0;
     }
 }
