@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tags: []
   icon:
-    m_AssetGUID: eb4a3584174c96641bc4d5b8f1f5d213
-    m_SubObjectName: icon
+    m_AssetGUID: 0e8271e3bc569064687b488a21e01cd0
+    m_SubObjectName: coin
     m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
