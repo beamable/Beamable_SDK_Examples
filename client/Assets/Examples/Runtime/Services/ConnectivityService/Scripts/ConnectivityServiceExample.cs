@@ -36,9 +36,9 @@ namespace Beamable.Examples.Services.ConnectivityService
             Debug.Log($"Start() Instructions...\n" +
                       " * Ensure Computer's Internet Is Active\n" +
                       " * Run The Scene\n" +
-                      " * See Onscreen UI Show HasInternet = true\n" +
+                      " * See Onscreen UI Show HasConnectivity = true\n" +
                       " * Ensure Computer's Internet Is NOT Active\n" +
-                      " * See Onscreen UI Show HasInternet = false\n");
+                      " * See Onscreen UI Show HasConnectivity = false\n");
 
             SetupBeamable();
         }
@@ -66,7 +66,7 @@ namespace Beamable.Examples.Services.ConnectivityService
         public void Refresh()
         {
             string refreshLog = $"Refresh() ..." +
-                                $"\n * HasInternet = {_data.HasConnectivity}" + 
+                                $"\n * HasConnectivity = {_data.HasConnectivity}" + 
                                 $"\n * OutputLogs = {_data.OutputLogs.Count}\n\n";
             
             //Debug.Log(refreshLog);

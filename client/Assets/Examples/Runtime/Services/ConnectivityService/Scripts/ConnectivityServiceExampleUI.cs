@@ -51,8 +51,8 @@ namespace Beamable.Examples.Services.ConnectivityService
       {
          // Show UI: HasInternet
          StringBuilder stringBuilder01 = new StringBuilder();
-         stringBuilder01.Append("HAS INTERNET").AppendLine();
-         stringBuilder01.Append($" • HasInternet = {connectivityServiceExampleData.HasConnectivity}").AppendLine();
+         stringBuilder01.Append("HAS CONNECTIVITY").AppendLine();
+         stringBuilder01.Append($" • HasConnectivity = {connectivityServiceExampleData.HasConnectivity}").AppendLine();
          MainBodyText.text = stringBuilder01.ToString();
          
          // Show UI: Group Players
@@ -70,7 +70,7 @@ namespace Beamable.Examples.Services.ConnectivityService
          LogsTitleText.text = "Logs";
          
          SetHasInternetButton.GetComponentInChildren<TMP_Text>().text =
-            $"Debug\nSet HasInternet = {!connectivityServiceExampleData.HasConnectivity}";
+            $"Debug\nSet HasConnectivity = {!connectivityServiceExampleData.HasConnectivity}";
       }
    }
 }
