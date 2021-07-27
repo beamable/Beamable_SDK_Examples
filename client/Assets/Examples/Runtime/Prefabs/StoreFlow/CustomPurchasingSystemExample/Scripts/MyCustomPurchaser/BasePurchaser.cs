@@ -121,7 +121,8 @@ namespace Beamable.Examples.Prefabs.StoreFlow.MyCustomPurchaser
       protected virtual void FulfillTransaction(CompletedTransaction transaction,
          CustomStoreProduct product)
       {
-         // Todo Your Implementation: Override this by subclass and implement
+         // Todo: Your Implementation
+         throw new NotImplementedException("Override this by subclass and implement.");
       }
    }
 
