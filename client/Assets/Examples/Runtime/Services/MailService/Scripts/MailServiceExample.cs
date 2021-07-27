@@ -48,7 +48,7 @@ namespace Beamable.Examples.Services.MailService
       //  Unity Methods  --------------------------------
       protected void Start()
       {
-         string startLog = $"Start() Instructions..." +
+         string startLog = $"Start() Instructions..\n" +
                            $"\n * Play Scene" +
                            $"\n * Check for mail using UI. Probably none" +
                            $"\n * Stop Scene" +
@@ -147,7 +147,8 @@ namespace Beamable.Examples.Services.MailService
                              $"\n * UnreadMailLogs.Count = {_data.UnreadMailLogs.Count}" +
                              $"\n * SendMailMessageLogs.Count = {_data.SendMailMessageLogs.Count}" +
                              $"\n * MailMessageLogs.Count = {_data.MailMessageLogs.Count}\n\n";
-         Debug.Log(refreshLog);
+         
+         //Debug.Log(refreshLog);
          
          // Send relevant data to the UI for rendering
          OnRefreshed?.Invoke(_data);
