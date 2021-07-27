@@ -50,20 +50,22 @@ namespace Beamable.Examples.Services.TrialDataService
         //  Events  ---------------------------------------
         [HideInInspector] public RefreshedUnityEvent OnRefreshed = new RefreshedUnityEvent();
 
+        
         //  Fields  ---------------------------------------
         private TrialDataServiceExampleData _data = new TrialDataServiceExampleData();
         private ICloudDataApi _trialDataService;
         private IBeamableAPI _beamableAPI;
 
+        
         //  Unity Methods  --------------------------------
         protected void Start()
         {
             Debug.Log($"Start() Instructions...\n" +
-                      " * Setup AB Testing in Portal per https://docs.beamable.com/docs/abtesting-code\n" +
-                      " * Run The Scene\n" +
-                      " * See onscreen UI for results.\n" +
-                      " * If IsInABTest is false, something is incorrect. Repeat these steps.\n" + 
-                      " * If IsInABTest is true, everything is correct. Visit the portal to change " +
+                      "\n * Setup AB Testing in Portal per https://docs.beamable.com/docs/abtesting-code" +
+                      "\n * Run The Scene" +
+                      "\n * See onscreen UI for results" +
+                      "\n * If IsInABTest is false, something is incorrect. Repeat these steps" + 
+                      "\n * If IsInABTest is true, everything is correct. Visit the portal to change " +
                       "the `PLAYER_LEVEL` stat value, then repeat these steps see load other data.\n");
 
             SetupBeamable();
@@ -82,6 +84,7 @@ namespace Beamable.Examples.Services.TrialDataService
             await LoadTrialData();
         }
 
+        
         public async Task<EmptyResponse> LoadTrialData()
         {
             // Load any trials
