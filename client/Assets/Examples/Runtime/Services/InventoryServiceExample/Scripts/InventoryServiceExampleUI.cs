@@ -18,7 +18,7 @@ namespace Beamable.Examples.Services.InventoryService
       private TMP_Text MenuTitleText { get { return TitleText01; }}
       private Button AddItemButton { get { return Button01;}}
       private Button DeleteItemButton { get { return Button02;}}
-      private Button RefreshButton { get { return Button03;}}
+      private Button ResetPlayerButton { get { return Button03;}}
       
       // Content Panel
       private TMP_Text ContentTitleText { get { return TitleText02; }}
@@ -34,10 +34,10 @@ namespace Beamable.Examples.Services.InventoryService
          _inventoryServiceExample.OnRefreshed.AddListener(InventoryServiceExample_OnRefreshed);
          AddItemButton.onClick.AddListener(AddItemButton_OnClicked);
          DeleteItemButton.onClick.AddListener(DeleteItemButton_OnClicked);
-         RefreshButton.onClick.AddListener(RefreshButton_OnClicked);
+         ResetPlayerButton.onClick.AddListener(ResetPlayerButton_OnClicked);
          
          // Populate default UI
-         RefreshButton_OnClicked();
+         _inventoryServiceExample.Refresh();
       }
 
       //  Event Handlers  -------------------------------
@@ -51,9 +51,9 @@ namespace Beamable.Examples.Services.InventoryService
          _inventoryServiceExample.DeleteOneItem();
       }
 
-      private void RefreshButton_OnClicked()
+      private void ResetPlayerButton_OnClicked()
       {
-         _inventoryServiceExample.Refresh();
+         _inventoryServiceExample.ResetPlayer();
       }
       
       private void InventoryServiceExample_OnRefreshed(InventoryServiceExampleData 
@@ -63,7 +63,7 @@ namespace Beamable.Examples.Services.InventoryService
          StringBuilder clientContentObjectStringBuilder = new StringBuilder();
          foreach (string clientContentObjectName in inventoryServiceExampleData.ContentObjectNames)
          {
-            clientContentObjectStringBuilder.Append(clientContentObjectName).AppendLine();
+            clientContentObjectStringBuilder.Append($" • {clientContentObjectName}").AppendLine();
          }
          ContentBodyText.text = clientContentObjectStringBuilder.ToString();
 
@@ -71,7 +71,7 @@ namespace Beamable.Examples.Services.InventoryService
          StringBuilder playerInventoryStringBuilder = new StringBuilder();
          foreach (string playerInventoryItemName in inventoryServiceExampleData.InventoryItemNames)
          {
-            playerInventoryStringBuilder.Append(playerInventoryItemName).AppendLine();
+            playerInventoryStringBuilder.Append($" • {playerInventoryItemName}").AppendLine();
          }
          InventoryBodyText.text = playerInventoryStringBuilder.ToString();
 
@@ -86,8 +86,8 @@ namespace Beamable.Examples.Services.InventoryService
          DeleteItemButton.GetComponentInChildren<TMP_Text>().text = 
             $"Delete 1 Item\n({inventoryServiceExampleData.ItemToDeleteName})";
 
-         RefreshButton.GetComponentInChildren<TMP_Text>().text =
-            $"Refresh";
+         ResetPlayerButton.GetComponentInChildren<TMP_Text>().text =
+            $"Debug\n(Reset Player)";
       }
    }
 }

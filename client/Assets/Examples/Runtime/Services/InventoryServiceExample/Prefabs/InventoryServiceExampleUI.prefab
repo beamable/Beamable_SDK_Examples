@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _examplePanelUIs:
-  - {fileID: 7526159603442602063}
+  - {fileID: 1293960848154545828}
   - {fileID: 7526159604660796566}
   - {fileID: 7526159603197257012}
   _inventoryServiceExample: {fileID: 0}
@@ -507,9 +507,9 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7342527312755408035}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7526159603442602063 stripped
+--- !u!114 &1293960848154545828 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 979444927697317100, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
+  m_CorrespondingSourceObject: {fileID: 8363456333921415687, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
     type: 3}
   m_PrefabInstance: {fileID: 7342527312755408035}
   m_PrefabAsset: {fileID: 0}

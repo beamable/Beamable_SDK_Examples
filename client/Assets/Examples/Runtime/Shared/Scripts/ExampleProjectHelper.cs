@@ -19,6 +19,18 @@ namespace Beamable.Examples.Shared
         //  Methods  --------------------------------------
         
         /// <summary>
+        /// Get UI-friendly display name text for a content id
+        /// </summary>
+        /// <param name="contentId"></param>
+        /// <returns></returns>
+        public static string GetDisplayNameFromContentId(string contentId)
+        {
+            //Change "items.foo.Blah" to "Blah"
+            var tokens = contentId.Split('.');
+            return tokens[tokens.Length - 1];
+        }
+        
+        /// <summary>
         /// Get a public stat using the <see cref="StatsService"/>
         /// </summary>
         public static async Task<string> GetPublicPlayerStat(IBeamableAPI beamableAPI, string statKey)
