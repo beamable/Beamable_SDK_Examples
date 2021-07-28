@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Beamable.Common;
 using UnityEngine;
@@ -28,10 +29,16 @@ namespace Beamable.Examples.LearningFundamentals.PromiseProgramming
             
             Debug.Log("4 PromiseBatchWithCompleteSuccess()");
             PromiseBatchWithCompleteSuccess();
+            
+            Debug.Log("5 StringPromiseCoroutineWithCompleteSuccess()");
+            StringPromiseCoroutineWithCompleteSuccess();
+            
         }
         
         
         //  Methods  (BEGINNER) ---------------------------
+        
+        
         private void StringPromiseWithCompleteSuccess()
         {
             // 1. Arrange
@@ -122,6 +129,32 @@ namespace Beamable.Examples.LearningFundamentals.PromiseProgramming
                 Debug.Log($"promiseBatch.Then() result = {result}");
             });
 
+        }
+        
+        
+        private void StringPromiseCoroutineWithCompleteSuccess()
+        {
+            StartCoroutine(StringPromiseCoroutine());
+        }
+        
+        
+        private IEnumerator StringPromiseCoroutine()
+        {
+            // 1. Arrange
+            var stringPromise = new Promise<string>();
+            
+            // 3. Assert
+            stringPromise.Then(result =>
+            {
+                Debug.Log($"stringPromise.Then() result = {result}");
+                Assert.AreEqual(result, "Hello World!");
+            });
+
+            // 2. Act
+            stringPromise.CompleteSuccess("Hello World!");
+            
+            yield return stringPromise.ToYielder();
+            
         }
         
         //  Event Handlers  -------------------------------
