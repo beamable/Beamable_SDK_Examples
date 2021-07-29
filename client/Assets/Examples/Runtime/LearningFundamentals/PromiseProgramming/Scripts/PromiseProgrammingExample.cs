@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Beamable.Common;
+using Beamable.Common.Api.Auth;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -18,11 +19,16 @@ namespace Beamable.Examples.LearningFundamentals.PromiseProgramming
         {
             Debug.Log("Start()");
 
+            //  (BEGINNER) 
+            
             Debug.Log("1 StringPromiseWithCompleteSuccess()");
             StringPromiseWithCompleteSuccess();
             
-            //Debug.Log("2 StringPromiseWithCompleteError()");
+            Debug.Log("2 StringPromiseWithCompleteError()");
+            // Run this to see demo of Exception
             //StringPromiseWithCompleteError();
+            
+            //  (INTERMEDIATE) 
             
             Debug.Log("3 PromiseSequenceWithCompleteSuccess()");
             PromiseSequenceWithCompleteSuccess();
@@ -32,6 +38,14 @@ namespace Beamable.Examples.LearningFundamentals.PromiseProgramming
             
             Debug.Log("5 StringPromiseCoroutineWithCompleteSuccess()");
             StringPromiseCoroutineWithCompleteSuccess();
+            
+            //  (ADVANCED) 
+            
+            Debug.Log("6 PromiseMapWithCompleteSuccess()");
+            PromiseMapWithCompleteSuccess();
+            
+            Debug.Log("7 PromiseFlatMapWithCompleteSuccess()");
+            PromiseFlatMapWithCompleteSuccess();
             
         }
         
@@ -56,6 +70,7 @@ namespace Beamable.Examples.LearningFundamentals.PromiseProgramming
         }
         
         
+        
         private void StringPromiseWithCompleteError()
         {
             // 1. Arrange
@@ -69,11 +84,12 @@ namespace Beamable.Examples.LearningFundamentals.PromiseProgramming
             });
 
             // 2. Act
-            stringPromise.CompleteError(new Exception("Something went wrong before result is ready"));
+            stringPromise.CompleteError(new Exception("Exception thrown as example. Its ok."));
         }
         
         
-        //  Methods  (ADVANCED) ---------------------------
+        //  Methods  (INTERMEDIATE) -----------------------
+      
         private void PromiseSequenceWithCompleteSuccess()
         {
             // 1. Arrange
@@ -156,6 +172,46 @@ namespace Beamable.Examples.LearningFundamentals.PromiseProgramming
             yield return stringPromise.ToYielder();
             
         }
+        //  Methods  (ADVANCED) ---------------------------
+          
+        private void PromiseMapWithCompleteSuccess()
+        {
+            // 1. Arrange
+            var userPromise = new Promise<User>();
+            var emailPromise = userPromise.Map(user => user.email);
+            
+            // 3. Assert
+            emailPromise.Then(result =>
+            {
+                Debug.Log($"emailPromise.Then() result = {result}");
+                Assert.AreEqual(result, "hello@world.com");
+            });
+
+            // 2. Act
+            var user = new User();
+            user.email = "hello@world.com";
+            userPromise.CompleteSuccess(user);
+        }
+        
+        private async void PromiseFlatMapWithCompleteSuccess()
+        {
+            // 1. Arrange
+            var beamableAPI = await Beamable.API.Instance;
+            var userPromise = new Promise<User>();
+            var inventoryPromise = userPromise.FlatMap(user => beamableAPI.InventoryService.GetCurrent());
+            
+            // 3. Assert
+            inventoryPromise.Then(result =>
+            {
+                Debug.Log($"inventoryPromise.Then() result = {result}");
+            });
+
+            // 2. Act
+            var user = beamableAPI.User;
+            userPromise.CompleteSuccess(user);
+        }
+
+        
         
         //  Event Handlers  -------------------------------
     }
