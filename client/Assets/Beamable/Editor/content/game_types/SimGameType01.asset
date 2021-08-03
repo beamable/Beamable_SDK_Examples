@@ -23,10 +23,10 @@ MonoBehaviour:
   numericRules: []
   stringRules: []
   waitAfterMinReachedSecs:
-    HasValue: 0
-    Value: 0
+    HasValue: 1
+    Value: 5
   maxWaitDurationSecs:
-    HasValue: 0
-    Value: 0
+    HasValue: 1
+    Value: 7
   leaderboardUpdates: []
   rewards: []

@@ -69,14 +69,6 @@ namespace Beamable.Examples.Services.MatchmakingService
          }
       }
       
-      public string GameId
-      {
-         get
-         {
-            return _matchmakingHandle?.Status?.GameId;
-         }
-      }
-      
       public long LocalPlayer { get { return _localPlayer; } }
       public SimGameType SimGameType { get { return _simGameType; } }
       public MatchmakingHandle MatchmakingHandle { get { return _matchmakingHandle; } set { _matchmakingHandle = value;} }
@@ -100,7 +92,7 @@ namespace Beamable.Examples.Services.MatchmakingService
       public override string ToString()
       {
          return $"[MyMatchmakingResult (" +
-            $"MatchId = {_matchmakingHandle.Match.matchId}, " +
+            $"MatchId = {MatchId}, " +
             $"Teams = {_matchmakingHandle.Match.teams}, " +
             $"players.Count = {Players.Count})]";
       }
