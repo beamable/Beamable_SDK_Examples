@@ -14,9 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tags: []
   maxPlayers: 1
-  minPlayersToStart:
-    HasValue: 1
-    Value: 1
+  teams:
+  - name: Team01
+    maxPlayers: 1
+    minPlayers:
+      HasValue: 1
+      Value: 1
+  numericRules: []
+  stringRules: []
   waitAfterMinReachedSecs:
     HasValue: 0
     Value: 0

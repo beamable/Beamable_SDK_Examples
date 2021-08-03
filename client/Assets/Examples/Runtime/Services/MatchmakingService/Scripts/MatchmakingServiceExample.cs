@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Beamable.Common.Content;
+using UnityEngine;
 
 namespace Beamable.Examples.Services.MatchmakingService
 {
@@ -15,56 +16,64 @@ namespace Beamable.Examples.Services.MatchmakingService
         /// </summary>
         [SerializeField]
         private SimGameTypeRef _simGameTypeRef;
+        private IBeamableAPI _beamableAPI = null;
+        
         
         //  Unity Methods  --------------------------------
-
         protected void Start()
         {
-            Debug.Log("Start()");
-
+            Debug.Log("Start()\n\n");
             SetupBeamable();
         }
+        
         
         //  Methods  --------------------------------------
         private async void SetupBeamable()
         {
-            var beamableAPI = await Beamable.API.Instance;
-
-            Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
+            _beamableAPI = await Beamable.API.Instance;
+            Debug.Log($"beamableAPI.User.id = {_beamableAPI.User.id}\n\n");
             
             var simGameType = await _simGameTypeRef.Resolve();
-
-            Debug.Log($"simGameType.maxPlayers = {simGameType.maxPlayers}");
-            Debug.Log($"simGameType.minPlayersToStart = {simGameType.minPlayersToStart.Value}");
             
-            var myMatchmaking = new MyMatchmaking(beamableAPI.Experimental.MatchmakingService, simGameType, beamableAPI.User.id);
-            myMatchmaking.OnProgress += MyMatchmaking_OnProgress;
-            myMatchmaking.OnComplete += MyMatchmaking_OnComplete;
-            await myMatchmaking.Start();
+            var myMatchmaking = new MyMatchmaking(
+                _beamableAPI.Experimental.MatchmakingService, 
+                simGameType, 
+                _beamableAPI.User.id);
+            
+            myMatchmaking.OnProgress.AddListener(MyMatchmaking_OnProgress);
+            myMatchmaking.OnComplete.AddListener(MyMatchmaking_OnComplete);
+            myMatchmaking.OnError.AddListener(MyMatchmaking_OnError);
+            
+            Debug.Log($"myMatchmaking.StartMatchmaking()\n\n");
+            await myMatchmaking.StartMatchmaking();
         }
         
         
         //  Event Handlers  -------------------------------
         private void MyMatchmaking_OnProgress(MyMatchmakingResult myMatchmakingResult)
         {
-            Debug.Log($"MyMatchmaking_OnProgress() " +
-                      $"Players = {myMatchmakingResult.Players.Count}/{myMatchmakingResult.TargetPlayerCount} " +
-                      $"RoomId = {myMatchmakingResult.RoomId}");
+            Debug.Log($"MyMatchmaking_OnProgress()...\n\n" +
+                      $"MatchId = {myMatchmakingResult.MatchId}\n" +
+                      $"Players = {myMatchmakingResult.Players.Count} of {myMatchmakingResult.PlayerCountMax}\n");
+
         }
 
+        
         private void MyMatchmaking_OnComplete(MyMatchmakingResult myMatchmakingResult)
         {
-            if (string.IsNullOrEmpty(myMatchmakingResult.ErrorMessage))
-            {
-                Debug.Log($"MyMatchmaking_OnComplete() Success! " +
-                          $"RoomId = {myMatchmakingResult.RoomId}");
-            }
-            else
-            {
-                Debug.Log($"MyMatchmaking_OnComplete() Failed. " +
-                          $"Error = {myMatchmakingResult.ErrorMessage}");
-                
-            }
+            Debug.Log($"MyMatchmaking_OnComplete()...\n\n" +
+                      $"GameId = {myMatchmakingResult.GameId}\n" +
+                      $"MatchId = {myMatchmakingResult.MatchId}\n" +
+                      $"LocalPlayer = {myMatchmakingResult.LocalPlayer}\n" +
+                      $"Players = {string.Join(",", myMatchmakingResult.Players)}\n");
+        }
+        
+        
+        private void MyMatchmaking_OnError(MyMatchmakingResult myMatchmakingResult)
+        {
+            Debug.Log($"MyMatchmaking_OnError()...\n\n" +
+                      $"ErrorMessage = {myMatchmakingResult.ErrorMessage}\n");
+            
         }
     }
 }

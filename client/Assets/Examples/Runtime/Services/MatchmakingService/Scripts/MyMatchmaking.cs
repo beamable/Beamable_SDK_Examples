@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
+using System.Linq;
 using System.Threading.Tasks;
 using Beamable.Common.Content;
+using Beamable.Experimental.Api.Matchmaking;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Beamable.Examples.Services.MatchmakingService
 {
-   [Serializable]
-   public class SimGameTypeRef : ContentRef<SimGameType> { }
+   public class MyMatchmakingEvent : UnityEvent<MyMatchmakingResult>{}
 
    /// <summary>
    /// Contains the in-progress matchmaking data.
@@ -19,32 +20,88 @@ namespace Beamable.Examples.Services.MatchmakingService
    public class MyMatchmakingResult
    {
       //  Properties  -------------------------------------
-      public bool IsComplete { get { return !string.IsNullOrEmpty(RoomId); } }
-      public long LocalPlayerDbid { get { return _localPlayerDbid; } }
-      public int TargetPlayerCount { get { return _targetPlayerCount; } }
+      public List<long> Players
+      {
+         get
+         {
+            if (_matchmakingHandle == null)
+            {
+               return new List<long>();
+            }
+            return _matchmakingHandle.Status.Players.Select(i => long.Parse(i)).ToList();
+         }
+      }
+      
+      public int PlayerCountMin
+      {
+         get
+         {
+            int playerCountMin = 0;
+            foreach (TeamContent teamContent in _simGameType.teams)
+            {
+               if (teamContent.minPlayers.HasValue)
+               {
+                  playerCountMin += teamContent.minPlayers.Value;
+               }
+            }
+            return playerCountMin;
+         }
+      }
+      
+      public int PlayerCountMax
+      {
+         get
+         {
+            int playerCountMax = 0;
+            foreach (TeamContent teamContent in _simGameType.teams)
+            {
+               playerCountMax += teamContent.maxPlayers;
+            }
+            return playerCountMax;
+         }
+      }
+      
+      public string MatchId
+      {
+         get
+         {
+            return _matchmakingHandle?.Match?.matchId;
+         }
+      }
+      
+      public string GameId
+      {
+         get
+         {
+            return _matchmakingHandle?.Status?.GameId;
+         }
+      }
+      
+      public long LocalPlayer { get { return _localPlayer; } }
+      public SimGameType SimGameType { get { return _simGameType; } }
+      public MatchmakingHandle MatchmakingHandle { get { return _matchmakingHandle; } set { _matchmakingHandle = value;} }
+      public bool IsInProgress { get { return _isInProgress; } set { _isInProgress = value;} }
 
       //  Fields  -----------------------------------------
-      public string RoomId;
-      public int SecondsRemaining;
-      public List<long> Players = new List<long>();
       public string ErrorMessage = "";
-      private long _localPlayerDbid;
-      private int _targetPlayerCount;
+      private long _localPlayer;
+      private bool _isInProgress = false;
+      private MatchmakingHandle _matchmakingHandle = null;
+      private SimGameType _simGameType;
 
       //  Constructor  ------------------------------------
-      public MyMatchmakingResult(long localPlayerDbid, int targetPlayerCount)
+      public MyMatchmakingResult(SimGameType simGameType, long localPlayer)
       {
-         _localPlayerDbid = localPlayerDbid;
-         _targetPlayerCount = targetPlayerCount;
+         _simGameType = simGameType;
+         _localPlayer = localPlayer;
       }
-
 
       //  Other Methods  ----------------------------------
       public override string ToString()
       {
          return $"[MyMatchmakingResult (" +
-            $"RoomId = {RoomId}, " +
-            $"TargetPlayerCount = {TargetPlayerCount}, " +
+            $"MatchId = {_matchmakingHandle.Match.matchId}, " +
+            $"Teams = {_matchmakingHandle.Match.teams}, " +
             $"players.Count = {Players.Count})]";
       }
    }
@@ -56,83 +113,65 @@ namespace Beamable.Examples.Services.MatchmakingService
    public class MyMatchmaking
    {
       //  Events  -----------------------------------------
-      public event Action<MyMatchmakingResult> OnProgress;
-      public event Action<MyMatchmakingResult> OnComplete;
-
+      public MyMatchmakingEvent OnProgress = new MyMatchmakingEvent();
+      public MyMatchmakingEvent OnComplete = new MyMatchmakingEvent();
+      public MyMatchmakingEvent OnError = new MyMatchmakingEvent();
+      
+      
       //  Properties  -------------------------------------
       public MyMatchmakingResult MyMatchmakingResult { get { return _myMatchmakingResult; } }
 
+      
       //  Fields  -----------------------------------------
-      public static bool IsDebugLogging = false;
-      public const string DefaultRoomId = "DefaultRoom";
-      public const int Delay = 1000;
-
-      private MyMatchmakingResult _myMatchmakingResult;
-      private Experimental.Api.Matchmaking.MatchmakingService _matchmakingService;
-      private SimGameType _simGameType;
-      private CancellationTokenSource _matchmakingOngoing;
+      private MyMatchmakingResult _myMatchmakingResult = null;
+      private Experimental.Api.Matchmaking.MatchmakingService _matchmakingService = null;
+      
 
       //  Constructor  ------------------------------------
       public MyMatchmaking(Experimental.Api.Matchmaking.MatchmakingService matchmakingService,
          SimGameType simGameType, long localPlayerDbid)
       {
          _matchmakingService = matchmakingService;
-         _simGameType = simGameType;
-
-         _myMatchmakingResult = new MyMatchmakingResult(localPlayerDbid, _simGameType.maxPlayers);
+         _myMatchmakingResult = new MyMatchmakingResult(simGameType, localPlayerDbid);
       }
 
+      
       //  Other Methods  ----------------------------------
-      public async Task Start()
+      public async Task StartMatchmaking()
       {
-         _myMatchmakingResult.RoomId = "";
-         _myMatchmakingResult.SecondsRemaining = 0;
-
-         DebugLog($"MyMatchmaking.Start() TargetPlayerCount = {_simGameType.maxPlayers}");
-         var handle = await _matchmakingService.StartMatchmaking(_simGameType.Id);
-
-         try
+         if (_myMatchmakingResult.IsInProgress)
          {
-            _matchmakingOngoing = new CancellationTokenSource();
-            var token = _matchmakingOngoing.Token;
-
-            Debug.Log("handle.Status.MinPlayersReached: " + handle.Status.MinPlayersReached);
-            do
+            Debug.LogError($"MyMatchmaking.StartMatchmaking() failed. " +
+                           $"IsInProgress must not be {_myMatchmakingResult.IsInProgress}.\n\n");
+            return;
+         }
+         _myMatchmakingResult.IsInProgress = true;
+         
+         _myMatchmakingResult.MatchmakingHandle =  await _matchmakingService.StartMatchmaking(
+            _myMatchmakingResult.SimGameType.Id,
+            maxWait: TimeSpan.FromSeconds(10),
+            updateHandler: handle =>
             {
-               if (token.IsCancellationRequested) return;
-
-               _myMatchmakingResult.Players = handle.Status.Players;
-               _myMatchmakingResult.SecondsRemaining = handle.Status.SecondsRemaining;
-               _myMatchmakingResult.RoomId = handle.Status.GameId;
-               OnProgress?.Invoke(_myMatchmakingResult);
-               await Task.Delay(1000, token);
-            } while (!handle.Status.MinPlayersReached);
-         }
-         finally
-         {
-            _matchmakingOngoing.Dispose();
-            _matchmakingOngoing = null;
-         }
-
-         // Invoke Progress #2
-         OnProgress?.Invoke(_myMatchmakingResult);
-
-         // Invoke Complete
-         OnComplete?.Invoke(_myMatchmakingResult);
+               OnProgress.Invoke(_myMatchmakingResult);
+            },
+            readyHandler: handle =>
+            {
+               Debug.Assert(handle.State == MatchmakingState.Ready);
+               _myMatchmakingResult.IsInProgress = false;
+               OnComplete.Invoke(_myMatchmakingResult);
+            },
+            timeoutHandler: handle =>
+            {
+               _myMatchmakingResult.IsInProgress = false;
+               _myMatchmakingResult.ErrorMessage = "Timeout";
+               OnError?.Invoke(_myMatchmakingResult);
+            });
       }
-
+      
+      
       public async void Stop()
       {
-         await _matchmakingService.CancelMatchmaking(_simGameType.Id);
-         _matchmakingOngoing?.Cancel();
-      }
-
-      private static void DebugLog(string message)
-      {
-         if (IsDebugLogging)
-         {
-            Debug.Log(message);
-         }
+         await _matchmakingService.CancelMatchmaking(_myMatchmakingResult.MatchmakingHandle.Tickets[0].ticketId);
       }
    }
 }
