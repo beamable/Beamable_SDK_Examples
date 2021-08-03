@@ -1,11 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Beamable.Experimental.Api.Sim;
 using UnityEngine;
-using Random = UnityEngine.Random;
+using UnityEngine.Events;
 
 namespace Beamable.Examples.Services.Multiplayer
 {
+   [System.Serializable]
+   public class MultiplayerExampleDataEvent : UnityEvent<MultiplayerExampleData> { }
+
+   public enum SessionState
+   {
+      None,
+      Initializing,
+      Initialized,
+      Connected,
+      Disconnected
+   }
+   
+   /// <summary>
+   /// Holds data for use in the <see cref="MultiplayerExample"/>.
+   /// </summary>
+   [System.Serializable]
+   public class MultiplayerExampleData
+   {
+      public string MatchId = null;
+      public string SessionSeed;
+      public long CurrentFrame;
+      public long LocalPlayerDbid;
+      public bool IsSessionConnected { get { return SessionState == SessionState.Connected; }}
+      public SessionState SessionState = SessionState.None;
+      public List<string> PlayerMoveLogs = new List<string>();
+      public List<string> PlayerDbids = new List<string>();
+   }
+   
+   /// <summary>
+   /// Defines a simple type of in-game "move" sent by a player
+   /// </summary>
    public class MyPlayerMoveEvent
    {
       public static string Name = "MyPlayerMoveEvent";
@@ -17,6 +47,11 @@ namespace Beamable.Examples.Services.Multiplayer
          PlayerDbid = playerDbid;
          Position = position;
       }
+
+      public override string ToString()
+      {
+         return $"[MyPlayerMoveEvent({Position})]";
+      }
    }
    
     /// <summary>
@@ -24,25 +59,25 @@ namespace Beamable.Examples.Services.Multiplayer
     /// </summary>
     public class MultiplayerExample : MonoBehaviour
     {
+       //  Events  ---------------------------------------
+       [HideInInspector]
+       public MultiplayerExampleDataEvent OnRefreshed = new MultiplayerExampleDataEvent();
+       
         //  Fields  ---------------------------------------
+       
+        private MultiplayerExampleData _multiplayerExampleData = new MultiplayerExampleData();
         private const long FramesPerSecond = 20;
         private const long TargetNetworkLead = 4;
-        private const string RoomId = "MyCustomRoomId";
-
         private SimClient _simClient;
-        private string _sessionSeed;
-        private long _currentFrame;
-        private List<string> _sessionPlayerDbids = new List<string>();
-        private long _localPlayerDbid;
-        
         
         //  Unity Methods  --------------------------------
         protected void Start()
         {
            Debug.Log($"Start() Instructions...\n" + 
                      " * Run The Scene\n" + 
-                     " * Press 'Spacebar' in Unity Game Window to send custom event\n" + 
-                     " * See results in the Unity Console Window\n");
+                     " * Press 'Start Multiplayer'\n" + 
+                     " * Press 'Send Player Move'\n" + 
+                     " * See results in the in-game UI\n");
 
             SetupBeamable();
         }
@@ -55,29 +90,17 @@ namespace Beamable.Examples.Services.Multiplayer
               _simClient.Update(); 
            }
 
-           // Send Custom Events
-           if (Input.GetKeyDown(KeyCode.Space))
+           string refreshString = "";
+           refreshString += $"MatchId: {_multiplayerExampleData.MatchId}\n";
+           refreshString += $"Seed: {_multiplayerExampleData.SessionSeed}\n";
+           refreshString += $"Frame: {_multiplayerExampleData.CurrentFrame}\n";
+           refreshString += $"Dbids:";
+           foreach (var dbid in _multiplayerExampleData.PlayerDbids)
            {
-              // Mock a random player position
-              Vector3 position = new Vector3().normalized * Random.Range(1, 10);
-              
-              Debug.Log($"_simClient.SendEvent() Position = {position}");
-
-              _simClient.SendEvent(MyPlayerMoveEvent.Name,
-                 new MyPlayerMoveEvent(_localPlayerDbid, position));
+              refreshString += $"{dbid},";
            }
 
-           string message = "";
-           message += $"Room: {RoomId}\n";
-           message += $"Seed: {_sessionSeed}\n";
-           message += $"Frame: {_currentFrame}\n";
-           message += $"Dbids:";
-           foreach (var dbid in _sessionPlayerDbids)
-           {
-              message += $"{dbid},";
-           }
-
-           //Debug.Log($"message:{message}");
+           //Debug.Log($"message:{refreshString}");
         }
 
         
@@ -85,7 +108,7 @@ namespace Beamable.Examples.Services.Multiplayer
         {
            if (_simClient != null)
            {
-              //TODO: Manually leave session. Needed?
+              StopMultiplayer();
            }
         }
         
@@ -98,33 +121,97 @@ namespace Beamable.Examples.Services.Multiplayer
             Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
             
             // Access Local Player Information
-            _localPlayerDbid = beamableAPI.User.id;
-            
-            // Create Multiplayer Session
-            _simClient = new SimClient(new SimNetworkEventStream(RoomId), 
-               FramesPerSecond, TargetNetworkLead);
-        
-            // Handle Common Events
-            _simClient.OnInit(SimClient_OnInit);
-            _simClient.OnConnect(SimClient_OnConnect);
-            _simClient.OnDisconnect(SimClient_OnDisconnect);
-            _simClient.OnTick(SimClient_OnTick);
-            
+            _multiplayerExampleData.LocalPlayerDbid = beamableAPI.User.id;
+
         }
         
+        public void StartMultiplayer()
+        {
+           if (_simClient != null)
+           {
+              StopMultiplayer();
+           }
+           
+           _multiplayerExampleData.SessionState = SessionState.Initializing;
+           Refresh();
+           
+           // Generates a specific MatchId
+           // (Otherwise use Beamable's MatchmakingService)
+           _multiplayerExampleData.MatchId = "MyCustomMatchId_" + UnityEngine.Random.Range(0,99999);
+           
+           // Create Multiplayer Session
+           _simClient = new SimClient(
+              new SimNetworkEventStream(_multiplayerExampleData.MatchId), 
+              FramesPerSecond, TargetNetworkLead);
+        
+           // Handle Common Events
+           _simClient.OnInit(SimClient_OnInit);
+           _simClient.OnConnect(SimClient_OnConnect);
+           _simClient.OnDisconnect(SimClient_OnDisconnect);
+           _simClient.OnTick(SimClient_OnTick);
+        }
+
+        public void StopMultiplayer()
+        {
+           if (_simClient != null)
+           {
+              // TODO: Manually Disconnect/close?
+              _simClient = null;
+           }
+
+           _multiplayerExampleData.SessionState = SessionState.Disconnected;
+           Refresh();
+        }
+
+        public void SendPlayerMoveButton()
+        {
+           if (_simClient == null)
+           {
+              return;
+           }
+           
+           // Create a mock  player position
+           Vector3 position = new Vector3(
+              Random.Range(1, 10),
+              Random.Range(1, 10),
+              Random.Range(1, 10)
+              );
+           
+           _simClient.SendEvent(MyPlayerMoveEvent.Name,
+              new MyPlayerMoveEvent(_multiplayerExampleData.LocalPlayerDbid, position));
+        }
+        
+        public void Refresh()
+        {
+           string refreshLog = $"Refresh() ...\n" +
+                               $"\n * LocalPlayerDbid = {_multiplayerExampleData.LocalPlayerDbid}\n\n" +
+                               $"\n * PlayerDbids.Count = {_multiplayerExampleData.PlayerDbids.Count}\n\n" +
+                               $"\n * PlayerMoveLogs.Count = {_multiplayerExampleData.PlayerMoveLogs.Count}\n\n";
+            
+           //Debug.Log(refreshLog);
+
+           OnRefreshed?.Invoke(_multiplayerExampleData);
+        }
+
         
         //  Event Handlers  -------------------------------
         private void SimClient_OnInit(string sessionSeed)
         {
-           _sessionSeed = sessionSeed;
-           Debug.Log($"SimClient_OnInit(): RoomId = {RoomId}, " +
+           _multiplayerExampleData.SessionState = SessionState.Initialized;
+           _multiplayerExampleData.SessionSeed = sessionSeed;
+           Refresh();
+           
+           Debug.Log($"SimClient_OnInit()...\n" + 
+                     $"MatchId = {_multiplayerExampleData.MatchId}, " +
                      $"sessionSeed = {sessionSeed}");
         }
 
         
         private void SimClient_OnConnect(string dbid)
         {
-           _sessionPlayerDbids.Add(dbid);
+           _multiplayerExampleData.SessionState = SessionState.Connected;
+           _multiplayerExampleData.PlayerDbids.Add(dbid);
+           Refresh();
         
            // Handle Custom Events for EACH dbid
            _simClient.On<MyPlayerMoveEvent>(MyPlayerMoveEvent.Name, dbid,
@@ -136,20 +223,30 @@ namespace Beamable.Examples.Services.Multiplayer
         
         private void SimClient_OnDisconnect(string dbid)
         {
-           _sessionPlayerDbids.Remove(dbid);
+           if (long.Parse(dbid) == _multiplayerExampleData.LocalPlayerDbid)
+           {
+              StopMultiplayer();
+           }
+           
+           _multiplayerExampleData.PlayerDbids.Remove(dbid);
+           Refresh();
+           
            Debug.Log($"SimClient_OnDisconnect() dbid = {dbid}");
         }
 
         
         private void SimClient_OnTick(long currentFrame)
         {
-           _currentFrame = currentFrame;
+           _multiplayerExampleData.CurrentFrame = currentFrame;
+           Refresh();
         }
 
         
         private void SimClient_OnMyPlayerMoveEvent(MyPlayerMoveEvent myPlayerMoveEvent)
         {
-           Debug.Log($"SimClient_OnMyPlayerMoveEvent() Position = {myPlayerMoveEvent.Position}");
+           string playerMoveLog = $"{myPlayerMoveEvent}";
+           _multiplayerExampleData.PlayerMoveLogs.Add(playerMoveLog);
+           Refresh();
         }
     }
 }
