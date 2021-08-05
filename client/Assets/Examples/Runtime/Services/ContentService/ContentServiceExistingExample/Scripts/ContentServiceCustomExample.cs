@@ -1,18 +1,8 @@
-using System;
-using Beamable.Common.Content;
-using Beamable.Common.Inventory;
-using Beamable.Examples.Services.InventoryService;
+using Beamable.Examples.Shared;
 using UnityEngine;
 
 namespace Beamable.Examples.Services.ContentService
 {
-    [Serializable]
-    public class ArmorLink : ContentLink<Armor> {}
-    
-    [Serializable]
-    public class ArmorRef : ContentRef<Armor> {}
-
-    
     /// <summary>
     /// Demonstrates <see cref="ContentService"/>.
     /// </summary>

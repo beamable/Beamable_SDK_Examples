@@ -4,15 +4,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Beamable.Examples.Services.InventoryService
+namespace Beamable.Examples.Services.InventoryService.InventoryItemExample
 {
    /// <summary>
-   /// The UI for the <see cref="InventoryServiceExample"/>.
+   /// The UI for the <see cref="InventoryItemExample"/>.
    /// </summary>
-   public class InventoryServiceExampleUI : ExampleCanvasUI
+   public class InventoryItemExampleUI : ExampleCanvasUI
    {
       //  Fields  ---------------------------------------
-      [SerializeField] private InventoryServiceExample _inventoryServiceExample = null;
+      [SerializeField] private InventoryItemExample _inventoryItemExample = null;
 
       // Menu Panel
       private TMP_Text MenuTitleText { get { return TitleText01; }}
@@ -31,37 +31,37 @@ namespace Beamable.Examples.Services.InventoryService
       //  Unity Methods  --------------------------------
       protected void Start()
       {
-         _inventoryServiceExample.OnRefreshed.AddListener(InventoryServiceExample_OnRefreshed);
+         _inventoryItemExample.OnRefreshed.AddListener(InventoryServiceExample_OnRefreshed);
          AddItemButton.onClick.AddListener(AddItemButton_OnClicked);
          DeleteItemButton.onClick.AddListener(DeleteItemButton_OnClicked);
          ResetPlayerButton.onClick.AddListener(ResetPlayerButton_OnClicked);
          
          // Populate default UI
-         _inventoryServiceExample.Refresh();
+         _inventoryItemExample.Refresh();
       }
 
       //  Event Handlers  -------------------------------
       private void AddItemButton_OnClicked()
       {
-         _inventoryServiceExample.AddOneItem();
+         _inventoryItemExample.AddOneItem();
       }
 
       private void DeleteItemButton_OnClicked()
       {
-         _inventoryServiceExample.DeleteOneItem();
+         _inventoryItemExample.DeleteOneItem();
       }
 
       private void ResetPlayerButton_OnClicked()
       {
-         _inventoryServiceExample.ResetPlayer();
+         _inventoryItemExample.ResetPlayer();
       }
       
-      private void InventoryServiceExample_OnRefreshed(InventoryServiceExampleData 
-         inventoryServiceExampleData)
+      private void InventoryServiceExample_OnRefreshed(InventoryItemExampleData 
+         inventoryItemExampleData)
       {
          // Show UI: Game Content
          StringBuilder clientContentObjectStringBuilder = new StringBuilder();
-         foreach (string clientContentObjectName in inventoryServiceExampleData.ContentObjectNames)
+         foreach (string clientContentObjectName in inventoryItemExampleData.ContentObjectNames)
          {
             clientContentObjectStringBuilder.Append($" • {clientContentObjectName}").AppendLine();
          }
@@ -69,7 +69,7 @@ namespace Beamable.Examples.Services.InventoryService
 
          // Show UI: Player Inventory
          StringBuilder playerInventoryStringBuilder = new StringBuilder();
-         foreach (string playerInventoryItemName in inventoryServiceExampleData.InventoryItemNames)
+         foreach (string playerInventoryItemName in inventoryItemExampleData.InventoryItemNames)
          {
             playerInventoryStringBuilder.Append($" • {playerInventoryItemName}").AppendLine();
          }
@@ -77,14 +77,14 @@ namespace Beamable.Examples.Services.InventoryService
 
          // Show UI: Other
          MenuTitleText.text = "InventoryService Example";
-         ContentTitleText.text = "Content";
-         InventoryTitleText.text = "Inventory";
+         ContentTitleText.text = "Game - All Content";
+         InventoryTitleText.text = "Player - Current Inventory";
          
          AddItemButton.GetComponentInChildren<TMP_Text>().text = 
-            $"Add 1 Item\n({inventoryServiceExampleData.ItemToAddName})";
+            $"Add 1 Item\n({inventoryItemExampleData.ItemToAddName})";
          
          DeleteItemButton.GetComponentInChildren<TMP_Text>().text = 
-            $"Delete 1 Item\n({inventoryServiceExampleData.ItemToDeleteName})";
+            $"Delete 1 Item\n({inventoryItemExampleData.ItemToDeleteName})";
 
          ResetPlayerButton.GetComponentInChildren<TMP_Text>().text =
             $"Debug\n(Reset Player)";

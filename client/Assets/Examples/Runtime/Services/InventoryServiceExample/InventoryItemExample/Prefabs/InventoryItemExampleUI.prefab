@@ -16,7 +16,7 @@ MonoBehaviour:
   - {fileID: 1293960848154545828}
   - {fileID: 7526159604660796566}
   - {fileID: 7526159603197257012}
-  _inventoryServiceExample: {fileID: 0}
+  _inventoryItemExample: {fileID: 0}
 --- !u!1001 &7342527312755408035
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -177,7 +177,7 @@ PrefabInstance:
     - target: {fileID: 979444927087578835, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
         type: 3}
       propertyPath: m_Name
-      value: InventoryServiceExampleUI
+      value: InventoryItemExampleUI
       objectReference: {fileID: 0}
     - target: {fileID: 979444927087578846, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
         type: 3}

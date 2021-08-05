@@ -462,7 +462,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -4607978639143366840, guid: be598a56c3d31cf48aedb741f30aabad,
         type: 3}
-      propertyPath: _inventoryServiceExample
+      propertyPath: _inventoryItemExample
       value: 
       objectReference: {fileID: 31994829}
     - target: {fileID: 5824203224196420969, guid: be598a56c3d31cf48aedb741f30aabad,
@@ -558,7 +558,7 @@ PrefabInstance:
     - target: {fileID: 7526159602711179888, guid: be598a56c3d31cf48aedb741f30aabad,
         type: 3}
       propertyPath: m_Name
-      value: InventoryServiceExampleUI
+      value: InventoryItemExampleUI
       objectReference: {fileID: 0}
     - target: {fileID: 7526159602711179900, guid: be598a56c3d31cf48aedb741f30aabad,
         type: 3}
