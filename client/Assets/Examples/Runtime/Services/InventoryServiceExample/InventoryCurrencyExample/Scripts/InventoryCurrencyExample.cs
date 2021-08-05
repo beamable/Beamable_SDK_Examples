@@ -38,6 +38,7 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
          SetupBeamable();
       }
 
+      
       //  Methods  --------------------------------------
       private async void SetupBeamable()
       { 
@@ -60,6 +61,7 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
 
       }
 
+      
       public void Refresh()
       {
          string refreshLog = $"Refresh() ...\n" +
@@ -72,10 +74,7 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
          OnRefreshed?.Invoke(_inventoryCurrencyExampleData);
       }
       
-      
 
-
-      
       public async void AddPrimaryCurrency()
       {
          InventoryUpdateBuilder inventoryUpdateBuilder = new InventoryUpdateBuilder();
@@ -106,6 +105,7 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
          });
       }
 
+      
       public async void TradePrimaryToSecondary()
       {
          InventoryUpdateBuilder inventoryUpdateBuilder = new InventoryUpdateBuilder();
@@ -124,6 +124,7 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
                      
          });
       }
+      
       
       public async void TradeSecondaryToPrimary()
       {
@@ -150,8 +151,7 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
          ExampleProjectHacks.ClearDeviceUsersAndReloadScene();
          Debug.Log($"#5. ResetPlayer() success.");
       }
-
-
+      
       
       //  Event Handlers  -------------------------------
       private void ContentService_OnChanged(ClientManifest clientManifest)
@@ -178,6 +178,7 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
          
          Refresh();
       }
+      
       
       private void InventoryService_OnChanged(InventoryView inventoryView)
       {
