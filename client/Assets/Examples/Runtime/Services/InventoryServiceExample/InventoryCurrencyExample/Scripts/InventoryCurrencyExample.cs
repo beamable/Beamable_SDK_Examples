@@ -15,8 +15,11 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
    [System.Serializable]
    public class InventoryCurrencyExampleData
    {
-      public string CurrencyToAddName = "";
-      public string CurrencyToRemoveName = "";
+      public bool IsInteractable { get { return IsChangedContentService && IsChangedInventoryService;}}
+      public bool IsChangedContentService = false;
+      public bool IsChangedInventoryService = false;
+      public CurrencyContent CurrencyContentPrimary = null;
+      public CurrencyContent CurrencyContentSecondary = null;
       public List<string> ContentCurrencyNames = new List<string>();
       public List<string> InventoryCurrencyNames = new List<string>();
    }
@@ -34,13 +37,14 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
       public InventoryCurrencyExampleEvent OnRefreshed = new InventoryCurrencyExampleEvent();
       
       //  Fields  ---------------------------------------
-      [SerializeField] private CurrencyRef _currencyPrimary = null;
-      [SerializeField] private CurrencyRef _currencySecondary = null;
+      [SerializeField] private CurrencyRef _currencyRefPrimary = null;
+      [SerializeField] private CurrencyRef _currencyRefSecondary = null;
       
       private IBeamableAPI _beamableAPI;
+      private const int CurrencyDeltaPerClick = 1;
       private const string ContentType = "currency";
-      private InventoryCurrencyExampleData _inventoryCurrencyExampleData = new InventoryCurrencyExampleData();
-
+      private readonly InventoryCurrencyExampleData _inventoryCurrencyExampleData = new InventoryCurrencyExampleData();
+         
       //  Unity Methods  --------------------------------
       protected void Start()
       {
@@ -57,26 +61,20 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
             
          Debug.Log($"beamableAPI.User.id = {_beamableAPI.User.id}");
 
-         CurrencyContent currencyToAdd = await _currencyPrimary.Resolve();
-         _inventoryCurrencyExampleData.CurrencyToAddName = currencyToAdd.ContentName;
-
-         CurrencyContent currencyToRemove = await _currencySecondary.Resolve();
-         _inventoryCurrencyExampleData.CurrencyToRemoveName = currencyToRemove.ContentName;
+         _inventoryCurrencyExampleData.CurrencyContentPrimary = 
+            await _currencyRefPrimary.Resolve();
+         
+         _inventoryCurrencyExampleData.CurrencyContentSecondary = 
+            await _currencyRefSecondary.Resolve();
 
          // All currencies (Available in game)
-         _beamableAPI.ContentService.Subscribe(ContentType, ContentService_OnChanged);
+         _beamableAPI.ContentService.Subscribe(ContentService_OnChanged);
          
          // Filtered currencies (Owned by current player)
          _beamableAPI.InventoryService.Subscribe(ContentType, InventoryService_OnChanged);
 
       }
 
-      public void ResetPlayer()
-      {
-         ExampleProjectHacks.ClearDeviceUsersAndReloadScene();
-      }
-      
-      
       public void Refresh()
       {
          string refreshLog = $"Refresh() ...\n" +
@@ -88,78 +86,131 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
 
          OnRefreshed?.Invoke(_inventoryCurrencyExampleData);
       }
+      
+      
+
 
       
-      public async void AddCoin()
+      public async void AddPrimaryCurrency()
       {
-         long ownedAmount =
-            _beamableAPI.InventoryService.GetCurrency(_currencyPrimary).GetResult();
-         
-         await _beamableAPI.InventoryService.SetCurrency( _currencyPrimary, 
-            ownedAmount+1).Then(obj =>
+         InventoryUpdateBuilder inventoryUpdateBuilder = new InventoryUpdateBuilder();
+         inventoryUpdateBuilder.CurrencyChange(_inventoryCurrencyExampleData.CurrencyContentPrimary.Id, 
+            CurrencyDeltaPerClick);
+
+         // Add
+         await _beamableAPI.InventoryService.Update(inventoryUpdateBuilder).Then(obj =>
          {
-            Debug.Log($"#3. PLAYER AddCoin() success.");
+            Debug.Log($"#1. PLAYER AddPrimaryCurrency2() success.");
                      
          });
       }
 
       
-      public async void RemoveCoin()
+      public async void RemovePrimaryCurrency()
       {
-         long ownedAmount =
-            _beamableAPI.InventoryService.GetCurrency(_currencyPrimary).GetResult();
-
-         if (ownedAmount == 0)
-         {
-            Debug.Log($"#4. PLAYER RemoveCoin() failed. Player has no such currency yet.");
-            return;
-         }
+         InventoryUpdateBuilder inventoryUpdateBuilder = new InventoryUpdateBuilder();
          
-         await _beamableAPI.InventoryService.SetCurrency(_currencyPrimary, 
-            ownedAmount-1).Then(obj =>
+         // Remove
+         inventoryUpdateBuilder.CurrencyChange(_inventoryCurrencyExampleData.CurrencyContentPrimary.Id, 
+            -CurrencyDeltaPerClick);
+
+         await _beamableAPI.InventoryService.Update(inventoryUpdateBuilder).Then(obj =>
          {
-            Debug.Log($"#4. PLAYER RemoveCoin() success.");
+            Debug.Log($"#2. PLAYER RemovePrimaryCurrency() success.");
                      
          });
       }
 
-      public async void TradeCoinToXPButton()
+      public async void TradePrimaryToSecondary()
       {
+         InventoryUpdateBuilder inventoryUpdateBuilder = new InventoryUpdateBuilder();
+         
+         // Remove Primary
+         inventoryUpdateBuilder.CurrencyChange(_inventoryCurrencyExampleData.CurrencyContentPrimary.Id, 
+            -CurrencyDeltaPerClick);
+         
+         // Add Secondary
+         inventoryUpdateBuilder.CurrencyChange(_inventoryCurrencyExampleData.CurrencyContentSecondary.Id, 
+            CurrencyDeltaPerClick);
 
+         await _beamableAPI.InventoryService.Update(inventoryUpdateBuilder).Then(obj =>
+         {
+            Debug.Log($"#3. PLAYER TradePrimaryToSecondary() success.");
+                     
+         });
       }
       
-      public async void TradeXPToCoinButton()
+      public async void TradeSecondaryToPrimary()
       {
+         InventoryUpdateBuilder inventoryUpdateBuilder = new InventoryUpdateBuilder();
+         
+         // Remove Secondary
+         inventoryUpdateBuilder.CurrencyChange(_inventoryCurrencyExampleData.CurrencyContentSecondary.Id, 
+            -CurrencyDeltaPerClick);
+         
+         // Add Primary
+         inventoryUpdateBuilder.CurrencyChange(_inventoryCurrencyExampleData.CurrencyContentPrimary.Id, 
+            CurrencyDeltaPerClick);
 
+         await _beamableAPI.InventoryService.Update(inventoryUpdateBuilder).Then(obj =>
+         {
+            Debug.Log($"#4. PLAYER TradeSecondaryToPrimary() success.");
+                     
+         });
       }
+      
+      
+      public void ResetPlayer()
+      {
+         ExampleProjectHacks.ClearDeviceUsersAndReloadScene();
+         Debug.Log($"#5. ResetPlayer() success.");
+      }
+
 
       
       //  Event Handlers  -------------------------------
       private void ContentService_OnChanged(ClientManifest clientManifest)
       {
-         Debug.Log($"#1. GAME - ContentService, count = {clientManifest.entries.Count}");
+         _inventoryCurrencyExampleData.IsChangedContentService = true;
+         
+         // Filter to ONLY CurrencyContent
+         List<ClientContentInfo> clientContentInfos =  clientManifest.entries.Where((clientContentInfo, i) => 
+               ExampleProjectHelper.IsMatchingClientContentInfo(clientContentInfo, ContentType)).ToList();
+         
+         Debug.Log($"GAME - ContentService_OnChanged, " +
+                   $"currencies.Count = {clientContentInfos.Count}");
          
          _inventoryCurrencyExampleData.ContentCurrencyNames.Clear();
-         foreach (ClientContentInfo clientContentInfo in clientManifest.entries)
+         foreach (ClientContentInfo clientContentInfo in clientContentInfos)
          {
-            string contentName = ExampleProjectHelper.GetDisplayNameFromContentId(clientContentInfo.contentId);
-            string contentNameFormatted = $"{contentName} x 1";
-            _inventoryCurrencyExampleData.ContentCurrencyNames.Add(contentNameFormatted);
+            string currencyName = ExampleProjectHelper.GetDisplayNameFromContentId(clientContentInfo.contentId);
+            string currencyNameFormatted = $"{currencyName}";
+            _inventoryCurrencyExampleData.ContentCurrencyNames.Add(currencyNameFormatted);
          }
+         
+         // Alphabetize
+         _inventoryCurrencyExampleData.ContentCurrencyNames.Sort();
          
          Refresh();
       }
       
       private void InventoryService_OnChanged(InventoryView inventoryView)
       {
-         Debug.Log($"#2. PLAYER - InventoryService, count = {inventoryView.currencies.Count}");
+         _inventoryCurrencyExampleData.IsChangedInventoryService = true;
+         
+         Debug.Log($"PLAYER - InventoryService_OnChanged, " +
+                   $"currencies.Count = {inventoryView.currencies.Count}");
 
          _inventoryCurrencyExampleData.InventoryCurrencyNames.Clear();
          foreach (KeyValuePair<string, long> kvp in inventoryView.currencies)
          {
-            string inventoryNameFormatted = $"{kvp.Key} x {kvp.Value}";
-            _inventoryCurrencyExampleData.InventoryCurrencyNames.Add(inventoryNameFormatted);
+            string currencyName = ExampleProjectHelper.GetDisplayNameFromContentId(kvp.Key);
+            string currencyNameFormatted = $"{currencyName} x {kvp.Value}";
+            _inventoryCurrencyExampleData.InventoryCurrencyNames.Add(currencyNameFormatted);
          }
+         
+         // Alphabetize
+         _inventoryCurrencyExampleData.InventoryCurrencyNames.Sort();
          
          Refresh();
       }

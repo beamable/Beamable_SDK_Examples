@@ -201,7 +201,7 @@ namespace Beamable.Examples.LearningFundamentals.PromiseProgramming
             var inventoryPromise = userPromise.FlatMap(user => beamableAPI.InventoryService.GetCurrent());
             
             // 3. Assert
-            inventoryPromise.Then(result =>
+            await inventoryPromise.Then(result =>
             {
                 Debug.Log($"inventoryPromise.Then() result = {result}");
             });

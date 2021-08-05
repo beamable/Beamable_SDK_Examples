@@ -13,9 +13,14 @@ namespace Beamable.Examples.Services.CommerceService
    public class CommerceServiceExampleUI : ExampleCanvasUI
    {
       //  Fields  ---------------------------------------
-      [SerializeField] private CommerceServiceExample _commerceServiceExample = null;
-      [SerializeField] private Image _iconImage01 = null;
-      [SerializeField] private Image _iconImage02 = null;
+      [SerializeField] 
+      private CommerceServiceExample _commerceServiceExample = null;
+      
+      [SerializeField] 
+      private Image _iconImage01 = null;
+      
+      [SerializeField] 
+      private Image _iconImage02 = null;
       
       // Menu Panel
       private TMP_Text MenuTitleText { get { return TitleText01; }}
@@ -116,7 +121,7 @@ namespace Beamable.Examples.Services.CommerceService
             AssetReferenceSprite assetReferenceSprite01 = 
                commerceServiceExampleData.SelectedItemData.ItemContent.icon;
             
-            CommerceServiceHelper.AddressablesLoadAssetAsync<Image>(assetReferenceSprite01, _iconImage01);
+            ExampleProjectHelper.AddressablesLoadAssetAsync<Image>(assetReferenceSprite01, _iconImage01);
             
          }
          
@@ -125,7 +130,7 @@ namespace Beamable.Examples.Services.CommerceService
             AssetReferenceSprite assetReferenceSprite02 = 
                commerceServiceExampleData.CurrencyContent.icon;
             
-            CommerceServiceHelper.AddressablesLoadAssetAsync<Image>(assetReferenceSprite02, _iconImage02);
+            ExampleProjectHelper.AddressablesLoadAssetAsync<Image>(assetReferenceSprite02, _iconImage02);
          }
          
          

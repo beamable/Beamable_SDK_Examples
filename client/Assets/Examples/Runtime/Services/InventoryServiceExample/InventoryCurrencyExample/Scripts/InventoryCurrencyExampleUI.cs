@@ -14,13 +14,19 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
       //  Fields  ---------------------------------------
       [SerializeField] 
       private InventoryCurrencyExample _inventoryCurrencyExample = null;
+      
+      [SerializeField] 
+      private Image _iconImage01 = null;
+      
+      [SerializeField] 
+      private Image _iconImage02 = null;
 
       // Menu Panel
       private TMP_Text MenuTitleText { get { return TitleText01; }}
-      private Button AddCoinButton { get { return Button01;}}
-      private Button RemoveCoinButton { get { return Button02;}}
-      private Button TradeCoinToXPButton { get { return Button03;}}
-      private Button TradeXPToCoinButton { get { return _examplePanelUIs[0].Buttons[3];}}
+      private Button AddPrimaryCurrencyButton { get { return Button01;}}
+      private Button RemovePrimaryCurrencyButton { get { return Button02;}}
+      private Button TradePrimaryToSecondaryButton { get { return Button03;}}
+      private Button TradeSecondaryToPrimaryButton { get { return _examplePanelUIs[0].Buttons[3];}}
       private Button ResetPlayerButton { get { return _examplePanelUIs[0].Buttons[4];}}
       
       // Content Panel
@@ -30,15 +36,18 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
       // Inventory Panel 
       private TMP_Text InventoryTitleText { get { return TitleText03; }}
       private TMP_Text InventoryBodyText { get { return BodyText03; }}
+      
+      // Icons Panel 
+      private TMP_Text IconsTitleText { get { return _examplePanelUIs[3].TitleText; }}
    
       //  Unity Methods  --------------------------------
       protected void Start()
       {
          _inventoryCurrencyExample.OnRefreshed.AddListener(InventoryServiceExample_OnRefreshed);
-         AddCoinButton.onClick.AddListener(AddCoinButton_OnClicked);
-         RemoveCoinButton.onClick.AddListener(RemoveCoinButton_OnClicked);
-         TradeCoinToXPButton.onClick.AddListener(TradeCoinToXPButton_OnClicked); 
-         TradeXPToCoinButton.onClick.AddListener(TradeXPToCoinButton_OnClicked);
+         AddPrimaryCurrencyButton.onClick.AddListener(AddPrimaryCurrencyButton_OnClicked);
+         RemovePrimaryCurrencyButton.onClick.AddListener(RemovePrimaryCurrencyButton_OnClicked);
+         TradePrimaryToSecondaryButton.onClick.AddListener(TradePrimaryToSecondaryButton_OnClicked); 
+         TradeSecondaryToPrimaryButton.onClick.AddListener(TradeSecondaryToPrimaryButton_OnClicked);
          ResetPlayerButton.onClick.AddListener(ResetPlayerButton_OnClicked);
          
          // Populate default UI
@@ -46,24 +55,24 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
       }
 
       //  Event Handlers  -------------------------------
-      private void AddCoinButton_OnClicked()
+      private void AddPrimaryCurrencyButton_OnClicked()
       {
-         _inventoryCurrencyExample.AddCoin();
+         _inventoryCurrencyExample.AddPrimaryCurrency();
       }
 
-      private void RemoveCoinButton_OnClicked()
+      private void RemovePrimaryCurrencyButton_OnClicked()
       {
-         _inventoryCurrencyExample.RemoveCoin();
+         _inventoryCurrencyExample.RemovePrimaryCurrency();
       }
 
-      private void TradeCoinToXPButton_OnClicked()
+      private void TradePrimaryToSecondaryButton_OnClicked()
       {
-         _inventoryCurrencyExample.TradeCoinToXPButton();
+         _inventoryCurrencyExample.TradePrimaryToSecondary();
       }
       
-      private void TradeXPToCoinButton_OnClicked()
+      private void TradeSecondaryToPrimaryButton_OnClicked()
       {
-         _inventoryCurrencyExample.TradeXPToCoinButton();
+         _inventoryCurrencyExample.TradeSecondaryToPrimary();
       }
       
       private void ResetPlayerButton_OnClicked()
@@ -89,23 +98,56 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
             playerInventoryStringBuilder.Append($" • {playerInventoryItemName}").AppendLine();
          }
          InventoryBodyText.text = playerInventoryStringBuilder.ToString();
+         
+         // Show UI: Icon images
+         if (inventoryItemExampleData.IsInteractable)
+         {
+            ExampleProjectHelper.AddressablesLoadAssetAsync<Image>(
+               inventoryItemExampleData.CurrencyContentPrimary.icon, 
+               _iconImage01);
+            
+            ExampleProjectHelper.AddressablesLoadAssetAsync<Image>(
+               inventoryItemExampleData.CurrencyContentSecondary.icon, 
+               _iconImage02);
+         }
 
          // Show UI: Other
          MenuTitleText.text = "Inventory Currency Example";
-         ContentTitleText.text = "Game - All Content";
-         InventoryTitleText.text = "Player - Current Inventory";
+         ContentTitleText.text = "Game - All Currencies";
+         InventoryTitleText.text = "Player - Owned Currencies";
+         IconsTitleText.text = "Icon Images";
          
-         AddCoinButton.GetComponentInChildren<TMP_Text>().text = 
-            $"Add \n({inventoryItemExampleData.CurrencyToAddName})";
+         // Show UI: Button
+         AddPrimaryCurrencyButton.interactable = inventoryItemExampleData.IsInteractable;
+         RemovePrimaryCurrencyButton.interactable = inventoryItemExampleData.IsInteractable;
+         TradePrimaryToSecondaryButton.interactable = inventoryItemExampleData.IsInteractable;
+         TradeSecondaryToPrimaryButton.interactable = inventoryItemExampleData.IsInteractable;
+         ResetPlayerButton.interactable = inventoryItemExampleData.IsInteractable;
          
-         RemoveCoinButton.GetComponentInChildren<TMP_Text>().text = 
-            $"Remove\n({inventoryItemExampleData.CurrencyToRemoveName})";
+         // Get shorter names
+         string currencyContentPrimaryName = "";
+         string currencyContentSecondaryName = "";
+         if (inventoryItemExampleData.IsInteractable)
+         {
+            currencyContentPrimaryName = ExampleProjectHelper.GetDisplayNameFromContentId(
+               inventoryItemExampleData.CurrencyContentPrimary.ContentName);
+            
+            currencyContentSecondaryName = ExampleProjectHelper.GetDisplayNameFromContentId(
+               inventoryItemExampleData.CurrencyContentSecondary.ContentName);
+         }
          
-         TradeCoinToXPButton.GetComponentInChildren<TMP_Text>().text = 
-            $"Trade \n(Coin→XP)";
+         // Show UI: Button
+         AddPrimaryCurrencyButton.GetComponentInChildren<TMP_Text>().text = 
+            $"Add\n({currencyContentPrimaryName})";
          
-         TradeXPToCoinButton.GetComponentInChildren<TMP_Text>().text = 
-            $"Trade \n(XP→Coin)";
+         RemovePrimaryCurrencyButton.GetComponentInChildren<TMP_Text>().text = 
+            $"Remove\n({currencyContentPrimaryName})";
+         
+         TradePrimaryToSecondaryButton.GetComponentInChildren<TMP_Text>().text = 
+            $"Trade\n({currencyContentPrimaryName}→{currencyContentSecondaryName})";
+         
+         TradeSecondaryToPrimaryButton.GetComponentInChildren<TMP_Text>().text = 
+            $"Trade\n({currencyContentSecondaryName}→{currencyContentPrimaryName})";
 
          ResetPlayerButton.GetComponentInChildren<TMP_Text>().text =
             $"Debug\n(Reset Player)";
