@@ -33,6 +33,10 @@ MonoBehaviour:
     m_Address: Assets/3rdParty/Rexard/RPG_inventory_icons/coin.png
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 469d79ea104bcb24c8a519607b8c1c96
+    m_Address: Assets/3rdParty/Rexard/RPG_inventory_icons/xp.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 5d11321d71a14284fbdf77465beef97a, type: 2}
   m_SchemaSet:

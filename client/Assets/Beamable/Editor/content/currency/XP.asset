@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7071e886d4789435d9ad361e916b2207, type: 3}
-  m_Name: Gold
+  m_Name: XP
   m_EditorClassIdentifier: 
   _tags: []
   icon:
-    m_AssetGUID: 
-    m_SubObjectName: 
-    m_SubObjectType: 
+    m_AssetGUID: 469d79ea104bcb24c8a519607b8c1c96
+    m_SubObjectName: xp
+    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
     m_EditorAssetChanged: 0
   clientPermission:
-    writeSelf: 0
-  startingAmount: 0
+    writeSelf: 1
+  startingAmount: 10
