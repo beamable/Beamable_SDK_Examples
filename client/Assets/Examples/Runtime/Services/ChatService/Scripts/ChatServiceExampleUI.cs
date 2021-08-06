@@ -29,12 +29,12 @@ namespace Beamable.Examples.Labs.ChatService
       private TMP_Text MessagesTitleText { get { return TitleText03; }}
       private TMP_Text MessagesBodyText { get { return BodyText03; }}
    
-
-      
       
       //  Unity Methods  --------------------------------
-      protected void Start()
+      protected override void Start()
       {
+         base.Start();
+
          _chatServiceExample.OnRefreshed.AddListener(EventsServiceExample_OnRefreshed);
          SendMessageButton.onClick.AddListener(SendMessageButton_OnClicked);
          CreateRoomButton.onClick.AddListener(CreateRoomButton_OnClicked);

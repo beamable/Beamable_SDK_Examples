@@ -28,8 +28,10 @@ namespace Beamable.Examples.Services.TrialDataService
       private TMP_Text LogsBodyText { get { return BodyText03; }}
       
       //  Unity Methods  --------------------------------
-      protected void Start()
+      protected override void Start()
       {
+         base.Start();
+
          _trialDataServiceExample.OnRefreshed.AddListener(TrialDataServiceExample_OnRefreshed);
          LoadTrialDataButton.onClick.AddListener(LoadTrialDataButton_OnClicked);
          

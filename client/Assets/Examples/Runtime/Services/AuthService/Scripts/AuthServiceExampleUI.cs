@@ -29,8 +29,10 @@ namespace Beamable.Examples.Services.AuthService
       private TMP_Text DetailBodyText { get { return BodyText03; }}
    
       //  Unity Methods  --------------------------------
-      protected void Start()
+      protected override void Start()
       {
+         base.Start();
+         
          _authServiceExample.OnRefreshed.AddListener(AuthServiceExample_OnRefreshed);
          UpdateCurrentUserButton.onClick.AddListener(UpdateCurrentUserButton_OnClicked);
          SwitchCurrentUserButton.onClick.AddListener(SwitchCurrentUserButton_OnClicked);

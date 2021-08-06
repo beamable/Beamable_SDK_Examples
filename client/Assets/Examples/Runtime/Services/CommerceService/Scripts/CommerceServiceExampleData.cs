@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Beamable.Common.Inventory;
+using UnityEngine;
 
 namespace Beamable.Examples.Services.CommerceService
 {
@@ -33,6 +34,7 @@ namespace Beamable.Examples.Services.CommerceService
                 }
                 else
                 {
+                    Debug.Log($"{CurrencyAmount}  >= {SelectedItemData.PlayerListingView.offer.price.amount}");
                     return CurrencyAmount >= SelectedItemData.PlayerListingView.offer.price.amount;
                 }
             }

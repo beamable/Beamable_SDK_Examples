@@ -29,8 +29,10 @@ namespace Beamable.Examples.Services.InventoryService.InventoryItemExample
       private TMP_Text InventoryBodyText { get { return BodyText03; }}
    
       //  Unity Methods  --------------------------------
-      protected void Start()
+      protected override void Start()
       {
+         base.Start();
+
          _inventoryItemExample.OnRefreshed.AddListener(InventoryServiceExample_OnRefreshed);
          AddItemButton.onClick.AddListener(AddItemButton_OnClicked);
          DeleteItemButton.onClick.AddListener(DeleteItemButton_OnClicked);
@@ -51,11 +53,6 @@ namespace Beamable.Examples.Services.InventoryService.InventoryItemExample
          _inventoryItemExample.DeleteOneItem();
       }
 
-      private void ResetPlayerButton_OnClicked()
-      {
-         _inventoryItemExample.ResetPlayer();
-      }
-      
       private void InventoryServiceExample_OnRefreshed(InventoryItemExampleData 
          inventoryItemExampleData)
       {

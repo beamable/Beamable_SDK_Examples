@@ -29,8 +29,10 @@ namespace Beamable.Examples.Services.MailService
       private TMP_Text MailMessagesBodyText { get { return BodyText03; }}
    
       //  Unity Methods  --------------------------------
-      protected void Start()
+      protected override void Start()
       {
+         base.Start();
+
          _mailServiceExample.OnRefreshed.AddListener(EventsServiceExample_OnRefreshed);
          UpdateMailMessagesButton.onClick.AddListener(UpdateMailMessagesButton_OnClicked);
          ResetUserProgressButton.onClick.AddListener(ResetUserProgressButton_OnClicked);

@@ -27,8 +27,10 @@ namespace Beamable.Examples.Services.ConnectivityService
       private TMP_Text LogsBodyText { get { return BodyText03; }}
       
       //  Unity Methods  --------------------------------
-      protected void Start()
+      protected override void Start()
       {
+         base.Start();
+
          _connectivityServiceExample.OnRefreshed.AddListener(ConnectivityServiceExample_OnRefreshed);
          SetHasInternetButton.onClick.AddListener(SetHasInternetButton_OnClicked);
          

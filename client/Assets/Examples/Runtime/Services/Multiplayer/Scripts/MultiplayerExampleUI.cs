@@ -29,8 +29,10 @@ namespace Beamable.Examples.Services.Multiplayer
       private TMP_Text InventoryBodyText { get { return BodyText03; }}
    
       //  Unity Methods  --------------------------------
-      protected void Start()
+      protected override void Start()
       {
+         base.Start();
+
          _multiplayerExample.OnRefreshed.AddListener(InventoryServiceExample_OnRefreshed);
          StartButton.onClick.AddListener(StartButton_OnClicked);
          StopButton.onClick.AddListener(StopButton_OnClicked);

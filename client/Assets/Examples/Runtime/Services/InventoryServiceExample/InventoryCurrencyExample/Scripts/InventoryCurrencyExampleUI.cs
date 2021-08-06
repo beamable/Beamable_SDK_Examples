@@ -41,8 +41,10 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
       private TMP_Text IconsTitleText { get { return _examplePanelUIs[3].TitleText; }}
    
       //  Unity Methods  --------------------------------
-      protected void Start()
+      protected override void Start()
       {
+         base.Start();
+
          _inventoryCurrencyExample.OnRefreshed.AddListener(InventoryServiceExample_OnRefreshed);
          AddPrimaryCurrencyButton.onClick.AddListener(AddPrimaryCurrencyButton_OnClicked);
          RemovePrimaryCurrencyButton.onClick.AddListener(RemovePrimaryCurrencyButton_OnClicked);
@@ -73,11 +75,6 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
       private void TradeSecondaryToPrimaryButton_OnClicked()
       {
          _inventoryCurrencyExample.TradeSecondaryToPrimary();
-      }
-      
-      private void ResetPlayerButton_OnClicked()
-      {
-         _inventoryCurrencyExample.ResetPlayer();
       }
       
       private void InventoryServiceExample_OnRefreshed(InventoryCurrencyExampleData 

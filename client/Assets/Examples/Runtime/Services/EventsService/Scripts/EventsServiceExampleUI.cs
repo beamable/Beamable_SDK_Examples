@@ -29,8 +29,10 @@ namespace Beamable.Examples.Services.EventsService
       private TMP_Text ClaimsBodyText { get { return BodyText03; }}
    
       //  Unity Methods  --------------------------------
-      protected void Start()
+      protected override void Start()
       {
+         base.Start();
+
          _eventsServiceExample.OnRefreshed.AddListener(EventsServiceExample_OnRefreshed);
          SetScoreButton.onClick.AddListener(SetScoreButton_OnClicked);
          ClaimButton.onClick.AddListener(ClaimButton_OnClicked);

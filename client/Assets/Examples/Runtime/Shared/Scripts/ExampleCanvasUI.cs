@@ -11,7 +11,19 @@ namespace Beamable.Examples.Shared
    public class ExampleCanvasUI : MonoBehaviour
    {
       //  Fields  ---------------------------------------
-      [SerializeField] protected List<ExamplePanelUI> _examplePanelUIs = null;
+      /// <summary>
+      /// Serialized, but not
+      /// populated: So subclasses must properly drag references before use
+      /// </summary>
+      [SerializeField] 
+      protected Button _resetPlayerButton = null;
+      
+      /// <summary>
+      /// Serialized, but not
+      /// populated: So subclasses must properly drag references before use
+      /// </summary>
+      [SerializeField] 
+      protected List<ExamplePanelUI> _examplePanelUIs = null;
 
       // Courtesy Shortcuts to UI API. Helps create concise code elsewhere.
       protected TMP_Text TitleText01 { get { return _examplePanelUIs[0].TitleText; }}
@@ -23,6 +35,36 @@ namespace Beamable.Examples.Shared
       protected Button Button01 { get { return _examplePanelUIs[0].Buttons[0];}}
       protected Button Button02 { get { return _examplePanelUIs[0].Buttons[1];}}
       protected Button Button03 { get { return _examplePanelUIs[0].Buttons[2];}}
+      
+      //  Unity Methods  --------------------------------
+      protected virtual void Start()
+      {
+         if (this.GetType() == typeof(ExampleCanvasUI))
+         {
+            Debug.LogError($"The class {typeof(ExampleCanvasUI)} must be subclassed before using.");
+         }
+         
+         if (_resetPlayerButton == null)
+         {
+            Debug.LogError($"The reference `{_resetPlayerButton}` must be not null");
+            return;
+         }
+         
+         _resetPlayerButton.onClick.AddListener(ResetPlayerButton_OnClicked);
+      }
+
+      /// <summary>
+      /// This allows all subclasses to have the equivalent functionality of
+      /// the Admin Consoles "Reset" as built-in.
+      /// </summary>
+      protected async void ResetPlayerButton_OnClicked()
+      { 
+         // Prepare session
+         await Beamable.API.Instance;
+         
+         // Use session
+         ExampleProjectHacks.ClearDeviceUsersAndReloadScene();
+      }
    }
 }
 
