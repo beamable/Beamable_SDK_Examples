@@ -107,7 +107,7 @@ namespace Beamable.Examples.Services.CloudSavingService
          LogsBodyText.text = stringBuilder02.ToString();
 
          // Show UI: Other 
-         MenuTitleText.text = "Commerce Service Example";
+         MenuTitleText.text = "Cloud Saving Service Example";
          MainTitleText.text = "Main";
          LogsTitleText.text = "Instructions";
 

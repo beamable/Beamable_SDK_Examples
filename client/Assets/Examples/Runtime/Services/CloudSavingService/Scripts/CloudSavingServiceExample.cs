@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using Beamable.Api.CloudSaving;
-using Beamable.Common.Api;
-using Beamable.Examples.Services.CommerceService;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -15,7 +12,7 @@ namespace Beamable.Examples.Services.CloudSavingService
     public class RefreshedUnityEvent : UnityEvent<CloudSavingServiceExampleData> {}
 
     /// <summary>
-    /// Holds data for use in the <see cref="CommerceServiceExampleUI" />.
+    /// Holds data for use in the <see cref="CloudSavingServiceExample" />.
     /// </summary>
     [Serializable]
     public class CloudSavingServiceExampleData
@@ -171,17 +168,8 @@ namespace Beamable.Examples.Services.CloudSavingService
                     _cloudSavingServiceExampleData.MyCustomDataLocal != null;
             }
             
-            if (_cloudSavingServiceExampleData.MyCustomDataLocal != null)
+            if (_cloudSavingServiceExampleData.MyCustomDataLocal == null)
             {
-                // Reload Data 
-                Debug.Log("Existing Data found. Show it!");
-
-                
-            }
-            else
-            {
-                Debug.Log("Existing Data not found. Create it!");
-
                 // Create Data - Default
                 _cloudSavingServiceExampleData.MyCustomDataLocal = new MyCustomData
                 {
