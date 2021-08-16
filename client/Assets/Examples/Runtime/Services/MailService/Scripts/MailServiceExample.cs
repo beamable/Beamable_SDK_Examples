@@ -187,11 +187,14 @@ namespace Beamable.Examples.Services.MailService
          bool isSuccess = true;
          try
          {
+            Debug.Log($"Edit-Time, beamableAPI.User.id = {userId}");
+            
             var emptyResponse = await beamableAPIFromStatic.MailService.SendMail(mailSendRequest);
          }
          catch (Exception e)
          {
-            Debug.LogError(e.Message);
+            Debug.LogError(e.Message + "\n\n");
+            Debug.LogWarning($"Solution To Error: Add {userId} as role of 'Admin' via Portal → Teams and retry this operation\n\n");
             isSuccess = false;
          }
 

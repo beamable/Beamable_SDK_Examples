@@ -87,11 +87,6 @@ namespace Beamable.Examples.Services.CommerceService
             
         }
 
-        public void ResetPlayer()
-        {
-            ExampleProjectHacks.ClearDeviceUsersAndReloadScene();
-        }
-
         public void Refresh()
         {
             string refreshLog = $"Refresh() ..." +
@@ -156,6 +151,7 @@ namespace Beamable.Examples.Services.CommerceService
                 break;
             }
             
+            Debug.Log("_data.CurrencyAmount: " + _data.CurrencyAmount);
             if (_data.CurrencyLogs.Count == 0)
             {
                 _data.CurrencyLogs.Add(EmptyDisplayName);

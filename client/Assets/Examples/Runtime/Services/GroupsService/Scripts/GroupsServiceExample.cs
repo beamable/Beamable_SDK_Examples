@@ -239,7 +239,7 @@ namespace Beamable.Examples.Services.GroupsService
                                 $"\n * RoomUserNames.Count = {_data.RoomPlayerNames.Count}" +
                                 $"\n * IsInGroup = {_data.IsInGroup}" +
                                 $"\n * IsInRoom = {_data.IsInRoom}\n\n";
-            Debug.Log(refreshLog);
+            //Debug.Log(refreshLog);
             
             // Send relevant data to the UI for rendering
             OnRefreshed?.Invoke(_data);

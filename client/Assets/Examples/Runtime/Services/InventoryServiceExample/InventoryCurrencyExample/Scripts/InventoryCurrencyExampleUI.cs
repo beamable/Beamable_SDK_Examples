@@ -27,7 +27,6 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
       private Button RemovePrimaryCurrencyButton { get { return Button02;}}
       private Button TradePrimaryToSecondaryButton { get { return Button03;}}
       private Button TradeSecondaryToPrimaryButton { get { return _examplePanelUIs[0].Buttons[3];}}
-      private Button ResetPlayerButton { get { return _examplePanelUIs[0].Buttons[4];}}
       
       // Content Panel
       private TMP_Text ContentTitleText { get { return TitleText02; }}
@@ -41,14 +40,15 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
       private TMP_Text IconsTitleText { get { return _examplePanelUIs[3].TitleText; }}
    
       //  Unity Methods  --------------------------------
-      protected void Start()
+      protected override void Start()
       {
+         base.Start();
+
          _inventoryCurrencyExample.OnRefreshed.AddListener(InventoryServiceExample_OnRefreshed);
          AddPrimaryCurrencyButton.onClick.AddListener(AddPrimaryCurrencyButton_OnClicked);
          RemovePrimaryCurrencyButton.onClick.AddListener(RemovePrimaryCurrencyButton_OnClicked);
          TradePrimaryToSecondaryButton.onClick.AddListener(TradePrimaryToSecondaryButton_OnClicked); 
          TradeSecondaryToPrimaryButton.onClick.AddListener(TradeSecondaryToPrimaryButton_OnClicked);
-         ResetPlayerButton.onClick.AddListener(ResetPlayerButton_OnClicked);
          
          // Populate default UI
          _inventoryCurrencyExample.Refresh();
@@ -73,11 +73,6 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
       private void TradeSecondaryToPrimaryButton_OnClicked()
       {
          _inventoryCurrencyExample.TradeSecondaryToPrimary();
-      }
-      
-      private void ResetPlayerButton_OnClicked()
-      {
-         _inventoryCurrencyExample.ResetPlayer();
       }
       
       private void InventoryServiceExample_OnRefreshed(InventoryCurrencyExampleData 
@@ -122,7 +117,6 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
          RemovePrimaryCurrencyButton.interactable = inventoryItemExampleData.IsInteractable;
          TradePrimaryToSecondaryButton.interactable = inventoryItemExampleData.IsInteractable;
          TradeSecondaryToPrimaryButton.interactable = inventoryItemExampleData.IsInteractable;
-         ResetPlayerButton.interactable = inventoryItemExampleData.IsInteractable;
          
          // Get shorter names
          string currencyContentPrimaryName = "";
@@ -149,8 +143,6 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
          TradeSecondaryToPrimaryButton.GetComponentInChildren<TMP_Text>().text = 
             $"Trade\n({currencyContentSecondaryName}→{currencyContentPrimaryName})";
 
-         ResetPlayerButton.GetComponentInChildren<TMP_Text>().text =
-            $"Debug\n(Reset Player)";
       }
    }
 }

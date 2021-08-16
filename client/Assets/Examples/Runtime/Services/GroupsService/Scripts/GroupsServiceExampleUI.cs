@@ -29,8 +29,10 @@ namespace Beamable.Examples.Services.GroupsService
       private TMP_Text MessagesBodyText { get { return BodyText03; }}
       
       //  Unity Methods  --------------------------------
-      protected void Start()
+      protected override void Start()
       {
+         base.Start();
+
          _groupsServiceExample.OnRefreshed.AddListener(GroupsServiceExample_OnRefreshed);
          SendMessageButton.onClick.AddListener(SendMessageButton_OnClicked);
          CreateGroupButton.onClick.AddListener(CreateGroupButton_OnClicked);

@@ -25,7 +25,6 @@ namespace Beamable.Examples.Services.CommerceService
       // Menu Panel
       private TMP_Text MenuTitleText { get { return TitleText01; }}
       private Button BuyButton { get { return Button01;}}
-      private Button ResetPlayerButton { get { return Button02;}}
       
       // Groups Panel
       private TMP_Text MainTitleText { get { return TitleText02; }}
@@ -39,10 +38,11 @@ namespace Beamable.Examples.Services.CommerceService
       private TMP_Text IconsTitleText { get { return _examplePanelUIs[3].TitleText; }}
       
       //  Unity Methods  --------------------------------
-      protected void Start()
+      protected override void Start()
       {
+         base.Start();
+
          BuyButton.onClick.AddListener(BuyButton_OnClicked);
-         ResetPlayerButton.onClick.AddListener(ResetPlayerButton_OnClicked);
          
          //
          _commerceServiceExample.OnRefreshed.AddListener(ConnectivityServiceExample_OnRefreshed);
@@ -58,11 +58,6 @@ namespace Beamable.Examples.Services.CommerceService
       private void BuyButton_OnClicked()
       {
          _commerceServiceExample.Buy();
-      }
-
-      private void ResetPlayerButton_OnClicked()
-      {
-         _commerceServiceExample.ResetPlayer();
       }
 
       private void ConnectivityServiceExample_OnRefreshed(CommerceServiceExampleData
@@ -110,10 +105,8 @@ namespace Beamable.Examples.Services.CommerceService
          LogsTitleText.text = "Instructions";
          IconsTitleText.text = "Icon Images";
 
-
          // Button Interactable
          BuyButton.interactable = commerceServiceExampleData.CanAffordSelectedStoreItemData;
-         ResetPlayerButton.interactable = true;
 
          // Icon images
          if (commerceServiceExampleData.SelectedItemData != null)
@@ -143,9 +136,6 @@ namespace Beamable.Examples.Services.CommerceService
          
          BuyButton.GetComponentInChildren<TMP_Text>().text =
                $"Buy\n{itemName}";
-         
-         ResetPlayerButton.GetComponentInChildren<TMP_Text>().text =
-            $"Debug\n(Reset Player)";
       }
    }
 }

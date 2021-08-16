@@ -15,6 +15,9 @@ namespace Beamable.Examples.Services.InventoryService.InventoryItemExample
    [System.Serializable]
    public class InventoryItemExampleData
    {
+      public bool IsInteractable { get { return IsChangedContentService && IsChangedInventoryService;}}
+      public bool IsChangedContentService = false;
+      public bool IsChangedInventoryService = false;
       public string ItemToAddName = "";
       public string ItemToDeleteName = "";
       public List<string> ContentObjectNames = new List<string>();
@@ -135,6 +138,8 @@ namespace Beamable.Examples.Services.InventoryService.InventoryItemExample
             string contentItemName = $"{contentName} x 1";
             _inventoryItemExampleData.ContentObjectNames.Add(contentItemName);
          }
+
+         _inventoryItemExampleData.IsChangedContentService = true;
          
          Refresh();
       }
@@ -149,6 +154,8 @@ namespace Beamable.Examples.Services.InventoryService.InventoryItemExample
             string inventoryItemName = $"{kvp.Key} x {kvp.Value.Count}";
             _inventoryItemExampleData.InventoryItemNames.Add(inventoryItemName);
          }
+         
+         _inventoryItemExampleData.IsChangedInventoryService = true;
          
          Refresh();
       }

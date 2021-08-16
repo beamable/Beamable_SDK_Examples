@@ -18,7 +18,6 @@ namespace Beamable.Examples.Services.InventoryService.InventoryItemExample
       private TMP_Text MenuTitleText { get { return TitleText01; }}
       private Button AddItemButton { get { return Button01;}}
       private Button DeleteItemButton { get { return Button02;}}
-      private Button ResetPlayerButton { get { return Button03;}}
       
       // Content Panel
       private TMP_Text ContentTitleText { get { return TitleText02; }}
@@ -29,12 +28,13 @@ namespace Beamable.Examples.Services.InventoryService.InventoryItemExample
       private TMP_Text InventoryBodyText { get { return BodyText03; }}
    
       //  Unity Methods  --------------------------------
-      protected void Start()
+      protected override void Start()
       {
+         base.Start();
+
          _inventoryItemExample.OnRefreshed.AddListener(InventoryServiceExample_OnRefreshed);
          AddItemButton.onClick.AddListener(AddItemButton_OnClicked);
          DeleteItemButton.onClick.AddListener(DeleteItemButton_OnClicked);
-         ResetPlayerButton.onClick.AddListener(ResetPlayerButton_OnClicked);
          
          // Populate default UI
          _inventoryItemExample.Refresh();
@@ -51,11 +51,6 @@ namespace Beamable.Examples.Services.InventoryService.InventoryItemExample
          _inventoryItemExample.DeleteOneItem();
       }
 
-      private void ResetPlayerButton_OnClicked()
-      {
-         _inventoryItemExample.ResetPlayer();
-      }
-      
       private void InventoryServiceExample_OnRefreshed(InventoryItemExampleData 
          inventoryItemExampleData)
       {
@@ -79,6 +74,9 @@ namespace Beamable.Examples.Services.InventoryService.InventoryItemExample
          MenuTitleText.text = "InventoryService Example";
          ContentTitleText.text = "Game - All Content";
          InventoryTitleText.text = "Player - Current Inventory";
+
+         AddItemButton.interactable = inventoryItemExampleData.IsInteractable;
+         DeleteItemButton.interactable = inventoryItemExampleData.IsInteractable;
          
          AddItemButton.GetComponentInChildren<TMP_Text>().text = 
             $"Add 1 Item\n({inventoryItemExampleData.ItemToAddName})";
@@ -86,8 +84,6 @@ namespace Beamable.Examples.Services.InventoryService.InventoryItemExample
          DeleteItemButton.GetComponentInChildren<TMP_Text>().text = 
             $"Delete 1 Item\n({inventoryItemExampleData.ItemToDeleteName})";
 
-         ResetPlayerButton.GetComponentInChildren<TMP_Text>().text =
-            $"Debug\n(Reset Player)";
       }
    }
 }

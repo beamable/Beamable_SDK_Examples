@@ -240,7 +240,7 @@ namespace Beamable.Examples.Services.EventsService
                              $"\n * RunningEventsLogs.Count = {_data.RunningEventsLogs.Count}" +
                              $"\n * SetScoreLogs.Count = {_data.SetScoreLogs.Count}" +
                              $"\n * ClaimLog.Count = {_data.ClaimLogs.Count}\n\n";
-         Debug.Log(refreshLog);
+         //Debug.Log(refreshLog);
          
          // Send relevant data to the UI for rendering
          OnRefreshed?.Invoke(_data);
