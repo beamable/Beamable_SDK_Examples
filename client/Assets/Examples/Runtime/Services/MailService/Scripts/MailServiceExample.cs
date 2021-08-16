@@ -188,7 +188,7 @@ namespace Beamable.Examples.Services.MailService
          catch (Exception e)
          {
             Debug.LogError(e.Message + "\n\n");
-            Debug.LogWarning($"Solution To Error: Add {userId} as role of 'Admin' via Portal → Teams and retry this operation\n\n");
+            Debug.LogWarning($"Solution To Error: Add the beamableAPI.User.id of {userId} with the role of 'Admin' via Portal → Teams and retry this operation.\n\n");
             isSuccess = false;
          }
 
