@@ -45,7 +45,7 @@ namespace Beamable.Examples.Services.CommerceService
          BuyButton.onClick.AddListener(BuyButton_OnClicked);
          
          //
-         _commerceServiceExample.OnRefreshed.AddListener(ConnectivityServiceExample_OnRefreshed);
+         _commerceServiceExample.OnRefreshed.AddListener(CommerceServiceExample_OnRefreshed);
          
          // Populate default UI
          _commerceServiceExample.Refresh();
@@ -60,7 +60,7 @@ namespace Beamable.Examples.Services.CommerceService
          _commerceServiceExample.Buy();
       }
 
-      private void ConnectivityServiceExample_OnRefreshed(CommerceServiceExampleData
+      private void CommerceServiceExample_OnRefreshed(CommerceServiceExampleData
          commerceServiceExampleData)
       {
          // Show UI: Main

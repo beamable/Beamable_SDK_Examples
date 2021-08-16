@@ -1,156 +1,317 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Beamable.Api.CloudSaving;
+using Beamable.Common.Api;
+using Beamable.Examples.Services.CommerceService;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 namespace Beamable.Examples.Services.CloudSavingService
 {
-  [System.Serializable]
-  public class MyCustomSettings
-  {
-    public float Volume = 100;
-    public bool IsMuted = false;
-  }
-  
-  
-  /// <summary>
-  /// Demonstrates <see cref="CloudSavingService"/>.
-  /// </summary>
-  public class CloudSavingServiceExample : MonoBehaviour
-  {
-    //  Fields  ---------------------------------------
-    [SerializeField] private MyCustomSettings myCustomSettings = null;
-    private IBeamableAPI _beamableAPI;
-    private Api.CloudSaving.CloudSavingService _cloudSavingService;
+    [Serializable]
+    public class RefreshedUnityEvent : UnityEvent<CloudSavingServiceExampleData> {}
 
-    
-    //  Unity Methods  --------------------------------
-    protected void Start()
+    /// <summary>
+    /// Holds data for use in the <see cref="CommerceServiceExampleUI" />.
+    /// </summary>
+    [Serializable]
+    public class CloudSavingServiceExampleData
     {
-      Debug.Log($"Start()");
-
-      SetupBeamable();
+        public bool IsFirstFrame = true;
+        public bool IsDataFoundFirstFrame = false;
+        public MyCustomData MyCustomDataCloud = null;
+        public MyCustomData MyCustomDataLocal = null;
+        public List<string> InstructionLogs = new List<string>();
+        public DataState DataState = DataState.Initializing;
     }
 
-    
-    //  Methods  --------------------------------------
-    private async void SetupBeamable()
+    public enum DataState
     {
-      _beamableAPI = await Beamable.API.Instance;
-
-      Debug.Log($"beamableAPI.User.id = {_beamableAPI.User.id}");
-      
-      _cloudSavingService = _beamableAPI.CloudSavingService;
-      
-      // Subscribe to the UpdatedReceived event to handle
-      // when data on disk does not yet exist and is pulled
-      // from the server
-      _cloudSavingService.UpdateReceived += 
-        CloudSavingService_OnUpdateReceived;
-      
-      // Subscribe to the OnError event to handle
-      // when the service fails
-      _cloudSavingService.OnError += CloudSavingService_OnError;
-
-      // Check isInitializing, as best practice
-      if (!_cloudSavingService.isInitializing)
-      {
-        // Init the service, which will first download content
-        // that the server may have, that the client does not.
-        // The client will then upload any content that it has,
-        // that the server is missing
-        await _cloudSavingService.Init();
-      }
-      else
-      {
-        throw new Exception($"Cannot call Init() when " +
-                            $"isInitializing = {_cloudSavingService.isInitializing}");
-      }
-      
-      // Gets the cloud data manifest (ManifestResponse) OR
-      // creates an empty manifest if the user has no cloud data 
-      await _cloudSavingService.EnsureRemoteManifest();
-      
-      // Check isInitializing, as best practice
-      if (!_cloudSavingService.isInitializing)
-      {
-        // Resets the local cloud data to match the server cloud
-        // data. Enable this if desired 
-        //
-        //await _cloudSavingService.ReinitializeUserData();
-      }
-      else
-      {
-        throw new Exception($"Cannot call Init() when " +
-                            $"isInitializing = {_cloudSavingService.isInitializing}");
-      }
-
-      // Now, attempt to load data from the CloudSavingService,
-      // and if it is not found, create it locally and 
-      // save it to the CloudSavingService
-      myCustomSettings = ReloadOrCreateAudioSettings();
+        Initializing,
+        Pending,
+        Synced,
+        Unsynced
     }
 
-    
-    private MyCustomSettings ReloadOrCreateAudioSettings()
+    /// <summary>
+    /// Represents the Cloud Saving data stored on server.
+    /// </summary>
+    [Serializable]
+    public class MyCustomData
     {
-      Debug.Log($"ReloadOrCreateAudioSettings()");
-      
-      // Creates all directories and subdirectories in the
-      // specified path unless they already exist
-      Directory.CreateDirectory(_cloudSavingService.LocalCloudDataFullPath);
-      
-      MyCustomSettings settings;
-      var audioFileName = "audioFile.json";
-      var audioPath = $"{_cloudSavingService.LocalCloudDataFullPath}{Path.DirectorySeparatorChar}{audioFileName}";
-      
-      if (File.Exists(audioPath))
-      {
-        // Reload AudioSettings 
-        Debug.Log($"Existing AudioSettings found");
-        Debug.Log($"Reload AudioSettings");
-        
-        var json = File.ReadAllText(audioPath);
-        settings = JsonUtility.FromJson<MyCustomSettings>(json);
-      }
-      else
-      {
-        // Create AudioSettings
-        Debug.Log($"Existing AudioSettings not found");
-        Debug.Log($"Create AudioSettings");
-        
-        settings = new MyCustomSettings
+        public float Volume = 100;
+        public bool IsMuted;
+
+        public override string ToString()
         {
-          IsMuted = false,
-          Volume = 1
-        };
+            return $"[MyCustomData (" +
+                   $"Volume = {Volume}, " +
+                   $"IsMuted = {IsMuted})]";
+        }
+    }
 
-        var json = JsonUtility.ToJson(settings);
-        Directory.CreateDirectory(Path.GetDirectoryName(audioPath));
+    /// <summary>
+    /// Demonstrates <see cref="CloudSavingService" />.
+    /// </summary>
+    public class CloudSavingServiceExample : MonoBehaviour
+    {
+        //  Events  ---------------------------------------
+        [HideInInspector] public RefreshedUnityEvent OnRefreshed = new RefreshedUnityEvent();
+
+        // Properties   ----------------------------------
         
-        // Once the data is written to disk, the service will
-        // automatically upload the contents to the cloud
-        File.WriteAllText(audioPath, json);
+        /// <summary>
+        /// Dynamically build the local storage for the Cloud Saving Data object
+        /// </summary>
+        private string FilePath
+        {
+            get
+            {
+                // Suggested format
+                string fileName = "myCustomData.json";
+                
+                // Required format
+                return $"{_cloudSavingService.LocalCloudDataFullPath}{Path.DirectorySeparatorChar}{fileName}";
+            }
+        } 
+        
+        //  Fields  ---------------------------------------
+        private IBeamableAPI _beamableAPI;
+        private Api.CloudSaving.CloudSavingService _cloudSavingService;
+        private readonly CloudSavingServiceExampleData _cloudSavingServiceExampleData =
+            new CloudSavingServiceExampleData();
 
-      }
-      return settings;
-    }
-    
-    
-    //  Event Handlers  -------------------------------
-    private void CloudSavingService_OnUpdateReceived(ManifestResponse manifest)
-    {
-      Debug.Log($"CloudSavingService_OnUpdateReceived()");
+        
+        //  Unity Methods  --------------------------------
+        protected void Start()
+        {
+            Debug.Log($"Start() Instructions...\n" + 
+                      " * Run Unity Scene\n" + 
+                      " * Use in-game menu\n" +
+                      " * See in-game text results\n" + 
+                      " * Stop Scene and repeat steps to test persistence\n");
+            
+            _cloudSavingServiceExampleData.InstructionLogs.Clear();
+            _cloudSavingServiceExampleData.InstructionLogs.Add("Run Unity Scene");
+            _cloudSavingServiceExampleData.InstructionLogs.Add("Use in-game menu");
+            _cloudSavingServiceExampleData.InstructionLogs.Add("See in-game text results");
+            _cloudSavingServiceExampleData.InstructionLogs.Add("Stop Scene and repeat steps to test persistence");
+
+            SetupBeamable();
+        }
+
+
+        //  Methods  --------------------------------------
+        private async void SetupBeamable()
+        {
+            _beamableAPI = await API.Instance;
+
+            Debug.Log($"beamableAPI.User.id = {_beamableAPI.User.id}");
+
+            _cloudSavingService = _beamableAPI.CloudSavingService;
+
+            // Subscribe to the UpdatedReceived event to handle
+            // when data on disk does not yet exist and is pulled
+            // from the server
+            _cloudSavingService.UpdateReceived +=
+                CloudSavingService_OnUpdateReceived;
+
+            // Subscribe to the OnError event to handle
+            // when the service fails
+            _cloudSavingService.OnError += CloudSavingService_OnError;
+
+            // Check isInitializing, as best practice
+            if (!_cloudSavingService.isInitializing)
+                // Init the service, which will first download content
+                // that the server may have, that the client does not.
+                // The client will then upload any content that it has,
+                // that the server is missing
+                await _cloudSavingService.Init();
+            else
+                throw new Exception("Cannot call Init() when " +
+                                    $"isInitializing = {_cloudSavingService.isInitializing}");
+
+            // Gets the cloud data manifest (ManifestResponse) OR
+            // creates an empty manifest if the user has no cloud data 
+            await _cloudSavingService.EnsureRemoteManifest();
+
+            // Check isInitializing, as best practice
+            if (!_cloudSavingService.isInitializing)
+            {
+                // Resets the local cloud data to match the server cloud data
+                // IF DESIRED, UNCOMMENT THE FOLLOWING LINE
+                //await _cloudSavingService.ReinitializeUserData();
+            }
+            else
+            {
+                throw new Exception("Cannot call Init() when " +
+                                    $"isInitializing = {_cloudSavingService.isInitializing}");
+            }
+
+            LoadAndSave();
+            Refresh();
+        }
+
+
+        private void LoadAndSave()
+        {
+            _cloudSavingServiceExampleData.DataState = DataState.Pending;
+            _cloudSavingServiceExampleData.MyCustomDataLocal = LoadData();
+
+            // Determines if the data was found on
+            // the very first checking of the scene
+            // Useful for demonstration purposes only
+            if (_cloudSavingServiceExampleData.IsFirstFrame == true)
+            {
+                _cloudSavingServiceExampleData.IsFirstFrame = false;
+                _cloudSavingServiceExampleData.IsDataFoundFirstFrame = 
+                    _cloudSavingServiceExampleData.MyCustomDataLocal != null;
+            }
+            
+            if (_cloudSavingServiceExampleData.MyCustomDataLocal != null)
+            {
+                // Reload Data 
+                Debug.Log("Existing Data found. Show it!");
+
+                
+            }
+            else
+            {
+                Debug.Log("Existing Data not found. Create it!");
+
+                // Create Data - Default
+                _cloudSavingServiceExampleData.MyCustomDataLocal = new MyCustomData
+                {
+                    IsMuted = false,
+                    Volume = 1
+                };
+
+                SaveDataInternal(_cloudSavingServiceExampleData.MyCustomDataLocal);
+            }
+
+        }
+
+        public MyCustomData LoadData()
+        {
+            _cloudSavingServiceExampleData.DataState = DataState.Pending;
+            var loaded = LoadDataInternal();
+
+            _cloudSavingServiceExampleData.MyCustomDataCloud = loaded;
+            _cloudSavingServiceExampleData.MyCustomDataLocal = loaded;
+            
+            Refresh();
+            
+            return _cloudSavingServiceExampleData.MyCustomDataCloud;
+        }
+        
+        private MyCustomData LoadDataInternal()
+        {
+            if (!Directory.Exists(_cloudSavingService.LocalCloudDataFullPath))
+            {
+                Directory.CreateDirectory(_cloudSavingService.LocalCloudDataFullPath);
+            }
+            
+            MyCustomData myCustomData = null;
+            
+            if (File.Exists(FilePath))
+            {
+                var json = File.ReadAllText(FilePath);
+                myCustomData = JsonUtility.FromJson<MyCustomData>(json);
+            }
+            
+            return myCustomData;
+        }
       
-      // If the settings are changed by the server, reload the scene
-      SceneManager.LoadScene(0);
+        public void RandomizeData()
+        {
+            _cloudSavingServiceExampleData.DataState = DataState.Pending;
+
+            // Create Data - Random
+            _cloudSavingServiceExampleData.MyCustomDataLocal = new MyCustomData
+            {
+                IsMuted = UnityEngine.Random.value > 0.5f,
+                Volume = UnityEngine.Random.Range(0, 10) * 0.1f
+            };
+
+            Refresh();
+        }
+
+        public void SaveData()
+        {
+            _cloudSavingServiceExampleData.DataState = DataState.Pending;
+
+            SaveDataInternal(_cloudSavingServiceExampleData.MyCustomDataLocal);
+            
+            Refresh();
+        }
+
+        private void SaveDataInternal(MyCustomData myCustomData)
+        {
+            var json = JsonUtility.ToJson(myCustomData);
+            
+            if (!Directory.Exists(FilePath))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(FilePath));
+            }
+
+            // Once the data is written to disk, the service will
+            // automatically upload the contents to the cloud
+            File.WriteAllText(FilePath, json);
+
+            _cloudSavingServiceExampleData.MyCustomDataCloud = myCustomData;
+
+        }
+
+        public void Refresh()
+        {
+            // Use DataState to display info to the user via UI
+            if (_cloudSavingServiceExampleData.MyCustomDataCloud == null &&
+                _cloudSavingServiceExampleData.MyCustomDataLocal == null)
+            {
+                // Initializing
+                _cloudSavingServiceExampleData.DataState = DataState.Initializing;
+            }
+            else if (_cloudSavingServiceExampleData.MyCustomDataCloud == null ||
+                _cloudSavingServiceExampleData.MyCustomDataLocal == null)
+            {
+                // Data transfer pending
+                _cloudSavingServiceExampleData.DataState = DataState.Pending;
+            }
+            else if (_cloudSavingServiceExampleData.MyCustomDataCloud ==
+                _cloudSavingServiceExampleData.MyCustomDataLocal)
+            {
+                // Local and Cloud are Synced
+                _cloudSavingServiceExampleData.DataState = DataState.Synced;
+            }
+            else
+            {
+                // Local and Cloud are Not Synced
+                _cloudSavingServiceExampleData.DataState = DataState.Unsynced;
+            }
+            
+            //Debug.Log("Refresh()");
+
+            OnRefreshed.Invoke(_cloudSavingServiceExampleData);
+        }
+
+
+        //  Event Handlers  -------------------------------
+        private void CloudSavingService_OnUpdateReceived(ManifestResponse manifest)
+        {
+            Debug.Log("CloudSavingService_OnUpdateReceived()");
+
+            // If the settings are changed by the server...
+            // Reload the scene or something project-specific to reload your game
+            SceneManager.LoadScene(0);
+        }
+
+
+        private void CloudSavingService_OnError(CloudSavingError cloudSavingError)
+        {
+            Debug.Log($"CloudSavingService_OnError() Message = {cloudSavingError.Message}");
+        }
     }
-    
-    
-    private void CloudSavingService_OnError(CloudSavingError cloudSavingError)
-    {
-      Debug.Log($"CloudSavingService_OnError() Message = {cloudSavingError.Message}");
-    }
-  }
 }
