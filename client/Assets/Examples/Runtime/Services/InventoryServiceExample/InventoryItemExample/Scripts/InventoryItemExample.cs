@@ -74,11 +74,6 @@ namespace Beamable.Examples.Services.InventoryService.InventoryItemExample
 
       }
 
-      public void ResetPlayer()
-      {
-         ExampleProjectHacks.ClearDeviceUsersAndReloadScene();
-      }
-      
       
       public void Refresh()
       {

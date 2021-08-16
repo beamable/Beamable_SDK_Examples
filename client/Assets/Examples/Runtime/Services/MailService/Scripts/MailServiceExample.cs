@@ -134,12 +134,6 @@ namespace Beamable.Examples.Services.MailService
       }
       
       
-      public void ResetUserProgress()
-      {
-         ExampleProjectHacks.ClearDeviceUsersAndReloadScene();
-      }
-
-      
       public void Refresh()
       {
          string refreshLog = $"Refresh() ...\n" +

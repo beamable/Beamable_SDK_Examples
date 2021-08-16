@@ -228,12 +228,6 @@ namespace Beamable.Examples.Services.EventsService
       }
       
       
-      public void ResetUserProgress()
-      {
-         ExampleProjectHacks.ClearDeviceUsersAndReloadScene();
-      }
-      
-      
       public void Refresh()
       {
          string refreshLog = $"Refresh() ...\n" +
