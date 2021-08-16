@@ -146,13 +146,6 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
       }
       
       
-      public void ResetPlayer()
-      {
-         ExampleProjectHacks.ClearDeviceUsersAndReloadScene();
-         Debug.Log($"#5. ResetPlayer() success.");
-      }
-      
-      
       //  Event Handlers  -------------------------------
       private void ContentService_OnChanged(ClientManifest clientManifest)
       {

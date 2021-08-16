@@ -18,7 +18,6 @@ namespace Beamable.Examples.Services.MailService
       private TMP_Text MenuTitleText { get { return TitleText01; }}
       private Button UpdateMailMessagesButton { get { return Button01;}}
       private Button RefreshButton { get { return Button02;}}
-      private Button ResetUserProgressButton { get { return Button03;}}
       
       // Events Panel
       private TMP_Text OverviewTitleText { get { return TitleText02; }}
@@ -35,8 +34,6 @@ namespace Beamable.Examples.Services.MailService
 
          _mailServiceExample.OnRefreshed.AddListener(EventsServiceExample_OnRefreshed);
          UpdateMailMessagesButton.onClick.AddListener(UpdateMailMessagesButton_OnClicked);
-         ResetUserProgressButton.onClick.AddListener(ResetUserProgressButton_OnClicked);
-         
          RefreshButton.onClick.AddListener(RefreshButton_OnClicked);
       }
       
@@ -51,11 +48,6 @@ namespace Beamable.Examples.Services.MailService
       private void RefreshButton_OnClicked()
       {
          _mailServiceExample.Refresh();
-      }
-      
-      private void ResetUserProgressButton_OnClicked()
-      {
-         _mailServiceExample.ResetUserProgress();
       }
       
       
@@ -101,9 +93,6 @@ namespace Beamable.Examples.Services.MailService
          
          RefreshButton.GetComponentInChildren<TMP_Text>().text = 
             $"Refresh\nUI";
-         
-         ResetUserProgressButton.GetComponentInChildren<TMP_Text>().text = 
-            $"Reset\nUser Progress";
       }
    }
 }
