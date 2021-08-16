@@ -46,17 +46,13 @@ namespace Beamable.Examples.Shared
          
          if (_resetPlayerButton == null)
          {
-            Debug.LogError($"The reference `{_resetPlayerButton}` must be not null");
+            Debug.LogError($"This reference `{_resetPlayerButton}` must not be null. Drag via inspector.");
             return;
          }
          
          _resetPlayerButton.onClick.AddListener(ResetPlayerButton_OnClicked);
       }
 
-      /// <summary>
-      /// This allows all subclasses to have the equivalent functionality of
-      /// the Admin Consoles "Reset" as built-in.
-      /// </summary>
       protected async void ResetPlayerButton_OnClicked()
       { 
          // Prepare session

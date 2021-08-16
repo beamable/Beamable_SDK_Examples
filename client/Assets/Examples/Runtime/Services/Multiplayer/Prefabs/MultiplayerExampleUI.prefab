@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb2483b9d619b5042b43887d18610041, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _resetPlayerButton: {fileID: 5972120472984106121}
   _examplePanelUIs:
   - {fileID: 340940673872249681}
   - {fileID: 9024117978481029475}
@@ -572,6 +573,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ca42fa7d83fa5de4390aa751da95b864, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5972120472984106121 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2470945023920506335, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
+    type: 3}
+  m_PrefabInstance: {fileID: 8118781240586482006}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &9024117978481029475 stripped

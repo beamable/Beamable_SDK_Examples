@@ -37,7 +37,7 @@ namespace Beamable.Examples.Services.ConnectivityService
                       " * Ensure Computer's Internet Is Active\n" +
                       " * Run The Scene\n" +
                       " * See Onscreen UI Show HasConnectivity = true\n" +
-                      " * Ensure Computer's Internet Is NOT Active\n" +
+                      " * Ensure Computer's Internet Is NOT Active (e.g. Turn off wifi/ethernet)\n" +
                       " * See Onscreen UI Show HasConnectivity = false\n");
 
             SetupBeamable();

@@ -18,7 +18,6 @@ namespace Beamable.Examples.Services.AuthService
       private TMP_Text MenuTitleText { get { return TitleText01; }}
       private Button UpdateCurrentUserButton { get { return Button01;}}
       private Button SwitchCurrentUserButton { get { return Button02;}}
-      private Button RefreshButton { get { return Button03;}}
       
       // Content Panel
       private TMP_Text MainTitleText { get { return TitleText02; }}
@@ -36,10 +35,9 @@ namespace Beamable.Examples.Services.AuthService
          _authServiceExample.OnRefreshed.AddListener(AuthServiceExample_OnRefreshed);
          UpdateCurrentUserButton.onClick.AddListener(UpdateCurrentUserButton_OnClicked);
          SwitchCurrentUserButton.onClick.AddListener(SwitchCurrentUserButton_OnClicked);
-         RefreshButton.onClick.AddListener(RefreshButton_OnClicked);
          
          // Populate default UI
-         RefreshButton_OnClicked();
+         _authServiceExample.Refresh();
       }
 
       //  Event Handlers  -------------------------------
@@ -48,15 +46,12 @@ namespace Beamable.Examples.Services.AuthService
          await _authServiceExample.UpdateCurrentUser();
       }
 
+      
       private async void SwitchCurrentUserButton_OnClicked()
       {
          await _authServiceExample.SwitchCurrentUser();
       }
-
-      private void RefreshButton_OnClicked()
-      {
-         _authServiceExample.Refresh();
-      }
+      
       
       private void AuthServiceExample_OnRefreshed(AuthServiceExampleData 
          authServiceExampleData)
@@ -90,9 +85,6 @@ namespace Beamable.Examples.Services.AuthService
          
          SwitchCurrentUserButton.GetComponentInChildren<TMP_Text>().text = 
             $"Switch\nCurrent User";
-
-         RefreshButton.GetComponentInChildren<TMP_Text>().text =
-            $"Refresh";
       }
    }
 }
