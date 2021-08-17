@@ -33,7 +33,7 @@ namespace Beamable.Examples.Services.ConnectivityService
         //  Unity Methods  --------------------------------
         protected void Start()
         {
-            Debug.Log($"Start() Instructions...\n" +
+            Debug.Log($"Start() Instructions...\n\n" +
                       " * Ensure Computer's Internet Is Active\n" +
                       " * Run The Scene\n" +
                       " * See Onscreen UI Show HasConnectivity = true\n" +

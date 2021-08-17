@@ -85,7 +85,7 @@ namespace Beamable.Examples.Services.CloudSavingService
         //  Unity Methods  --------------------------------
         protected void Start()
         {
-            Debug.Log($"Start() Instructions...\n" + 
+            Debug.Log($"Start() Instructions...\n\n" + 
                       " * Run Unity Scene\n" + 
                       " * Use in-game menu\n" +
                       " * See in-game text results\n" + 

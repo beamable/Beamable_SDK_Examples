@@ -60,7 +60,7 @@ namespace Beamable.Examples.Services.TrialDataService
         //  Unity Methods  --------------------------------
         protected void Start()
         {
-            Debug.Log($"Start() Instructions...\n" +
+            Debug.Log($"Start() Instructions...\n\n" +
                       "\n * Setup AB Testing in Portal per https://docs.beamable.com/docs/abtesting-code" +
                       "\n * Run The Scene" +
                       "\n * See onscreen UI for results" +

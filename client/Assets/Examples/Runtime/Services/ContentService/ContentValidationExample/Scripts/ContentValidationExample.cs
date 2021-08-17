@@ -16,7 +16,7 @@ namespace Beamable.Examples.Services.ContentService
         //  Unity Methods  --------------------------------
         protected void Start()
         {
-            Debug.Log($"Start() Instructions...\n" + 
+            Debug.Log($"Start() Instructions...\n\n" + 
                       " * Run The Scene\n" + 
                       " * See output in Unity Console Window\n" + 
                       " * Open Beamable Content Manager Window, " +

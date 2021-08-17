@@ -10,7 +10,7 @@ namespace Beamable.Examples.Prefabs.LeaderboardFlow
         //  Unity Methods  --------------------------------
         protected void Start()
         {
-            Debug.Log($"Start() Instructions...\n" +
+            Debug.Log($"Start() Instructions...\n\n" +
                       " * Run The Scene\n" +
                       " * See UI representing leaderboard on-screen\n" +
                       " * No leaderboard items shown? That's ok. Run the LeaderboardServiceExample.unity first");

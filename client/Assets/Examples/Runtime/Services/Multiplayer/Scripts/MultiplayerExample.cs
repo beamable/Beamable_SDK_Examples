@@ -73,7 +73,7 @@ namespace Beamable.Examples.Services.Multiplayer
         //  Unity Methods  --------------------------------
         protected void Start()
         {
-           Debug.Log($"Start() Instructions...\n" + 
+           Debug.Log($"Start() Instructions...\n\n" + 
                      " * Run The Scene\n" + 
                      " * Press 'Start Multiplayer'\n" + 
                      " * Press 'Send Player Move'\n" + 

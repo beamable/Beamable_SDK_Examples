@@ -13,7 +13,7 @@ namespace Beamable.Examples.Prefabs.TournamentFlow
 
         protected void Start()
         {
-            Debug.Log($"Start() Instructions...\n" +
+            Debug.Log($"Start() Instructions...\n\n" +
                       " * Run The Scene\n" +
                       " * See UI representing tournament on-screen\n");
         }

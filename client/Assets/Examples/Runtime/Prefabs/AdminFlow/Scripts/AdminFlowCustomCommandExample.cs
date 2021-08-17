@@ -23,7 +23,7 @@ namespace Beamable.Examples.Prefabs.AdminFlow
         //  Unity Methods  --------------------------------
         protected void Start()
         {
-            Debug.Log($"Start() Instructions...\n" + 
+            Debug.Log($"Start() Instructions...\n\n" + 
                       " * Run The Scene\n" + 
                       " * Type '~' in Unity Game Window to open Admin Console\n" + 
                       " * Type 'Add 5 10'\n" + 
