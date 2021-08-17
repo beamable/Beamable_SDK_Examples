@@ -14,7 +14,7 @@ namespace Beamable.Examples.Services.MatchmakingService
    /// <summary>
    /// Contains the in-progress matchmaking data.
    /// When the process is complete, this contains
-   /// the players list and the RoomId
+   /// the players list and the MatchId
    /// </summary>
    [Serializable]
    public class MyMatchmakingResult
@@ -24,7 +24,8 @@ namespace Beamable.Examples.Services.MatchmakingService
       {
          get
          {
-            if (_matchmakingHandle == null)
+            if (_matchmakingHandle == null || _matchmakingHandle.Status == null ||
+                _matchmakingHandle.Status.Players == null)
             {
                return new List<long>();
             }
@@ -93,8 +94,8 @@ namespace Beamable.Examples.Services.MatchmakingService
       {
          return $"[MyMatchmakingResult (" +
             $"MatchId = {MatchId}, " +
-            $"Teams = {_matchmakingHandle.Match.teams}, " +
-            $"players.Count = {Players.Count})]";
+            $"Teams = {_matchmakingHandle?.Match?.teams}, " +
+            $"players.Count = {Players?.Count})]";
       }
    }
 
@@ -117,6 +118,7 @@ namespace Beamable.Examples.Services.MatchmakingService
       //  Fields  -----------------------------------------
       private MyMatchmakingResult _myMatchmakingResult = null;
       private Experimental.Api.Matchmaking.MatchmakingService _matchmakingService = null;
+      public const string TimeoutErrorMessage = "Timeout";
       
 
       //  Constructor  ------------------------------------
@@ -137,6 +139,7 @@ namespace Beamable.Examples.Services.MatchmakingService
                            $"IsInProgress must not be {_myMatchmakingResult.IsInProgress}.\n\n");
             return;
          }
+         
          _myMatchmakingResult.IsInProgress = true;
          
          _myMatchmakingResult.MatchmakingHandle =  await _matchmakingService.StartMatchmaking(
@@ -144,26 +147,47 @@ namespace Beamable.Examples.Services.MatchmakingService
             maxWait: TimeSpan.FromSeconds(10),
             updateHandler: handle =>
             {
-               OnProgress.Invoke(_myMatchmakingResult);
+               OnUpdateHandler(handle);
             },
             readyHandler: handle =>
             {
-               Debug.Assert(handle.State == MatchmakingState.Ready);
-               _myMatchmakingResult.IsInProgress = false;
-               OnComplete.Invoke(_myMatchmakingResult);
+               // Call both
+               OnUpdateHandler(handle);
+               OnReadyHandler(handle);
             },
             timeoutHandler: handle =>
             {
-               _myMatchmakingResult.IsInProgress = false;
-               _myMatchmakingResult.ErrorMessage = "Timeout";
-               OnError?.Invoke(_myMatchmakingResult);
+               // Call both
+               OnUpdateHandler(handle);
+               OnTimeoutHandler(handle);
             });
+      }
+
+
+      public async Task CancelMatchmaking()
+      {
+         await _matchmakingService.CancelMatchmaking(_myMatchmakingResult.MatchmakingHandle.Tickets[0].ticketId);
       }
       
       
-      public async void Stop()
+      //  Event Handlers  ----------------------------------
+      private void OnUpdateHandler(MatchmakingHandle handle)
       {
-         await _matchmakingService.CancelMatchmaking(_myMatchmakingResult.MatchmakingHandle.Tickets[0].ticketId);
+         OnProgress.Invoke(_myMatchmakingResult);
+      }
+      
+      private void OnReadyHandler(MatchmakingHandle handle)
+      {
+         Debug.Assert(handle.State == MatchmakingState.Ready);
+         _myMatchmakingResult.IsInProgress = false;
+         OnComplete.Invoke(_myMatchmakingResult);
+      }
+      
+      private void OnTimeoutHandler(MatchmakingHandle handle)
+      {
+         _myMatchmakingResult.IsInProgress = false;
+         _myMatchmakingResult.ErrorMessage = TimeoutErrorMessage;
+         OnError?.Invoke(_myMatchmakingResult);
       }
    }
 }

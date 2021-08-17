@@ -14,7 +14,7 @@ namespace Beamable.Examples.LearningFundamentals.CustomBuildScripts
     /// whatever are the specific project needs.
     ///
     /// Usage
-    ///  * Stop The Scene
+    ///  * CancelMatchmaking The Scene
     ///  * Unity -> File -> Build And Run 
     ///  * See results in the Unity Console Window
     /// 

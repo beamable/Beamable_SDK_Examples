@@ -41,8 +41,8 @@ namespace Beamable.Examples.Services.MailService
       
       //  Fields  ---------------------------------------
       private IBeamableAPI _beamableAPI;
-      private MailServiceExampleData _data = new MailServiceExampleData();
       private const string MailCategory = "";
+      private MailServiceExampleData _data = new MailServiceExampleData();
 
       
       //  Unity Methods  --------------------------------
@@ -51,7 +51,7 @@ namespace Beamable.Examples.Services.MailService
          string startLog = $"Start() Instructions..\n" +
                            $"\n * Play Scene" +
                            $"\n * Check for mail using UI. Probably none" +
-                           $"\n * Stop Scene" +
+                           $"\n * CancelMatchmaking Scene" +
                            $"\n * Unity → Window → Beamable → Examples → MailService → Send Test Mail To Active User" +
                            $"\n * Play Scene" +
                            $"\n * Check for mail using UI. Probably some\n\n";
@@ -139,8 +139,8 @@ namespace Beamable.Examples.Services.MailService
          string refreshLog = $"Refresh() ...\n" +
                              $"\n * UnreadMailCount.Count = {_data.UnreadMailCount}" +
                              $"\n * UnreadMailLogs.Count = {_data.UnreadMailLogs.Count}" +
-                             $"\n * SendMailMessageLogs.Count = {_data.SendMailMessageLogs.Count}" +
-                             $"\n * MailMessageLogs.Count = {_data.MailMessageLogs.Count}\n\n";
+                             $"\n * MainLogs.Count = {_data.SendMailMessageLogs.Count}" +
+                             $"\n * MatchmakingLogs.Count = {_data.MailMessageLogs.Count}\n\n";
          
          //Debug.Log(refreshLog);
          

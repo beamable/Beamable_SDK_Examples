@@ -15,10 +15,9 @@ namespace Beamable.Examples.Services.LeaderboardService
         private IBeamableAPI beamableAPI = null;
         
         //  Unity Methods  --------------------------------
-        protected async void Start()
+        protected void Start()
         {
             Debug.Log($"Start()");
-
  
             SetupBeamable();
         }

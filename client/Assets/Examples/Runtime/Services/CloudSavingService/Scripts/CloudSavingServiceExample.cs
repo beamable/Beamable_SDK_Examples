@@ -89,13 +89,13 @@ namespace Beamable.Examples.Services.CloudSavingService
                       " * Run Unity Scene\n" + 
                       " * Use in-game menu\n" +
                       " * See in-game text results\n" + 
-                      " * Stop Scene and repeat steps to test persistence\n");
+                      " * CancelMatchmaking Scene and repeat steps to test persistence\n");
             
             _cloudSavingServiceExampleData.InstructionLogs.Clear();
             _cloudSavingServiceExampleData.InstructionLogs.Add("Run Unity Scene");
             _cloudSavingServiceExampleData.InstructionLogs.Add("Use in-game menu");
             _cloudSavingServiceExampleData.InstructionLogs.Add("See in-game text results");
-            _cloudSavingServiceExampleData.InstructionLogs.Add("Stop Scene and repeat steps to test persistence");
+            _cloudSavingServiceExampleData.InstructionLogs.Add("CancelMatchmaking Scene and repeat steps to test persistence");
 
             SetupBeamable();
         }
@@ -259,7 +259,7 @@ namespace Beamable.Examples.Services.CloudSavingService
             if (_cloudSavingServiceExampleData.MyCustomDataCloud == null &&
                 _cloudSavingServiceExampleData.MyCustomDataLocal == null)
             {
-                // Initializing
+                // Connecting
                 _cloudSavingServiceExampleData.DataState = DataState.Initializing;
             }
             else if (_cloudSavingServiceExampleData.MyCustomDataCloud == null ||

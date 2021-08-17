@@ -18,15 +18,15 @@ MonoBehaviour:
   - name: Team01
     maxPlayers: 1
     minPlayers:
-      HasValue: 1
-      Value: 1
+      HasValue: 0
+      Value: 0
   numericRules: []
   stringRules: []
   waitAfterMinReachedSecs:
-    HasValue: 1
-    Value: 5
+    HasValue: 0
+    Value: 0
   maxWaitDurationSecs:
-    HasValue: 1
-    Value: 7
+    HasValue: 0
+    Value: 0
   leaderboardUpdates: []
   rewards: []
