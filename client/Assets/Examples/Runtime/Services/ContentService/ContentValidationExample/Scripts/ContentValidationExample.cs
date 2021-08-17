@@ -8,13 +8,20 @@ namespace Beamable.Examples.Services.ContentService
     public class ContentValidationExample : MonoBehaviour
     {
         //  Fields  ---------------------------------------
-        [SerializeField] private ComplexItemLink _complexItemLink;
+        [SerializeField] 
+        private ComplexItemLink _complexItemLink;
+        
         private ComplexItem _complexItem = null;
         
         //  Unity Methods  --------------------------------
         protected void Start()
         {
-            Debug.Log($"Start()");
+            Debug.Log($"Start() Instructions...\n" + 
+                      " * Run The Scene\n" + 
+                      " * See output in Unity Console Window\n" + 
+                      " * Open Beamable Content Manager Window, " +
+                      "select one of the `ComplexItem`, " +
+                      "and view it in the inspector to see the content validation \n");
             
             SetupBeamable();
         }
