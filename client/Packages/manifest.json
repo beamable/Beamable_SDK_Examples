@@ -9,7 +9,8 @@
     }
   ],
   "dependencies": {
-    "com.beamable": "0.13.3",
+    "com.beamable": "0.14.2",
+    "com.beamable.server": "0.14.2",
     "com.unity.addressables": "1.18.15",
     "com.unity.ide.rider": "3.0.7",
     "com.unity.ide.visualstudio": "2.0.11",
