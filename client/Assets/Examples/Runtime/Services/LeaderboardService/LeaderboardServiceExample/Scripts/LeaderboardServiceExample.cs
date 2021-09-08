@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Beamable.Common.Leaderboards;
+using Beamable.Examples.Shared;
 using UnityEngine;
 
-namespace Beamable.Examples.Services.LeaderboardService
+namespace Beamable.Examples.Services.LeaderboardService.LeaderboardServiceExample
 {
     /// <summary>
     /// Demonstrates <see cref="LeaderboardService"/>.
@@ -12,7 +13,7 @@ namespace Beamable.Examples.Services.LeaderboardService
         //  Fields  ---------------------------------------
         [SerializeField] private LeaderboardRef _leaderboardRef = null;
         [SerializeField] private double _score = 100;
-        private IBeamableAPI beamableAPI = null;
+        private IBeamableAPI _beamableAPI = null;
         
         //  Unity Methods  --------------------------------
         protected void Start()
@@ -25,9 +26,9 @@ namespace Beamable.Examples.Services.LeaderboardService
         //  Methods  --------------------------------------
         private async void SetupBeamable()
         {
-            beamableAPI = await Beamable.API.Instance;
+            _beamableAPI = await Beamable.API.Instance;
             
-            Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
+            Debug.Log($"_beamableAPI.User.id = {_beamableAPI.User.id}");
             
             // Set
             Debug.Log($"LeaderboardService.SetScore({_leaderboardRef.Id},{_score})");
@@ -41,40 +42,23 @@ namespace Beamable.Examples.Services.LeaderboardService
         
         private async Task LeaderboardServiceSetScore(string id, double score)
         {
-            await beamableAPI.LeaderboardService.SetScore(id, score);
+            // Set the user alias - This is likely not appropriate for a production project
+            await MockDataCreator.SetCurrentUserAlias(_beamableAPI.StatsService, MockDataCreator.DefaultMockAlias);
+            
+            // Set the score
+            await _beamableAPI.LeaderboardService.SetScore(id, score);
         }
 
         
         private async Task<double> LeaderboardServiceGetScore(string id)
         {
-            var score = await beamableAPI.LeaderboardService
-                .GetUser(id, beamableAPI.User.id)
+            var score = await _beamableAPI.LeaderboardService
+                .GetUser(id, _beamableAPI.User.id)
                 .Map(entry => entry.score);
 
             return score;
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
