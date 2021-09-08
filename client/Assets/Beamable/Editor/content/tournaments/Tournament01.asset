@@ -16,6 +16,7 @@ MonoBehaviour:
   - base
   name: TournamentContent01
   anchorTimeUTC: 2020-01-01T12:00:00Z
+  cycleDuration: P1D
   playerLimit: 99
   tiers:
   - name: Bronze
@@ -25,6 +26,9 @@ MonoBehaviour:
   - name: Gold
     color: {r: 0.96862745, g: 0.70980394, b: 0, a: 1}
   stagesPerTier: 1
+  passiveDecayStages:
+    HasValue: 0
+    Value: 0
   DefaultEntryColor: {r: 0.62352943, g: 0, b: 0, a: 1}
   ChampionColor: {r: 0.96862745, g: 0.70980394, b: 0, a: 1}
   stageChanges:
@@ -68,3 +72,19 @@ MonoBehaviour:
       HasValue: 1
       Value: 1
     currencyRewards: []
+  scoreRewards:
+  - name: Winner Score
+    tier: 0
+    minScore: 1
+    maxScore:
+      HasValue: 1
+      Value: 1
+    stageMin:
+      HasValue: 1
+      Value: 1
+    stageMax:
+      HasValue: 1
+      Value: 1
+    currencyRewards: []
+  groupRewards:
+    rankRewards: []

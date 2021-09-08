@@ -30,8 +30,10 @@ MonoBehaviour:
         - Strong And Sharp
     obtainCurrency: []
     obtainItems:
-    - contentId: items.Sword01
+    - contentId:
+        Id: items.Sword01
       properties: []
+      content_legacy: 
   activePeriod:
     HasValue: 0
     Value:
@@ -42,6 +44,9 @@ MonoBehaviour:
   purchaseLimit:
     HasValue: 0
     Value: 0
+  cohortRequirements:
+    HasValue: 0
+    Value: []
   playerStatRequirements:
     HasValue: 0
     Value: []
