@@ -82,7 +82,7 @@ namespace Beamable.Examples.Prefabs.LeaderboardFlow.LeaderboardFlowInterpolation
             // Populate with custom values 
             Dictionary<string, object> leaderboardStats = new Dictionary<string, object>();
             leaderboardStats.Add("leaderboard_score_timestamp", new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds());
-            leaderboardStats.Add("leaderboard_score_velocity", 99); // 3 score delta per second
+            leaderboardStats.Add("leaderboard_score_velocity", 99); // 99 score delta per second
             
             // Populates mock "alias" and "score" for each leaderboard row
             string loggingResult = await MockDataCreator.PopulateLeaderboardWithMockData(
@@ -95,6 +95,7 @@ namespace Beamable.Examples.Prefabs.LeaderboardFlow.LeaderboardFlowInterpolation
             
             Debug.Log($"PopulateLeaderboard Finish. Result = {loggingResult}");
         }
+        
     }
 }
 

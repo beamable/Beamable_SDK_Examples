@@ -16,11 +16,6 @@ namespace Beamable.Examples.Prefabs.LeaderboardFlow.LeaderboardFlowInterpolation
         //  Unity Methods  --------------------------------
         public void Update()
         {
-            if (!_isInitialized)
-            {
-                return;
-            }
-            
             // Custom Leaderboard
             long scoreTimestamp = long.Parse(_rankEntry.GetStat("leaderboard_score_timestamp"));
             long scoreVelocity = long.Parse(_rankEntry.GetStat("leaderboard_score_velocity"));
