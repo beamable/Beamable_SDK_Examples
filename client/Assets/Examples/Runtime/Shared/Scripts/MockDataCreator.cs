@@ -9,6 +9,7 @@ using Beamable.Api.Stats;
 using Beamable.Common.Api;
 using Beamable.Common.Api.Leaderboards;
 using Beamable.Common.Leaderboards;
+using UnityEngine;
 using Random = System.Random;
 
 namespace Beamable.Examples.Shared
@@ -25,6 +26,7 @@ namespace Beamable.Examples.Shared
       
       //  Other Methods --------------------------------
 
+
       /// <summary>
       /// Because this game is NOT a production game with real users, it is helpful
       /// to populate the Leaderboard with some mock users scores for
@@ -35,9 +37,15 @@ namespace Beamable.Examples.Shared
       /// <param name="leaderboardRowCountMin"></param>
       /// <param name="leaderboardScoreMin"></param>
       /// <param name="leaderboardScoreMax"></param>
-      public static async Task<string> PopulateLeaderboardWithMockData(IBeamableAPI beamableAPI,
+      /// <param name="leaderboardStats"></param>
+      /// <returns></returns>
+      public static async Task<string> PopulateLeaderboardWithMockData(
+         IBeamableAPI beamableAPI,
          LeaderboardContent leaderboardContent, 
-         int leaderboardRowCountMin, int leaderboardScoreMin, int leaderboardScoreMax)
+         int leaderboardRowCountMin, 
+         int leaderboardScoreMin, 
+         int leaderboardScoreMax, 
+         Dictionary<string, object> leaderboardStats = null)
       {
          LeaderboardService leaderboardService = beamableAPI.LeaderboardService;
          StatsService statsService = beamableAPI.StatsService;
@@ -48,7 +56,6 @@ namespace Beamable.Examples.Shared
 
          // Check Leaderboard
          LeaderBoardView leaderboardView = await leaderboardService.GetBoard(leaderboardContent.Id, 0, 100);
-
          // Not enough data in the leaderboard? Create users with mock scores
          int currentRowCount = leaderboardView.rankings.Count;
          int targetRowCount = leaderboardRowCountMin;
@@ -69,13 +76,21 @@ namespace Beamable.Examples.Shared
 
                // Rename NEW user
                string alias = CreateNewRandomAlias("User");
-              await SetCurrentUserAlias(statsService, alias);
+               await SetCurrentUserAlias(statsService, alias);
            
                // Submit mock score for NEW user
                double mockScore = UnityEngine.Random.Range(leaderboardScoreMin, leaderboardScoreMax);
                mockScore = GetRoundedScore(mockScore);
-               await leaderboardService.SetScore(leaderboardContent.Id, mockScore);
 
+               if (leaderboardStats == null)
+               {
+                  await leaderboardService.SetScore(leaderboardContent.Id, mockScore);
+               }
+               else
+               {
+                  await leaderboardService.SetScore(leaderboardContent.Id, mockScore, leaderboardStats);
+               }
+               
                loggingResult.AppendLine($"* During, Created Mock User. Alias={alias}, score:{mockScore}");
 
             }

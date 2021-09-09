@@ -11,7 +11,6 @@ namespace Beamable.Examples.Services.LeaderboardService.LeaderboardServiceMockDa
     {
         //  Fields  ---------------------------------------
         [SerializeField] private LeaderboardRef _leaderboardRef = null;
-        [SerializeField] private double _score = 100;
         private IBeamableAPI beamableAPI = null;
         
         //  Unity Methods  --------------------------------
@@ -45,7 +44,6 @@ namespace Beamable.Examples.Services.LeaderboardService.LeaderboardServiceMockDa
             
             Debug.Log($"PopulateLeaderboard Finish. Result = {loggingResult}");
         }
-        
     }
 }
 

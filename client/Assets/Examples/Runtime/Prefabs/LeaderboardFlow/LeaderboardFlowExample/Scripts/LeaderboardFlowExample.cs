@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Beamable.Examples.Prefabs.LeaderboardFlow
+namespace Beamable.Examples.Prefabs.LeaderboardFlow.LeaderboardFlowExample
 {
     /// <summary>
     /// Demonstrates <see cref="LeaderboardFlow"/>.
