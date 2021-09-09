@@ -206,6 +206,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &176149436 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6719561669163793401, guid: 1b85b3a11dfa349b0933bc289d82af9f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1335295440}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &821300583
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,6 +305,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1232056378 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8878504327484987702, guid: 1b85b3a11dfa349b0933bc289d82af9f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1335295440}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1335295440
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -696,6 +708,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5987146501781312109, guid: 1b85b3a11dfa349b0933bc289d82af9f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5995400447020134539, guid: 1b85b3a11dfa349b0933bc289d82af9f,
         type: 3}
       propertyPath: m_Sprite
@@ -741,6 +758,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _overwriteAllColor
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719561669163793401, guid: 1b85b3a11dfa349b0933bc289d82af9f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6719561669163793402, guid: 1b85b3a11dfa349b0933bc289d82af9f,
         type: 3}
@@ -889,6 +911,11 @@ PrefabInstance:
       propertyPath: m_textInfo.characterCount
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8878504327484987702, guid: 1b85b3a11dfa349b0933bc289d82af9f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8878504327484987703, guid: 1b85b3a11dfa349b0933bc289d82af9f,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -950,6 +977,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d1ce153cf1d2b14a99d5c06f7fa3759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameObjectsToHide:
+  - {fileID: 176149436}
+  - {fileID: 1232056378}
 --- !u!4 &1450410112
 Transform:
   m_ObjectHideFlags: 0
