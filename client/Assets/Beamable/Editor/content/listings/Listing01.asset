@@ -70,3 +70,12 @@ MonoBehaviour:
   buttonText:
     HasValue: 0
     Value: Buy Now!
+  schedule:
+    HasValue: 0
+    Value:
+      description: 
+      activeFrom: 
+      activeTo:
+        HasValue: 0
+        Value: 
+      definitions: []

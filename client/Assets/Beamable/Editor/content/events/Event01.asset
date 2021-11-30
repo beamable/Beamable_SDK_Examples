@@ -17,6 +17,10 @@ MonoBehaviour:
   name: Event 01
   startDate: 2020-01-01T12:00:00Z
   partitionSize: 10
+  cohortSettings:
+    HasValue: 0
+    Value:
+      cohorts: []
   legacyPhases: []
   phases:
     listData:
@@ -81,3 +85,12 @@ MonoBehaviour:
               values: []
   permissions:
     writeSelf: 1
+  schedule:
+    HasValue: 0
+    Value:
+      description: 
+      activeFrom: 
+      activeTo:
+        HasValue: 0
+        Value: 
+      definitions: []
