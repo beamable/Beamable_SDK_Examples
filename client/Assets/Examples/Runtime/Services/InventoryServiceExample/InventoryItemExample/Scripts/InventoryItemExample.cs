@@ -103,28 +103,43 @@ namespace Beamable.Examples.Services.InventoryService.InventoryItemExample
       {
          string contentId = _itemToDelete.Id;
 
-         List<InventoryObject<ItemContent>> itemContents =
+         List<InventoryObject<ItemContent>> allOwnedItems =
             _beamableAPI.InventoryService.GetItems<ItemContent>().GetResult();
 
-         if (itemContents.Count == 0)
+         if (allOwnedItems == null || allOwnedItems.Count == 0)
          {
-            Debug.Log($"#4. PLAYER DeleteOneItem() failed. Player has no such item yet.");
+            Debug.Log($"#4. PLAYER DeleteOneItem() failed. Player has no items yet.");
+            return;
+         }
+
+         long itemIdToDelete = 0;
+         foreach (var x in allOwnedItems)
+         {
+            //Checks the CONTENT id
+            if (x.ItemContent.Id == _itemToDelete.Id)
+            {
+               //Stores the INVENTORY id
+               itemIdToDelete = x.Id;
+               break;
+            }
+         }
+         
+         if (itemIdToDelete == 0)
+         {
+            Debug.Log($"#4. PLAYER DeleteOneItem() failed. Player has no items of that type yet.");
             return;
          }
          
-         long itemIdToDelete = itemContents.First().Id;
-
          await _beamableAPI.InventoryService.DeleteItem(contentId, itemIdToDelete).Then(obj =>
          {
             Debug.Log($"#4. PLAYER DeleteOneItem() success. 1 player item for {contentId} is deleted.");
-                     
          });
       }
       
       //  Event Handlers  -------------------------------
       private void ContentService_OnChanged(ClientManifest clientManifest)
       {
-         Debug.Log($"#1. GAME - ContentService, count = {clientManifest.entries.Count}");
+         //Debug.Log($"#1. GAME - ContentService, count = {clientManifest.entries.Count}");
          
          _inventoryItemExampleData.ContentObjectNames.Clear();
          foreach (ClientContentInfo clientContentInfo in clientManifest.entries)
@@ -141,7 +156,7 @@ namespace Beamable.Examples.Services.InventoryService.InventoryItemExample
       
       private void InventoryService_OnChanged(InventoryView inventoryView)
       {
-         Debug.Log($"#2. PLAYER - InventoryService, count = {inventoryView.items.Count}");
+         //Debug.Log($"#2. PLAYER - InventoryService, count = {inventoryView.items.Count}");
 
          _inventoryItemExampleData.InventoryItemNames.Clear();
          foreach (KeyValuePair<string, List<ItemView>> kvp in inventoryView.items)
