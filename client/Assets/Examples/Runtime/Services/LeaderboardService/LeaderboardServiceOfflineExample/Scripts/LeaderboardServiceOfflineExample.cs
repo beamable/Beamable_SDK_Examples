@@ -24,7 +24,6 @@ namespace Beamable.Examples.Services.LeaderboardService.LeaderboardServiceOfflin
         [SerializeField] 
         private bool _willDisconnectDuringSetScore = true;
 
-        
         private IBeamableAPI _beamableAPI = null;
         
         //  Unity Methods  --------------------------------
@@ -71,7 +70,7 @@ namespace Beamable.Examples.Services.LeaderboardService.LeaderboardServiceOfflin
                 stats.Add("_final_score", score);
             }
             
-            // Question: #1 Does SetScore work when offline?
+            // SetScore does indeed appear to work offline, However...
             // Question: #1 If yes, why does it throw an error every time when offline?
             try
             {
@@ -85,7 +84,6 @@ namespace Beamable.Examples.Services.LeaderboardService.LeaderboardServiceOfflin
                 //  should not be cached and requires internet connectivity.
                 Debug.LogWarning(e.Message);
             }
-            
             
             // Maybe reconnect
             if (_willDisconnectDuringSetScore)

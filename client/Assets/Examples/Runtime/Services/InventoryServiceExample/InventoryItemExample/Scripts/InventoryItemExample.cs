@@ -111,7 +111,7 @@ namespace Beamable.Examples.Services.InventoryService.InventoryItemExample
             Debug.Log($"#4. PLAYER DeleteOneItem() failed. Player has no items yet.");
             return;
          }
-
+   
          long itemIdToDelete = 0;
          foreach (var x in allOwnedItems)
          {
