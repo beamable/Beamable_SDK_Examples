@@ -51,7 +51,7 @@ namespace Beamable.Examples.Services.MailService
          string startLog = $"Start() Instructions..\n" +
                            $"\n * Play Scene" +
                            $"\n * Check for mail using UI. Probably none" +
-                           $"\n * CancelMatchmaking Scene" +
+                           $"\n * Stop Scene" +
                            $"\n * Unity → Window → Beamable → Examples → MailService → Send Test Mail To Active User" +
                            $"\n * Play Scene" +
                            $"\n * Check for mail using UI. Probably some\n\n";

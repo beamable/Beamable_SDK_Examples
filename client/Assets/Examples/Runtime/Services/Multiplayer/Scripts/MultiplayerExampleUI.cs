@@ -95,7 +95,7 @@ namespace Beamable.Examples.Services.Multiplayer
             $"Start\nMultiplayer";
 
          StopButton.GetComponentInChildren<TMP_Text>().text =
-            $"CancelMatchmaking\nMultiplayer";
+            $"Cancel\nMultiplayer";
 
          SendPlayerMoveButton.GetComponentInChildren<TMP_Text>().text =
             $"Send\nPlayer Move";
