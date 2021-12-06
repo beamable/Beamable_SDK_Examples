@@ -4,7 +4,7 @@ using Beamable.Service;
 namespace Beamable.Examples.Shared
 { 
     /// <summary>
-    /// These are hacks and other shortcuts used to
+    /// These are hacks and Call_BasicAccountsRegister shortcuts used to
     /// assist in the examples.
     ///
     /// HACK: These hacks are not recommended for production usage

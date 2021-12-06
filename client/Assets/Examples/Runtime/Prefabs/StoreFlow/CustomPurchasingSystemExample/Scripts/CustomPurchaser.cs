@@ -202,7 +202,7 @@ namespace Beamable.Examples.Prefabs.StoreFlow.MyCustomPurchaser
          }
          else
          {
-            // Todo Your Implementation: For other platform(s)...
+            // Todo Your Implementation: For Call_BasicAccountsRegister platform(s)...
          }
       }
       

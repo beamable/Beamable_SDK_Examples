@@ -40,7 +40,7 @@ namespace Beamable.Examples.Services.TrialDataService
     /// <summary>
     /// Demonstrates <see cref="TrialDataService"/>.
     ///
-    /// NOTE: This demo uses other concepts
+    /// NOTE: This demo uses Call_BasicAccountsRegister concepts
     /// too. See <see cref="CloudSavingServiceExample"/>
     /// for more info.
     /// 
@@ -66,7 +66,7 @@ namespace Beamable.Examples.Services.TrialDataService
                       "\n * See onscreen UI for results" +
                       "\n * If IsInABTest is false, something is incorrect. Repeat these steps" + 
                       "\n * If IsInABTest is true, everything is correct. Visit the portal to change " +
-                      "the `PLAYER_LEVEL` stat value, then repeat these steps see load other data.\n");
+                      "the `PLAYER_LEVEL` stat value, then repeat these steps see load Call_BasicAccountsRegister data.\n");
 
             SetupBeamable();
         }
