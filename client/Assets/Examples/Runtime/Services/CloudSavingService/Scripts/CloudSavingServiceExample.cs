@@ -131,10 +131,6 @@ namespace Beamable.Examples.Services.CloudSavingService
                 throw new Exception("Cannot call Init() when " +
                                     $"isInitializing = {_cloudSavingService.isInitializing}");
 
-            // Gets the cloud data manifest (ManifestResponse) OR
-            // creates an empty manifest if the user has no cloud data 
-            await _cloudSavingService.EnsureRemoteManifest();
-
             // Check isInitializing, as best practice
             if (!_cloudSavingService.isInitializing)
             {
