@@ -69,6 +69,7 @@ namespace Beamable.Examples.Services.Multiplayer
         private const long FramesPerSecond = 20;
         private const long TargetNetworkLead = 4;
         private SimClient _simClient;
+        private BeamContext _beamContext;
         
         //  Unity Methods  --------------------------------
         protected void Start()
@@ -116,12 +117,13 @@ namespace Beamable.Examples.Services.Multiplayer
         //  Methods  --------------------------------------
         private async void SetupBeamable()
         {
-            var beamableAPI = await Beamable.API.Instance;
+           _beamContext = BeamContext.Default;
+           await _beamContext.OnReady;
 
-            Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
+            Debug.Log($"_beamContext.PlayerId = {_beamContext.PlayerId}");
             
             // Access Local Player Information
-            _multiplayerExampleData.LocalPlayerDbid = beamableAPI.User.id;
+            _multiplayerExampleData.LocalPlayerDbid = _beamContext.PlayerId;
 
         }
         
@@ -141,7 +143,7 @@ namespace Beamable.Examples.Services.Multiplayer
            
            // Create Multiplayer Session
            _simClient = new SimClient(
-              new SimNetworkEventStream(_multiplayerExampleData.MatchId), 
+              new SimNetworkEventStream(_multiplayerExampleData.MatchId, _beamContext.ServiceProvider), 
               FramesPerSecond, TargetNetworkLead);
         
            // Handle Common Events

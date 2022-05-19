@@ -18,10 +18,11 @@ namespace Beamable.Examples.Shared
         /// <summary>
         /// Clears all data related to the active runtime user(s)
         /// </summary>
-        public static void ClearDeviceUsersAndReloadScene()
+        public static async void ClearDeviceUsersAndReloadScene()
         {
-            PlatformService platformService = ServiceManager.Resolve<PlatformService>();
-            platformService.ClearDeviceUsers();
+            BeamContext context = BeamContext.Default;
+            await context.OnReady;
+            context.Api.ClearDeviceUsers();
             ServiceManager.OnTeardown();
         }
     }

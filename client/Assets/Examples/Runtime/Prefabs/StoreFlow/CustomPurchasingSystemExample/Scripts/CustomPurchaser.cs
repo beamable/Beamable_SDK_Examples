@@ -4,6 +4,7 @@ using System.Linq;
 using Beamable.Api;
 using Beamable.Api.Payments;
 using Beamable.Common;
+using Beamable.Common.Dependencies;
 using Beamable.Coroutines;
 using Beamable.Service;
 using UnityEngine;
@@ -62,8 +63,13 @@ namespace Beamable.Examples.Prefabs.StoreFlow.MyCustomPurchaser
 
          return _initializePromise;
       }
-      
-      
+
+
+      public Promise<Unit> Initialize(IDependencyProvider provider = null)
+      {
+         throw new NotImplementedException();
+      }
+
       /// <summary>
       /// Get the localized price string for a given SKU.
       /// </summary>

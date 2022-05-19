@@ -3,8 +3,8 @@ using System.Collections;
 using Beamable.Api;
 using Beamable.Api.Payments;
 using Beamable.Common;
+using Beamable.Common.Spew;
 using Beamable.Service;
-using Beamable.Spew;
 using UnityEngine;
 
 namespace Beamable.Examples.Prefabs.StoreFlow.MyCustomPurchaser
@@ -53,13 +53,16 @@ namespace Beamable.Examples.Prefabs.StoreFlow.MyCustomPurchaser
       protected long _transactionId = 0;
       protected readonly Promise<Unit> _initializePromise = new Promise<Unit>();
       protected PaymentService _paymentService = null;
+      protected BeamContext _beamContext;
 
       //  Methods  --------------------------------------
-      public virtual Promise<Unit> Initialize()
+      public async virtual Promise<Unit> Initialize()
       {
-         _paymentService = ServiceManager.Resolve<PlatformService>().Payments;
+         _beamContext = BeamContext.Default;
+         await _beamContext.OnReady;
+         _paymentService = _beamContext.ServiceProvider.GetService<PaymentService>();
 
-         return _initializePromise;
+         return await _initializePromise;
       }
 
       /// <summary>
