@@ -76,7 +76,7 @@ namespace Beamable.Examples.Services.CloudSavingService
         } 
         
         //  Fields  ---------------------------------------
-        private IBeamableAPI _beamableAPI;
+        private BeamContext _beamContext;
         private Api.CloudSaving.CloudSavingService _cloudSavingService;
         private readonly CloudSavingServiceExampleData _cloudSavingServiceExampleData =
             new CloudSavingServiceExampleData();
@@ -104,11 +104,12 @@ namespace Beamable.Examples.Services.CloudSavingService
         //  Methods  --------------------------------------
         private async void SetupBeamable()
         {
-            _beamableAPI = await API.Instance;
+            _beamContext = BeamContext.Default;
+            await _beamContext.OnReady;
 
-            Debug.Log($"beamableAPI.User.id = {_beamableAPI.User.id}");
+            Debug.Log($"_beamContext.PlayerId = {_beamContext.PlayerId}");
 
-            _cloudSavingService = _beamableAPI.CloudSavingService;
+            _cloudSavingService = _beamContext.Api.CloudSavingService;
 
             // Subscribe to the UpdatedReceived event to handle
             // when data on disk does not yet exist and is pulled
