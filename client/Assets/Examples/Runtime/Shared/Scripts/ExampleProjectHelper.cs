@@ -116,23 +116,23 @@ namespace Beamable.Examples.Shared
         /// <summary>
         /// Load full details of a Beamable Item
         /// </summary>
-        /// <param name="_beamableAPI"></param>
+        /// <param name="beamContext"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static async Task<ItemContent> GetItemContentById(IBeamableAPI _beamableAPI, string id)
+        public static async Task<ItemContent> GetItemContentById(BeamContext beamContext, string id)
         {
-            return await _beamableAPI.ContentService.GetContent(id, typeof(ItemContent)) as ItemContent;
+            return await beamContext.Api.ContentService.GetContent(id, typeof(ItemContent)) as ItemContent;
         }
         
         /// <summary>
         /// Load full details of a Beamable Currency
         /// </summary>
-        /// <param name="_beamableAPI"></param>
+        /// <param name="beamContext"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static async Task<CurrencyContent> GetCurrencyContentById(IBeamableAPI _beamableAPI, string id)
+        public static async Task<CurrencyContent> GetCurrencyContentById(BeamContext beamContext, string id)
         {
-            return await _beamableAPI.ContentService.GetContent(id, typeof(CurrencyContent)) as CurrencyContent;
+            return await beamContext.Api.ContentService.GetContent(id, typeof(CurrencyContent)) as CurrencyContent;
         }
 
         /// <summary>
