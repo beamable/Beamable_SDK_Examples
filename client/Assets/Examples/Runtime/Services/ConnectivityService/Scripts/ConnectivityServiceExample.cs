@@ -27,7 +27,7 @@ namespace Beamable.Examples.Services.ConnectivityService
         public RefreshedUnityEvent OnRefreshed = new RefreshedUnityEvent();
         
         //  Fields  ---------------------------------------
-        private IBeamableAPI _beamableAPI = null;
+        private BeamContext _beamContext;
         private ConnectivityServiceExampleData _data = new ConnectivityServiceExampleData();
     
         //  Unity Methods  --------------------------------
@@ -46,21 +46,21 @@ namespace Beamable.Examples.Services.ConnectivityService
         //  Methods  --------------------------------------
         private async void SetupBeamable()
         {
-            _beamableAPI = await Beamable.API.Instance;
+            _beamContext = BeamContext.Default;
 
-            Debug.Log($"beamableAPI.User.id = {_beamableAPI.User.id}");
+            Debug.Log($"beamContext.PlayerId = {_beamContext.PlayerId}");
 
             // Observe ConnectivityService Changes
-            _beamableAPI.ConnectivityService.OnConnectivityChanged += ConnectivityService_OnConnectivityChanged;
+            _beamContext.Api.ConnectivityService.OnConnectivityChanged += ConnectivityService_OnConnectivityChanged;
             
             // Update UI Immediately
-            bool hasConnectivity = _beamableAPI.ConnectivityService.HasConnectivity;
+            bool hasConnectivity = _beamContext.Api.ConnectivityService.HasConnectivity;
             ConnectivityService_OnConnectivityChanged(hasConnectivity);
         }
         
         public void ToggleHasInternet()
         {
-            _beamableAPI.ConnectivityService.SetHasInternet(!_data.HasConnectivity);
+            _beamContext.Api.ConnectivityService.SetHasInternet(!_data.HasConnectivity);
         }
 
         public void Refresh()
