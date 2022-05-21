@@ -11,7 +11,7 @@ namespace Beamable.Examples.Services.LeaderboardService.LeaderboardServiceMockDa
     {
         //  Fields  ---------------------------------------
         [SerializeField] private LeaderboardRef _leaderboardRef = null;
-        private IBeamableAPI beamableAPI = null;
+        private BeamContext _beamContext;
         
         //  Unity Methods  --------------------------------
         protected void Start()
@@ -24,8 +24,9 @@ namespace Beamable.Examples.Services.LeaderboardService.LeaderboardServiceMockDa
         //  Methods  --------------------------------------
         private async void SetupBeamable()
         {
-            beamableAPI = await Beamable.API.Instance;
-            Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
+            _beamContext = BeamContext.Default;
+            await _beamContext.OnReady;
+            Debug.Log($"_beamContext.PlayerId = {_beamContext.PlayerId}");
             
             LeaderboardContent leaderboardContent = await _leaderboardRef.Resolve();
 
@@ -36,7 +37,7 @@ namespace Beamable.Examples.Services.LeaderboardService.LeaderboardServiceMockDa
             
             // Populates mock "alias" and "score" for each leaderboard row
             string loggingResult = await MockDataCreator.PopulateLeaderboardWithMockData(
-                beamableAPI, 
+                _beamContext, 
                 leaderboardContent,
                 leaderboardRowCountMin,
                 leaderboardScoreMin,

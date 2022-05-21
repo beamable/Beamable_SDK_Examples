@@ -16,7 +16,7 @@ namespace Beamable.Examples.Services.LeaderboardService.LeaderboardServiceExampl
         //  Fields  ---------------------------------------
         [SerializeField] private LeaderboardRef _leaderboardRef = null;
         [SerializeField] private double _score = 100;
-        private IBeamableAPI _beamableAPI = null;
+        private BeamContext _beamContext;
         
         //  Unity Methods  --------------------------------
         protected void Start()
@@ -29,13 +29,14 @@ namespace Beamable.Examples.Services.LeaderboardService.LeaderboardServiceExampl
         //  Methods  --------------------------------------
         private async void SetupBeamable()
         {
-            _beamableAPI = await Beamable.API.Instance;
+            _beamContext = BeamContext.Default;
+            await _beamContext.OnReady;
             
-            Debug.Log($"_beamableAPI.User.id = {_beamableAPI.User.id}");
+            Debug.Log($"_beamContext.PlayerId = {_beamContext.PlayerId}");
 
             // Get Board - Log 100 results nearest to active user
-            Debug.Log($"LeaderboardService.GetBoard({_leaderboardRef.Id},{_beamableAPI.User.id})");
-            List<RankEntry> rankEntries = await LeaderboardServiceGetBoard(_leaderboardRef.Id, _beamableAPI.User.id);
+            Debug.Log($"LeaderboardService.GetBoard({_leaderboardRef.Id},{_beamContext.PlayerId})");
+            List<RankEntry> rankEntries = await LeaderboardServiceGetBoard(_leaderboardRef.Id, _beamContext.PlayerId);
             
             // Set Score
             Debug.Log($"LeaderboardService.SetScore({_leaderboardRef.Id},{_score})");
@@ -48,14 +49,14 @@ namespace Beamable.Examples.Services.LeaderboardService.LeaderboardServiceExampl
         
         private async Task<List<RankEntry>> LeaderboardServiceGetBoard(string id, long userId)
         {
-            LeaderBoardView leaderBoardView = await _beamableAPI.LeaderboardService.GetBoard(id, 0, 100, userId);
+            LeaderBoardView leaderBoardView = await _beamContext.Api.LeaderboardService.GetBoard(id, 0, 100, userId);
 
             foreach (RankEntry rankEntry in leaderBoardView.rankings)
             {
                 // Get alias for userId of rankEntry
                 long nextUserId = rankEntry.gt;
                 var stats = 
-                    await _beamableAPI.StatsService.GetStats("client", "public", "player", nextUserId );
+                    await _beamContext.Api.StatsService.GetStats("client", "public", "player", nextUserId );
                 
                 string alias = "";
                 stats.TryGetValue(alias, out alias);
@@ -74,17 +75,17 @@ namespace Beamable.Examples.Services.LeaderboardService.LeaderboardServiceExampl
         private async Task LeaderboardServiceSetScore(string id, double score)
         {
             // Set the user alias - This is likely not appropriate for a production project
-            await MockDataCreator.SetCurrentUserAlias(_beamableAPI.StatsService, MockDataCreator.DefaultMockAlias);
+            await MockDataCreator.SetCurrentUserAlias(_beamContext.Api.StatsService, MockDataCreator.DefaultMockAlias);
             
             // Set the score
-            await _beamableAPI.LeaderboardService.SetScore(id, score);
+            await _beamContext.Api.LeaderboardService.SetScore(id, score);
         }
 
         
         private async Task<double> LeaderboardServiceGetScore(string id)
         {
-            var score = await _beamableAPI.LeaderboardService
-                .GetUser(id, _beamableAPI.User.id)
+            var score = await _beamContext.Api.LeaderboardService
+                .GetUser(id, _beamContext.PlayerId)
                 .Map(entry => entry.score);
 
             return score;
