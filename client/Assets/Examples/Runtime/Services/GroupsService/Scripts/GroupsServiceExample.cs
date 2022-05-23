@@ -41,7 +41,8 @@ namespace Beamable.Examples.Services.GroupsService
         //  Fields  ---------------------------------------
         private ChatView _chatView = null;
         private GroupsView _groupsView = null;
-        private IBeamableAPI _beamableAPI = null;
+        private BeamContext _beamContext;
+        private ChatService _chatService;
         private GroupsServiceExampleData _data = new GroupsServiceExampleData();
     
         //  Unity Methods  --------------------------------
@@ -55,12 +56,14 @@ namespace Beamable.Examples.Services.GroupsService
         //  Methods  --------------------------------------
         private async void SetupBeamable()
         {
-            _beamableAPI = await Beamable.API.Instance;
+            _beamContext = BeamContext.Default;
+            await _beamContext.OnReady;
+            _chatService = _beamContext.ServiceProvider.GetService<ChatService>();
 
-            Debug.Log($"beamableAPI.User.id = {_beamableAPI.User.id}");
+            Debug.Log($"beamContext.PlayerId = {_beamContext.PlayerId}");
 
             // Observe GroupsService Changes
-            _beamableAPI.GroupsService.Subscribe(async groupsView =>
+            _beamContext.Api.GroupsService.Subscribe(async groupsView =>
             {
                 _groupsView = groupsView;
                 _data.IsInGroup = _groupsView.Groups.Count > 0;
@@ -82,15 +85,15 @@ namespace Beamable.Examples.Services.GroupsService
 
                     // Create a new chat room for the group
                     string roomName = $"Room For {groupView.Group.name}";
-                    await _beamableAPI.Experimental.ChatService.CreateRoom(roomName, false,
-                        new List<long> {_beamableAPI.User.id});
+                    await _chatService.CreateRoom(roomName, false,
+                        new List<long> {_beamContext.PlayerId});
                     
                 }
                 Refresh();
             });
             
             // Observe ChatService Changes
-            _beamableAPI.Experimental.ChatService.Subscribe(chatView =>
+            _chatService.Subscribe(chatView =>
             {
                 _chatView = chatView;
 
@@ -154,7 +157,7 @@ namespace Beamable.Examples.Services.GroupsService
             string enrollmentType = "open";
 
             // Search existing group
-            var groupSearchResponse = await _beamableAPI.GroupsService.Search(groupName, 
+            var groupSearchResponse = await _beamContext.Api.GroupsService.Search(groupName, 
                 new List<string> {enrollmentType});
             
             // Join or Create new group
@@ -162,22 +165,22 @@ namespace Beamable.Examples.Services.GroupsService
             {
                 foreach (var group in groupSearchResponse.groups)
                 {
-                    var groupMembershipResponse = await _beamableAPI.GroupsService.JoinGroup(group.id);
+                    var groupMembershipResponse = await _beamContext.Api.GroupsService.JoinGroup(group.id);
                 }
             }
             else
             {
                 var groupCreateRequest = new GroupCreateRequest(groupName, groupTag, enrollmentType, 0, 50);
-                var groupCreateResponse = await _beamableAPI.GroupsService.CreateGroup(groupCreateRequest);
+                var groupCreateResponse = await _beamContext.Api.GroupsService.CreateGroup(groupCreateRequest);
                 var createdGroup = groupCreateResponse.group;
 
                 // Join new group
-                await _beamableAPI.GroupsService.JoinGroup(createdGroup.id);
+                await _beamContext.Api.GroupsService.JoinGroup(createdGroup.id);
             }
 
             // HACK: Force refresh here (0.10.1)
             // Wait (arbitrary milliseconds) for refresh to complete 
-            _beamableAPI.GroupsService.Subscribable.ForceRefresh();
+            _beamContext.Api.GroupsService.Subscribable.ForceRefresh();
             await Task.Delay(300); 
             
             Refresh();
@@ -193,12 +196,12 @@ namespace Beamable.Examples.Services.GroupsService
             // Leave any existing groups
             foreach(var group in _groupsView.Groups)
             {
-                var result = await _beamableAPI.GroupsService.LeaveGroup(group.Group.id);
+                var result = await _beamContext.Api.GroupsService.LeaveGroup(group.Group.id);
             }
             
             // HACK: Force refresh here (0.10.1)
             // Wait (arbitrary milliseconds) for refresh to complete 
-            _beamableAPI.GroupsService.Subscribable.ForceRefresh();
+            _beamContext.Api.GroupsService.Subscribable.ForceRefresh();
             await Task.Delay(300); 
             
             Refresh();
@@ -212,7 +215,7 @@ namespace Beamable.Examples.Services.GroupsService
             Debug.Log("_chatView 1: " + _chatView.roomHandles.Count);
             foreach(var room in _chatView.roomHandles)
             {
-                var result = await _beamableAPI.Experimental.ChatService.LeaveRoom(room.Id);
+                var result = await _chatService.LeaveRoom(room.Id);
             }
             
             Debug.Log("_chatView 2: " + _chatView.roomHandles.Count);
