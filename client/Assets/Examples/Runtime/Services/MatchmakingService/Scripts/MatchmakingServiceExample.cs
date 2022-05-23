@@ -50,7 +50,7 @@ namespace Beamable.Examples.Services.MatchmakingService
         /// This defines the matchmaking criteria including "NumberOfPlayers"
         /// </summary>
         [SerializeField] private SimGameTypeRef _simGameTypeRef;
-        private IBeamableAPI _beamableAPI = null;
+        private BeamContext _beamContext;
         private MyMatchmaking _myMatchmaking = null;
         private SimGameType _simGameType = null;
         private MatchmakingServiceExampleData _data = new MatchmakingServiceExampleData();
@@ -75,19 +75,20 @@ namespace Beamable.Examples.Services.MatchmakingService
         //  Methods  --------------------------------------
         private async void SetupBeamable()
         {
-            _beamableAPI = await Beamable.API.Instance;
-            Debug.Log($"beamableAPI.User.id = {_beamableAPI.User.id}\n\n");
+            _beamContext = BeamContext.Default;
+            await _beamContext.OnReady;
+            Debug.Log($"beamContext.PlayerId = {_beamContext.PlayerId}\n\n");
 
             _data.SessionState = SessionState.Disconnected;
             
             _simGameType = await _simGameTypeRef.Resolve();
-            _data.MainLogs.Add($"beamableAPI.User.id = {_beamableAPI.User.id}");
+            _data.MainLogs.Add($"beamContext.PlayerId = {_beamContext.PlayerId}");
             _data.MainLogs.Add($"SimGameType.Teams.Count = {_simGameType.teams.Count}");
 
             _myMatchmaking = new MyMatchmaking(
-                _beamableAPI.Experimental.MatchmakingService,
+                _beamContext.Api.Experimental.MatchmakingService,
                 _simGameType,
-                _beamableAPI.User.id);
+                _beamContext.PlayerId);
 
             _myMatchmaking.OnProgress.AddListener(MyMatchmaking_OnProgress);
             _myMatchmaking.OnComplete.AddListener(MyMatchmaking_OnComplete);
