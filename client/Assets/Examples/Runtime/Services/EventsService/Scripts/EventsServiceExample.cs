@@ -38,7 +38,7 @@ namespace Beamable.Examples.Services.EventsService
       
       
       //  Fields  ---------------------------------------
-      private IBeamableAPI _beamableAPI;
+      private BeamContext _beamContext;
       private EventsServiceExampleData _data = new EventsServiceExampleData();
 
       
@@ -54,13 +54,14 @@ namespace Beamable.Examples.Services.EventsService
       //  Methods  --------------------------------------
       private async void SetupBeamable()
       { 
-         _beamableAPI = await Beamable.API.Instance;
+         _beamContext = BeamContext.Default;
+         await _beamContext.OnReady;
 
-         _data.Dbid = _beamableAPI.User.id;
-         Debug.Log($"beamableAPI.User.id = {_data.Dbid}");
+         _data.Dbid = _beamContext.PlayerId;
+         Debug.Log($"beamContext.PlayerId = {_data.Dbid}");
 
          // Fetch All Events
-         _beamableAPI.EventsService.Subscribe(eventsGetResponse =>
+         _beamContext.Api.EventsService.Subscribe(eventsGetResponse =>
          {
             _data.RunningEventsLogs.Clear();
             int index = 0;
@@ -106,10 +107,10 @@ namespace Beamable.Examples.Services.EventsService
          
          // SetScore() in **ALL** events.
          // Typical usage is to SetScore() in just one event.
-         EventsGetResponse eventsGetResponse = await _beamableAPI.EventsService.GetCurrent();
+         EventsGetResponse eventsGetResponse = await _beamContext.Api.EventsService.GetCurrent();
          foreach (EventView eventView in eventsGetResponse.running)
          {
-            Unit unit = await _beamableAPI.EventsService.SetScore(
+            Unit unit = await _beamContext.Api.EventsService.SetScore(
                eventView.id, _data.Score, false, new Dictionary<string, object>());
 
             string score = $"SetScore()" +
@@ -123,7 +124,7 @@ namespace Beamable.Examples.Services.EventsService
          
          // HACK: Force refresh here (0.10.1)
          // wait (arbitrary milliseconds) for refresh to complete 
-         _beamableAPI.EventsService.Subscribable.ForceRefresh();
+         _beamContext.Api.EventsService.Subscribable.ForceRefresh();
          await Task.Delay(300); 
          
          Refresh();
@@ -136,7 +137,7 @@ namespace Beamable.Examples.Services.EventsService
          
          // Claim() in **ALL** events.
          // Typical usage is to Claim() in just one event.
-         EventsGetResponse eventsGetResponse = await _beamableAPI.EventsService.GetCurrent();
+         EventsGetResponse eventsGetResponse = await _beamContext.Api.EventsService.GetCurrent();
          foreach (EventView eventView in eventsGetResponse.running)
          {
             // STANDARD EVENTS
@@ -185,7 +186,7 @@ namespace Beamable.Examples.Services.EventsService
                // Claim() fails if there is nothing to be claimed
                try
                {
-                  EventClaimResponse eventClaimResponse = await _beamableAPI.EventsService.Claim(eventView.id);
+                  EventClaimResponse eventClaimResponse = await _beamContext.Api.EventsService.Claim(eventView.id);
                   
                   // Get value, or default
                   int? groupScoreRewardsCount = eventClaimResponse.view.groupRewards?.scoreRewards?.Count;
