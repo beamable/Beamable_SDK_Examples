@@ -31,7 +31,7 @@ namespace Beamable.Examples.Services.CommerceService
         [SerializeField]
         private StoreRef _storeRef = null;
         private StoreContent _storeContent = null;
-        private IBeamableAPI _beamableAPI = null;
+        private BeamContext _beamContext;
   
         private CommerceServiceExampleData _data = new CommerceServiceExampleData();
     
@@ -51,16 +51,17 @@ namespace Beamable.Examples.Services.CommerceService
         //  Methods  --------------------------------------
         private async void SetupBeamable()
         {
-            _beamableAPI = await Beamable.API.Instance;
+            _beamContext = BeamContext.Default;
+            await _beamContext.OnReady;
 
-            Debug.Log($"beamableAPI.User.id = {_beamableAPI.User.id}");
+            Debug.Log($"beamContext.PlayerId = {_beamContext.PlayerId}");
 
             _storeContent = await _storeRef.Resolve();
 
             // Observe Changes
-            _beamableAPI.InventoryService.Subscribe(ItemContentType, Inventory_OnChanged);
-            _beamableAPI.InventoryService.Subscribe(CurrencyContentType, Currency_OnChanged);
-            _beamableAPI.CommerceService.Subscribe(_storeContent.Id, CommerceService_OnChanged);
+            _beamContext.Api.InventoryService.Subscribe(ItemContentType, Inventory_OnChanged);
+            _beamContext.Api.InventoryService.Subscribe(CurrencyContentType, Currency_OnChanged);
+            _beamContext.Api.CommerceService.Subscribe(_storeContent.Id, CommerceService_OnChanged);
             
             // Update UI Immediately
             Refresh();
@@ -83,7 +84,7 @@ namespace Beamable.Examples.Services.CommerceService
             // Buy!
             string storeSymbol = _storeContent.Id;
             string listingSymbol = _data.SelectedItemData.PlayerListingView.symbol;
-            await _beamableAPI.CommerceService.Purchase(storeSymbol, listingSymbol);
+            await _beamContext.Api.CommerceService.Purchase(storeSymbol, listingSymbol);
             
         }
 
@@ -113,7 +114,7 @@ namespace Beamable.Examples.Services.CommerceService
                 string itemName = ExampleProjectHelper.GetDisplayNameFromContentId(kvp.Key);
                 
                 ItemContent itemContent = await 
-                    ExampleProjectHelper.GetItemContentById(_beamableAPI, kvp.Key);
+                    ExampleProjectHelper.GetItemContentById(_beamContext, kvp.Key);
 
                 string title = $"{itemName} x {kvp.Value.Count}";
                 ItemData itemData = new ItemData(title, itemContent, null);
@@ -140,15 +141,18 @@ namespace Beamable.Examples.Services.CommerceService
                 {
                     _data.CurrencyAmount = (int)kvp.Value;
                 }
-                
+                else
+                {
+                    continue;
+                }
+
                 string itemName = ExampleProjectHelper.GetDisplayNameFromContentId(kvp.Key);
                 
                 CurrencyContent currencyContent = 
-                    await ExampleProjectHelper.GetCurrencyContentById(_beamableAPI, kvp.Key);
+                    await ExampleProjectHelper.GetCurrencyContentById(_beamContext, kvp.Key);
                 
                 _data.CurrencyContent = currencyContent;
                 _data.CurrencyLogs.Add($"{itemName} x {kvp.Value}");
-                break;
             }
             
             Debug.Log("_data.CurrencyAmount: " + _data.CurrencyAmount);
@@ -169,7 +173,7 @@ namespace Beamable.Examples.Services.CommerceService
                 int price = playerListingView.offer.price.amount;   
                 string contentId = playerListingView.offer.obtainItems[0].contentId;
                 string itemName = ExampleProjectHelper.GetDisplayNameFromContentId(contentId);
-                ItemContent itemContent = await ExampleProjectHelper.GetItemContentById(_beamableAPI, contentId);
+                ItemContent itemContent = await ExampleProjectHelper.GetItemContentById(_beamContext, contentId);
 
                 string title = $"{itemName} ({price} {CurrencyDisplayName})";
                 ItemData itemData = new ItemData(title, itemContent, playerListingView);
