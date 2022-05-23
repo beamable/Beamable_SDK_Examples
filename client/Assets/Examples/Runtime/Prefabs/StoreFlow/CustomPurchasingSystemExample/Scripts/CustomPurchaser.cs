@@ -4,6 +4,7 @@ using System.Linq;
 using Beamable.Api;
 using Beamable.Api.Payments;
 using Beamable.Common;
+using Beamable.Common.Dependencies;
 using Beamable.Coroutines;
 using Beamable.Service;
 using UnityEngine;
@@ -31,7 +32,7 @@ namespace Beamable.Examples.Prefabs.StoreFlow.MyCustomPurchaser
       /// <summary>
       /// Begin initialization of Beamable purchasing.
       /// </summary>
-      public override Promise<Unit> Initialize()
+      public Promise<Unit> Initialize(IDependencyProvider provider = null)
       {
          base.Initialize();
          
@@ -49,7 +50,7 @@ namespace Beamable.Examples.Prefabs.StoreFlow.MyCustomPurchaser
                };
               
                _customStoreProducts.Add(
-                     new CustomStoreProduct(sku, ProductType.Consumable, idDictionary));
+                  new CustomStoreProduct(sku, ProductType.Consumable, idDictionary));
             }
 
             // Todo Your Implementation: Determine initialization Success/Failure
@@ -62,8 +63,7 @@ namespace Beamable.Examples.Prefabs.StoreFlow.MyCustomPurchaser
 
          return _initializePromise;
       }
-      
-      
+
       /// <summary>
       /// Get the localized price string for a given SKU.
       /// </summary>
