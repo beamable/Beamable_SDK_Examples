@@ -24,8 +24,8 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
       //  Fields  ---------------------------------------
       [SerializeField] private CurrencyRef _currencyRefPrimary = null;
       [SerializeField] private CurrencyRef _currencyRefSecondary = null;
-      
-      private IBeamableAPI _beamableAPI;
+
+      private BeamContext _beamContext;
       private const int CurrencyDeltaPerClick = 1;
       private const string ContentType = "currency";
       private readonly InventoryCurrencyExampleData _inventoryCurrencyExampleData = new InventoryCurrencyExampleData();
@@ -43,9 +43,10 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
       private async void SetupBeamable()
       { 
    
-         _beamableAPI = await Beamable.API.Instance;
-            
-         Debug.Log($"beamableAPI.User.id = {_beamableAPI.User.id}");
+         _beamContext = BeamContext.Default;
+         await _beamContext.OnReady;
+
+         Debug.Log($"_beamContext.PlayerId = {_beamContext.PlayerId}");
 
          _inventoryCurrencyExampleData.CurrencyContentPrimary = 
             await _currencyRefPrimary.Resolve();
@@ -54,10 +55,10 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
             await _currencyRefSecondary.Resolve();
 
          // All currencies (Available in game)
-         _beamableAPI.ContentService.Subscribe(ContentService_OnChanged);
+         _beamContext.Api.ContentService.Subscribe(ContentService_OnChanged);
          
          // Filtered currencies (Owned by current player)
-         _beamableAPI.InventoryService.Subscribe(ContentType, InventoryService_OnChanged);
+         _beamContext.Api.InventoryService.Subscribe(ContentType, InventoryService_OnChanged);
 
       }
 
@@ -82,7 +83,7 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
             CurrencyDeltaPerClick);
 
          // Add
-         await _beamableAPI.InventoryService.Update(inventoryUpdateBuilder).Then(obj =>
+         await _beamContext.Api.InventoryService.Update(inventoryUpdateBuilder).Then(obj =>
          {
             Debug.Log($"#1. PLAYER AddPrimaryCurrency2() success.");
                      
@@ -98,7 +99,7 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
          inventoryUpdateBuilder.CurrencyChange(_inventoryCurrencyExampleData.CurrencyContentPrimary.Id, 
             -CurrencyDeltaPerClick);
 
-         await _beamableAPI.InventoryService.Update(inventoryUpdateBuilder).Then(obj =>
+         await _beamContext.Api.InventoryService.Update(inventoryUpdateBuilder).Then(obj =>
          {
             Debug.Log($"#2. PLAYER RemovePrimaryCurrency() success.");
                      
@@ -118,7 +119,7 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
          inventoryUpdateBuilder.CurrencyChange(_inventoryCurrencyExampleData.CurrencyContentSecondary.Id, 
             CurrencyDeltaPerClick);
 
-         await _beamableAPI.InventoryService.Update(inventoryUpdateBuilder).Then(obj =>
+         await _beamContext.Api.InventoryService.Update(inventoryUpdateBuilder).Then(obj =>
          {
             Debug.Log($"#3. PLAYER TradePrimaryToSecondary() success.");
                      
@@ -138,7 +139,7 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
          inventoryUpdateBuilder.CurrencyChange(_inventoryCurrencyExampleData.CurrencyContentPrimary.Id, 
             CurrencyDeltaPerClick);
 
-         await _beamableAPI.InventoryService.Update(inventoryUpdateBuilder).Then(obj =>
+         await _beamContext.Api.InventoryService.Update(inventoryUpdateBuilder).Then(obj =>
          {
             Debug.Log($"#4. PLAYER TradeSecondaryToPrimary() success.");
                      

@@ -64,7 +64,7 @@ namespace Beamable.Examples.Services.AuthService
       
       
       //  Fields  ---------------------------------------
-      private IBeamableAPI _beamableAPI;
+      private BeamContext _context;
       private AuthServiceExampleData _authServiceExampleData = new AuthServiceExampleData();
       private MockUser _mockUser01 = null;
       private MockUser _mockUser02 = null;
@@ -89,17 +89,18 @@ namespace Beamable.Examples.Services.AuthService
       protected void OnDestroy()
       {
          // Unsubscribe to events
-         _beamableAPI.OnUserChanged += BeamableAPI_OnUserChanged;
-         _beamableAPI.OnUserLoggingOut += BeamableAPI_OnUserLoggingOut;
+         _context.Api.OnUserChanged += BeamableAPI_OnUserChanged;
+         _context.OnUserLoggingOut += BeamableAPI_OnUserLoggingOut;
       }
 
       
       //  Methods  --------------------------------------
       private async void SetupBeamable()
       { 
-         _beamableAPI = await Beamable.API.Instance;
-            
-         Debug.Log($"beamableAPI.User.id = {_beamableAPI.User.id}");
+         _context = BeamContext.Default;
+         await _context.OnReady;
+
+         Debug.Log($"context.PlayerId = {_context.PlayerId}");
          
          // Create 2 new users from mock users for demo purposes,
          // Then later from UI: switch and update the active user
@@ -111,11 +112,11 @@ namespace Beamable.Examples.Services.AuthService
          await CreateUser(_mockUser02.Alias);
          await UpdateCurrentUser();
          
-         _authServiceExampleData.IsBeamableSetup = _beamableAPI != null;
+         _authServiceExampleData.IsBeamableSetup = _context != null;
          
          // Subscribe to events
-         _beamableAPI.OnUserChanged += BeamableAPI_OnUserChanged;
-         _beamableAPI.OnUserLoggingOut += BeamableAPI_OnUserLoggingOut;
+         _context.Api.OnUserChanged += BeamableAPI_OnUserChanged;
+         _context.OnUserLoggingOut += BeamableAPI_OnUserLoggingOut;
          
          Refresh();
       }
@@ -123,10 +124,10 @@ namespace Beamable.Examples.Services.AuthService
       
       private async Task<EmptyResponse> CreateUser(string alias)
       {
-         var tokenResponse = await _beamableAPI.AuthService.CreateUser();
-         await _beamableAPI.ApplyToken(tokenResponse); 
+         var tokenResponse = await _context.Api.AuthService.CreateUser();
+         await _context.Api.ApplyToken(tokenResponse); 
          
-         await _beamableAPI.StatsService.SetStats("public", new Dictionary<string, string>()
+         await _context.Api.StatsService.SetStats("public", new Dictionary<string, string>()
          {
             { "alias", alias },
          });
@@ -145,7 +146,7 @@ namespace Beamable.Examples.Services.AuthService
          if (_authServiceExampleData.IsBeamableSetup)
          {
             _authServiceExampleData.MainTexts.Clear();
-            string mainText = $"Active User.Id = {_beamableAPI.User.id}, User.Email = {_beamableAPI.User.email}";
+            string mainText = $"Active User.Id = {_context.PlayerId}, User.Email = {_context.Api.User.email}";
             _authServiceExampleData.MainTexts.Add(mainText);
          }
 
@@ -170,7 +171,7 @@ namespace Beamable.Examples.Services.AuthService
          try
          {
             // This method actually changes the active Beamable user
-            var user = await _beamableAPI.AuthService.RegisterDBCredentials(nextMockUser.Email, 
+            var user = await _context.Api.AuthService.RegisterDBCredentials(nextMockUser.Email, 
                nextMockUser.Password);
             
             isSuccess = true;
@@ -184,7 +185,7 @@ namespace Beamable.Examples.Services.AuthService
          
          // Update UI
          _authServiceExampleData.DetailTexts.Clear();
-         string detailText = $"UpdateCurrentUser() User.id = {_beamableAPI.User.id}, nextMockUser.Email = {nextMockUser.Email}, isSuccess = {isSuccess}";
+         string detailText = $"UpdateCurrentUser() User.id = {_context.PlayerId}, nextMockUser.Email = {nextMockUser.Email}, isSuccess = {isSuccess}";
          Debug.Log(detailText);
          _authServiceExampleData.DetailTexts.Add(detailText);
          
@@ -209,12 +210,12 @@ namespace Beamable.Examples.Services.AuthService
       {
          // Choose the OTHER mock user
          MockUser nextMockUser = _mockUser02;
-         if (_beamableAPI.User.email != _mockUser01.Email)
+         if (_context.Api.User.email != _mockUser01.Email)
          {
             nextMockUser = _mockUser01;
          }
          
-         Debug.Log($"SwitchCurrentUser() From User.id = {_beamableAPI.User.id}");
+         Debug.Log($"SwitchCurrentUser() From User.id = {_context.PlayerId}");
 
          bool isSuccess = false;
          string error = "";
@@ -222,7 +223,7 @@ namespace Beamable.Examples.Services.AuthService
          try
          {
             bool mergeGamerTagToAccount = false;
-            tokenResponse = await _beamableAPI.AuthService.Login(nextMockUser.Email, 
+            tokenResponse = await _context.Api.AuthService.Login(nextMockUser.Email, 
                nextMockUser.Password, mergeGamerTagToAccount);
             
             isSuccess = true;
@@ -244,7 +245,7 @@ namespace Beamable.Examples.Services.AuthService
          else
          {
             // This method actually changes the active Beamable user
-            await _beamableAPI.ApplyToken(tokenResponse); 
+            await _context.Api.ApplyToken(tokenResponse); 
          }
          
          Debug.Log(detailText);
