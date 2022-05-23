@@ -24,7 +24,7 @@ namespace Beamable.Examples.Services.LeaderboardService.LeaderboardServiceOfflin
         [SerializeField] 
         private bool _willDisconnectDuringSetScore = true;
 
-        private IBeamableAPI _beamableAPI = null;
+        private BeamContext _beamContext;
         
         //  Unity Methods  --------------------------------
         protected void Start()
@@ -37,9 +37,10 @@ namespace Beamable.Examples.Services.LeaderboardService.LeaderboardServiceOfflin
         //  Methods  --------------------------------------
         private async void SetupBeamable()
         {
-            _beamableAPI = await Beamable.API.Instance;
+            _beamContext = BeamContext.Default;
+            await _beamContext.OnReady;
             
-            Debug.Log($"_beamableAPI.User.id = {_beamableAPI.User.id}");
+            Debug.Log($"_beamContext.PlayerId = {_beamContext.PlayerId}");
             
             // Get
             double scoreInitial = await LeaderboardServiceGetScore(_leaderboardRef.Id);
@@ -59,14 +60,14 @@ namespace Beamable.Examples.Services.LeaderboardService.LeaderboardServiceOfflin
         private async Task LeaderboardServiceSetScore(string id, double score)
         {
             // Set the user alias - This is likely not appropriate for a production project
-            await MockDataCreator.SetCurrentUserAlias(_beamableAPI.StatsService, MockDataCreator.DefaultMockAlias);
+            await MockDataCreator.SetCurrentUserAlias(_beamContext.Api.StatsService, MockDataCreator.DefaultMockAlias);
             
             Dictionary<string, object> stats = new Dictionary<string, object>();
             
             // Maybe disconnect
             if (_willDisconnectDuringSetScore)
             {
-                _beamableAPI.ConnectivityService.SetHasInternet(false);
+                _beamContext.Api.ConnectivityService.SetHasInternet(false);
                 stats.Add("_final_score", score);
             }
             
@@ -75,7 +76,7 @@ namespace Beamable.Examples.Services.LeaderboardService.LeaderboardServiceOfflin
             try
             {
                 // Set the score
-                await _beamableAPI.LeaderboardService.SetScore(id, score, stats);
+                await _beamContext.Api.LeaderboardService.SetScore(id, score, stats);
             }
             catch (Exception e)
             {
@@ -88,14 +89,14 @@ namespace Beamable.Examples.Services.LeaderboardService.LeaderboardServiceOfflin
             // Maybe reconnect
             if (_willDisconnectDuringSetScore)
             {
-                _beamableAPI.ConnectivityService.SetHasInternet(true);
+                _beamContext.Api.ConnectivityService.SetHasInternet(true);
             }
         }
         
         private async Task<double> LeaderboardServiceGetScore(string id)
         {
-            var score = await _beamableAPI.LeaderboardService
-                .GetUser(id, _beamableAPI.User.id)
+            var score = await _beamContext.Api.LeaderboardService
+                .GetUser(id, _beamContext.PlayerId)
                 .Map(entry => entry.score);
 
             return score;

@@ -24,7 +24,7 @@ namespace Beamable.Examples.Prefabs.LeaderboardFlow.LeaderboardFlowInterpolation
         private List<GameObject> _gameObjectsToHide = null;
 
         private LeaderboardMainMenuCustom _leaderboardMainMenuCustom = null;
-        private IBeamableAPI beamableAPI = null;
+        private BeamContext _beamContext;
         
         //  Unity Methods  --------------------------------
         protected void Awake()
@@ -68,8 +68,9 @@ namespace Beamable.Examples.Prefabs.LeaderboardFlow.LeaderboardFlowInterpolation
 
         private async void SetupBeamable()
         {
-            beamableAPI = await Beamable.API.Instance;
-            Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
+            _beamContext = BeamContext.Default;
+            await _beamContext.OnReady;
+            Debug.Log($"_beamContext.PlayerId = {_beamContext.PlayerId}");
 
             LeaderboardContent leaderboardContent = 
                 await _leaderboardMainMenuCustom.LeaderboardBehavior.Leaderboard.Resolve();
@@ -86,7 +87,7 @@ namespace Beamable.Examples.Prefabs.LeaderboardFlow.LeaderboardFlowInterpolation
             
             // Populates mock "alias" and "score" for each leaderboard row
             string loggingResult = await MockDataCreator.PopulateLeaderboardWithMockData(
-                beamableAPI, 
+                _beamContext, 
                 leaderboardContent,
                 leaderboardRowCountMin,
                 leaderboardScoreMin,

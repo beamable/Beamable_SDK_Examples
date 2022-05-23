@@ -32,7 +32,7 @@ namespace Beamable.Examples.Shared
       /// to populate the Leaderboard with some mock users scores for
       /// cosmetic reasons
       /// </summary>
-      /// <param name="beamableAPI"></param>
+      /// <param name="beamContext"></param>
       /// <param name="leaderboardContent"></param>
       /// <param name="leaderboardRowCountMin"></param>
       /// <param name="leaderboardScoreMin"></param>
@@ -40,19 +40,19 @@ namespace Beamable.Examples.Shared
       /// <param name="leaderboardStats"></param>
       /// <returns></returns>
       public static async Task<string> PopulateLeaderboardWithMockData(
-         IBeamableAPI beamableAPI,
+         BeamContext beamContext,
          LeaderboardContent leaderboardContent, 
          int leaderboardRowCountMin, 
          int leaderboardScoreMin, 
          int leaderboardScoreMax, 
          Dictionary<string, object> leaderboardStats = null)
       {
-         LeaderboardService leaderboardService = beamableAPI.LeaderboardService;
-         StatsService statsService = beamableAPI.StatsService;
-         IAuthService authService = beamableAPI.AuthService;
+         LeaderboardService leaderboardService = beamContext.ServiceProvider.GetService<LeaderboardService>();
+         StatsService statsService = beamContext.ServiceProvider.GetService<StatsService>();
+         IAuthService authService = beamContext.ServiceProvider.GetService<IAuthService>();
 
          // Capture current user
-         var localDbid = beamableAPI.User.id;
+         var localDbid = beamContext.PlayerId;
 
          // Check Leaderboard
          LeaderBoardView leaderboardView = await leaderboardService.GetBoard(leaderboardContent.Id, 0, 100);
@@ -72,7 +72,7 @@ namespace Beamable.Examples.Shared
             {
                // Create NEW user
                // Login as NEW user (Required before using "SetScore")
-               await authService.CreateUser().FlatMap(beamableAPI.ApplyToken);
+               await authService.CreateUser().FlatMap(beamContext.Api.ApplyToken);
 
                // Rename NEW user
                string alias = CreateNewRandomAlias("User");
@@ -102,9 +102,9 @@ namespace Beamable.Examples.Shared
          loggingResult.AppendLine().AppendLine();
          
          // Login again as local user
-         var deviceUsers = await beamableAPI.GetDeviceUsers();
+         var deviceUsers = await beamContext.Api.GetDeviceUsers();
          var user = deviceUsers.First(bundle => bundle.User.id == localDbid);
-         await beamableAPI.ApplyToken(user.Token);
+         await beamContext.Api.ApplyToken(user.Token);
 
          return loggingResult.ToString();
       }
