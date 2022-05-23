@@ -22,8 +22,8 @@ namespace Beamable.Examples.Shared
         {
             BeamContext context = BeamContext.Default;
             await context.OnReady;
-            context.Api.ClearDeviceUsers();
-            ServiceManager.OnTeardown();
+            Beam.ClearAndStopAllContexts();
+            Beam.ResetToScene();
         }
     }
 }
