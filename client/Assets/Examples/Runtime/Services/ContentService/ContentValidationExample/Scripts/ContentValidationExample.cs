@@ -29,9 +29,10 @@ namespace Beamable.Examples.Services.ContentService
         //  Methods  --------------------------------------
         private async void SetupBeamable()
         {
-            IBeamableAPI beamableAPI = await Beamable.API.Instance;
+            var beamContext = BeamContext.Default;
+            await beamContext.OnReady;
       
-            Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
+            Debug.Log($"beamContext.PlayerId = {beamContext.PlayerId}");
             
             await _complexItemLink.Resolve()
                 .Then(content =>
