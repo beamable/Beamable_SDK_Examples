@@ -40,7 +40,7 @@ namespace Beamable.Examples.Services.MailService
       
       
       //  Fields  ---------------------------------------
-      private IBeamableAPI _beamableAPI;
+      private BeamContext _beamContext;
       private const string MailCategory = "";
       private MailServiceExampleData _data = new MailServiceExampleData();
 
@@ -66,13 +66,14 @@ namespace Beamable.Examples.Services.MailService
       //  Methods  --------------------------------------
       private async void SetupBeamable()
       { 
-         _beamableAPI = await Beamable.API.Instance;
+         _beamContext = BeamContext.Default;
+         await _beamContext.OnReady;
 
-         _data.Dbid = _beamableAPI.User.id;
-         Debug.Log($"beamableAPI.User.id = {_data.Dbid}");
+         _data.Dbid = _beamContext.PlayerId;
+         Debug.Log($"beamContext.PlayerId = {_data.Dbid}");
          
          // Fetch All Mail
-         _beamableAPI.MailService.Subscribe(async mailQueryResponse =>
+         _beamContext.Api.MailService.Subscribe(async mailQueryResponse =>
          {
             _data.UnreadMailLogs.Clear();
             _data.UnreadMailCount = mailQueryResponse.unreadCount;
@@ -90,7 +91,7 @@ namespace Beamable.Examples.Services.MailService
       private async Task<EmptyResponse> GetMail()
       {
          _data.MailMessageLogs.Clear();
-         var listMailResponse = await _beamableAPI.MailService.GetMail(MailCategory);
+         var listMailResponse = await _beamContext.Api.MailService.GetMail(MailCategory);
          foreach (var mailMessage in listMailResponse.result)
          {
             string mailMessageLog = $"MailMessage" +
@@ -114,7 +115,7 @@ namespace Beamable.Examples.Services.MailService
          var mailUpdateRequest = new MailUpdateRequest();
          
          // Arbitrary Example - Toggle "read" to "unread"
-         var listMailResponse = await _beamableAPI.MailService.GetMail(MailCategory);
+         var listMailResponse = await _beamContext.Api.MailService.GetMail(MailCategory);
          foreach (var mailMessage in listMailResponse.result)
          {
             MailState newMailState = MailState.Read;
@@ -125,7 +126,7 @@ namespace Beamable.Examples.Services.MailService
             mailUpdateRequest.Add(mailMessage.id, newMailState, true, mailMessage.expires);
          }
     
-         await _beamableAPI.MailService.Update(mailUpdateRequest);
+         await _beamContext.Api.MailService.Update(mailUpdateRequest);
          
          string updateMailLog = $"updateMailRequests = {mailUpdateRequest.updateMailRequests.Count}";
          _data.UpdateMailLogs.Add(updateMailLog);
