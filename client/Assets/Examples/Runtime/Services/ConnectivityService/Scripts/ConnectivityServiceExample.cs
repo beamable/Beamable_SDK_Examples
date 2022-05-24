@@ -47,6 +47,7 @@ namespace Beamable.Examples.Services.ConnectivityService
         private async void SetupBeamable()
         {
             _beamContext = BeamContext.Default;
+            await _beamContext.OnReady;
 
             Debug.Log($"beamContext.PlayerId = {_beamContext.PlayerId}");
 

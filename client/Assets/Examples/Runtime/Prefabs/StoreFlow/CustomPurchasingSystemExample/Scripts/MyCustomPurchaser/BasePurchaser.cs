@@ -60,7 +60,7 @@ namespace Beamable.Examples.Prefabs.StoreFlow.MyCustomPurchaser
       {
          _beamContext = BeamContext.Default;
          await _beamContext.OnReady;
-         _paymentService = _beamContext.ServiceProvider.GetService<PaymentService>();
+         _paymentService = _beamContext.Api.PaymentService;
 
          return await _initializePromise;
       }
