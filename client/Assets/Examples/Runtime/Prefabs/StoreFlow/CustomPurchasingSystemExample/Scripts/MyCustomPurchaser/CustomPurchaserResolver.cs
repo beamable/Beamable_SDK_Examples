@@ -24,7 +24,7 @@ namespace Beamable.Examples.Prefabs.StoreFlow.MyCustomPurchaser
 
       public IBeamablePurchaser Resolve()
       {
-         return _customPurchaser ?? (_customPurchaser = new CustomPurchaser());
+         return _customPurchaser ??= new CustomPurchaser();
       }
    }
 }
