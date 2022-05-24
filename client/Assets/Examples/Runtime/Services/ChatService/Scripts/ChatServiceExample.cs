@@ -36,7 +36,7 @@ namespace Beamable.Examples.Labs.ChatService
         
         //  Fields  ---------------------------------------
         private ChatView _chatView = null;
-        private IBeamableAPI _beamableAPI = null;
+        private BeamContext _beamContext;
         private ChatServiceExampleData _data = new ChatServiceExampleData();
     
         //  Unity Methods  --------------------------------
@@ -50,12 +50,13 @@ namespace Beamable.Examples.Labs.ChatService
         //  Methods  --------------------------------------
         private async void SetupBeamable()
         {
-            _beamableAPI = await Beamable.API.Instance;
+            _beamContext = BeamContext.Default;
+            await _beamContext.OnReady;
 
-            Debug.Log($"beamableAPI.User.id = {_beamableAPI.User.id}");
+            Debug.Log($"beamContext.PlayerId = {_beamContext.PlayerId}");
 
             // Observe ChatService Changes
-            _beamableAPI.Experimental.ChatService.Subscribe(chatView =>
+            _beamContext.Api.Experimental.ChatService.Subscribe(chatView =>
             {
                 _chatView = chatView;
                 
@@ -106,7 +107,7 @@ namespace Beamable.Examples.Labs.ChatService
             bool isProfanityText = true;
             try
             {
-                var result = await _beamableAPI.Experimental.ChatService.ProfanityAssert(text);
+                var result = await _beamContext.Api.Experimental.ChatService.ProfanityAssert(text);
                 isProfanityText = false;
             } catch{}
 
@@ -140,9 +141,9 @@ namespace Beamable.Examples.Labs.ChatService
         {
             string roomName = _data.RoomToCreateName;
             bool keepSubscribed = false;
-            List<long> players = new List<long>{_beamableAPI.User.id};
+            List<long> players = new List<long>{_beamContext.PlayerId};
             
-            var result = await _beamableAPI.Experimental.ChatService.CreateRoom(
+            var result = await _beamContext.Api.Experimental.ChatService.CreateRoom(
                 roomName, keepSubscribed, players);
             
             Refresh();
@@ -152,11 +153,11 @@ namespace Beamable.Examples.Labs.ChatService
         
         public async Task<EmptyResponse> LeaveRoom()
         {
-            var roomInfos = await _beamableAPI.Experimental.ChatService.GetMyRooms();
+            var roomInfos = await _beamContext.Api.Experimental.ChatService.GetMyRooms();
             
             foreach(var roomInfo in roomInfos)
             {
-                var result = await _beamableAPI.Experimental.ChatService.LeaveRoom(roomInfo.id);
+                var result = await _beamContext.Api.Experimental.ChatService.LeaveRoom(roomInfo.id);
             }
 
             Refresh();
