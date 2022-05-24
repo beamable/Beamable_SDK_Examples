@@ -58,7 +58,7 @@ namespace Beamable.Examples.Services.GroupsService
         {
             _beamContext = BeamContext.Default;
             await _beamContext.OnReady;
-            _chatService = _beamContext.ServiceProvider.GetService<ChatService>();
+            _chatService = _beamContext.Api.Experimental.ChatService;
 
             Debug.Log($"beamContext.PlayerId = {_beamContext.PlayerId}");
 
