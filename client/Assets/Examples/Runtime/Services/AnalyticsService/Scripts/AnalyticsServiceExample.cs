@@ -39,15 +39,16 @@ namespace Beamable.Examples.Services.AnalyticsService
         //  Methods  --------------------------------------
         private async void SetupBeamable()
         {
-            var beamableAPI = await Beamable.API.Instance;
-            Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
+            var beamContext = BeamContext.Default;
+            await beamContext.OnReady;
+            Debug.Log($"beamContext.PlayerId = {beamContext.PlayerId}");
 
             var foo = "lorem ipsum 1";
             var bar = "lorem ipsum 2";
             var myExampleEvent = new MyExampleEvent(foo, bar);
             
             var sendImmediately = true;
-            beamableAPI.AnalyticsTracker.TrackEvent(myExampleEvent, sendImmediately);
+            beamContext.Api.AnalyticsTracker.TrackEvent(myExampleEvent, sendImmediately);
             
             Debug.Log($"TrackEvent() eventName = {myExampleEvent.eventName}");
         }
