@@ -67,7 +67,7 @@ namespace Beamable.Examples.Services.LeaderboardService.LeaderboardServiceOfflin
             // Maybe disconnect
             if (_willDisconnectDuringSetScore)
             {
-                _beamContext.Api.ConnectivityService.SetHasInternet(false);
+                await _beamContext.Api.ConnectivityService.SetHasInternet(false);
                 stats.Add("_final_score", score);
             }
             
@@ -89,7 +89,7 @@ namespace Beamable.Examples.Services.LeaderboardService.LeaderboardServiceOfflin
             // Maybe reconnect
             if (_willDisconnectDuringSetScore)
             {
-                _beamContext.Api.ConnectivityService.SetHasInternet(true);
+                await _beamContext.Api.ConnectivityService.SetHasInternet(true);
             }
         }
         

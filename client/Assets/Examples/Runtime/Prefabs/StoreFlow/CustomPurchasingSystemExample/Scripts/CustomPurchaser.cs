@@ -32,13 +32,13 @@ namespace Beamable.Examples.Prefabs.StoreFlow.MyCustomPurchaser
       /// <summary>
       /// Begin initialization of Beamable purchasing.
       /// </summary>
-      public Promise<Unit> Initialize(IDependencyProvider provider = null)
+      public async Promise<Unit> Initialize(IDependencyProvider provider = null)
       {
-         base.Initialize();
+         await base.Initialize();
          
          Debug.Log($"CustomPurchaser.Initialize()");
             
-         _paymentService.GetSKUs().Then(rsp =>
+         await _paymentService.GetSKUs().Then(rsp =>
          {
             _customStoreProducts.Clear();
             foreach (SKU sku in rsp.skus.definitions)
@@ -61,7 +61,7 @@ namespace Beamable.Examples.Prefabs.StoreFlow.MyCustomPurchaser
             
          });
 
-         return _initializePromise;
+         return await _initializePromise;
       }
 
       /// <summary>

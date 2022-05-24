@@ -56,7 +56,7 @@ namespace Beamable.Examples.Prefabs.StoreFlow.MyCustomPurchaser
       protected BeamContext _beamContext;
 
       //  Methods  --------------------------------------
-      public async virtual Promise<Unit> Initialize()
+      public async Promise<Unit> Initialize()
       {
          _beamContext = BeamContext.Default;
          await _beamContext.OnReady;

@@ -22,8 +22,8 @@ namespace Beamable.Examples.Shared
         {
             BeamContext context = BeamContext.Default;
             await context.OnReady;
-            Beam.ClearAndStopAllContexts();
-            Beam.ResetToScene();
+            await Beam.ClearAndStopAllContexts();
+            await Beam.ResetToScene();
         }
     }
 }
