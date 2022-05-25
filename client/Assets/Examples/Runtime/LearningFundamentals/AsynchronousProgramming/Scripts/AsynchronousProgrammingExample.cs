@@ -21,27 +21,28 @@ namespace Beamable.Examples.LearningFundamentals.AsynchronousProgramming
         //  Methods  --------------------------------------
         private async void MyMethodViaAsyncAwait()
         {
-            var beamableAPI = await Beamable.API.Instance;
-            Debug.Log($"1 beamableAPI.User.id = {beamableAPI.User.id}");
+            var beamContext = BeamContext.Default;
+            await beamContext.OnReady;
+            Debug.Log($"1 beamContext.PlayerId = {beamContext.PlayerId}");
         }
     
         private void MyMethodViaCallback()
         {
-            Beamable.API.Instance.Then(beamableAPI =>
+            var beamContext = BeamContext.Default;
+            beamContext.OnReady.Then(_ =>
             {
-                Debug.Log($"2 beamableAPI.User.id = {beamableAPI.User.id}");
+                Debug.Log($"2 beamContext.PlayerId = {beamContext.PlayerId}");
             });
         }
     
         private IEnumerator MyMethodViaCoroutine()
         {
-            var promise = Beamable.API.Instance;
+            var beamContext = BeamContext.Default;
+            var promise = beamContext.OnReady;
             yield return promise.ToYielder();
-            var beamableAPI = promise.GetResult();
+            var result = promise.GetResult();
     
-            Debug.Log($"3 beamableAPI.User.id = {beamableAPI.User.id}");
+            Debug.Log($"3 beamContext.PlayerId = {beamContext.PlayerId}");
         }
-        
-        //  Event Handlers  -------------------------------
     }
 }
