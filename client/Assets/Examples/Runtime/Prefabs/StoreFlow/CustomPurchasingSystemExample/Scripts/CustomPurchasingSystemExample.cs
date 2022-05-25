@@ -28,15 +28,16 @@ namespace Beamable.Examples.Prefabs.StoreFlow.MyCustomPurchaser
         {
             // Order is important here...
             
-            // Order #1 - Call for Instance
-            var beamableAPI = await Beamable.API.Instance;
-            Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
+            // Order #1 - Call for Beamable player context
+            var beamContext = BeamContext.Default;
+            await beamContext.OnReady;
+            Debug.Log($"beamContext.PlayerId = {beamContext.PlayerId}");
             
             // Order #2 - Register the purchaser
             ServiceManager.Provide(new CustomPurchaserResolver());
             var customPurchaser = ServiceManager.Resolve<IBeamablePurchaser>();
             await customPurchaser.Initialize();
-            beamableAPI.BeamableIAP.CompleteSuccess(customPurchaser);
+            beamContext.Api.BeamableIAP.CompleteSuccess(customPurchaser);
                 
             // Order #3 - Now use the StoreFlow feature prefab at runtime
             // and 'Buy' an item. Watch the Unity Console Window for logging
