@@ -77,6 +77,7 @@ namespace Beamable.Examples.Services.InventoryService.InventoryItemExample
 
          AddItemButton.interactable = inventoryItemExampleData.IsInteractable;
          DeleteItemButton.interactable = inventoryItemExampleData.IsInteractable;
+         _resetPlayerButton.interactable = inventoryItemExampleData.IsInteractable;
          
          AddItemButton.GetComponentInChildren<TMP_Text>().text = 
             $"Add 1 Item\n({inventoryItemExampleData.ItemToAddName})";

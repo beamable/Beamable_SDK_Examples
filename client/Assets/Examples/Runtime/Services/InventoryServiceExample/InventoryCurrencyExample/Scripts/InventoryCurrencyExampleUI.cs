@@ -117,6 +117,7 @@ namespace Beamable.Examples.Services.InventoryService.InventoryCurrencyExample
          RemovePrimaryCurrencyButton.interactable = inventoryItemExampleData.IsInteractable;
          TradePrimaryToSecondaryButton.interactable = inventoryItemExampleData.IsInteractable;
          TradeSecondaryToPrimaryButton.interactable = inventoryItemExampleData.IsInteractable;
+         _resetPlayerButton.interactable = inventoryItemExampleData.IsInteractable;
          
          // Get shorter names
          string currencyContentPrimaryName = "";
