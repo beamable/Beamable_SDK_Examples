@@ -3,7 +3,7 @@
 namespace Beamable.Examples.Integrations.Facebook
 {
     /// <summary>
-    /// Demonstrates <see cref="Facebook"/>.
+    /// Demonstrates <see cref="Facebook"/> integration.
     /// </summary>
     public class FacebookExample : MonoBehaviour
     {
@@ -24,11 +24,10 @@ namespace Beamable.Examples.Integrations.Facebook
         //  Methods  --------------------------------------
         private async void SetupBeamable()
         {
-            var beamableAPI = await Beamable.API.Instance;
+            var beamContext = BeamContext.Default;
+            await beamContext.OnReady;
 
-            Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
+            Debug.Log($"beamContext.PlayerId = {beamContext.PlayerId}");
         }
-        
-        //  Event Handlers  -------------------------------
     }
 }
