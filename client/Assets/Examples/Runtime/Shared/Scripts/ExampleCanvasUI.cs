@@ -56,7 +56,8 @@ namespace Beamable.Examples.Shared
       protected async void ResetPlayerButton_OnClicked()
       { 
          // Prepare session
-         await Beamable.API.Instance;
+         var beamContext = BeamContext.Default;
+         await beamContext.OnReady;
          
          // Use session
          ExampleProjectHacks.ClearDeviceUsersAndReloadScene();
