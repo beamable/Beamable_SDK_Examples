@@ -75,6 +75,7 @@ namespace Beamable.Examples.RestAPI.RestAPIAccountsExample
          // Show UI: Other
          BasicAccountsMeButton.interactable = restAPIAccountsExampleData.IsBeamableSetup;
          BasicAccountsRegisterButton.interactable = restAPIAccountsExampleData.IsBeamableSetup;
+         _resetPlayerButton.interactable = restAPIAccountsExampleData.IsBeamableSetup;
 
          MenuTitleText.text = "RestAPI Accounts Example";
          MainTitleText.text = "Instructions";

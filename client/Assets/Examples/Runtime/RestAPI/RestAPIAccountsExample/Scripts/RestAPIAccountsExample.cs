@@ -44,7 +44,7 @@ namespace Beamable.Examples.RestAPI.RestAPIAccountsExample
       
       
       //  Fields  ---------------------------------------
-      private IBeamableAPI _beamableAPI;
+      private BeamContext _beamContext;
       private RestAPIAccountsExampleData _restAPIAccountsExampleData = new RestAPIAccountsExampleData();
 
       
@@ -60,9 +60,10 @@ namespace Beamable.Examples.RestAPI.RestAPIAccountsExample
       //  Methods  --------------------------------------
       private async void SetupBeamable()
       { 
-         _beamableAPI = await Beamable.API.Instance;
+         _beamContext = BeamContext.Default;
+         await _beamContext.OnReady;
             
-         Debug.Log($"beamableAPI.User.id = {_beamableAPI.User.id}");
+         Debug.Log($"beamContext.PlayerId = {_beamContext.PlayerId}");
 
          _restAPIAccountsExampleData.IsBeamableSetup = true;
          _restAPIAccountsExampleData.DetailTexts.Clear();
@@ -73,7 +74,7 @@ namespace Beamable.Examples.RestAPI.RestAPIAccountsExample
       public async Task Call_BasicAccountsMe()
       {
          // Documentation: https://docs.beamable.com/reference/get_basic-accounts-me
-         User userPromise = await _beamableAPI.Requester.Request<User>(Method.GET, "/basic/accounts/me");
+         User userPromise = await _beamContext.Requester.Request<User>(Method.GET, "/basic/accounts/me");
          
          string detail = $"Request User. Response: Id = {userPromise.id}, Email = {userPromise.email}";
          
@@ -94,7 +95,7 @@ namespace Beamable.Examples.RestAPI.RestAPIAccountsExample
          string detail = "";
          try
          {
-            userPromise = await _beamableAPI.Requester.Request<User>(Method.POST, $"/basic/accounts/register", req);
+            userPromise = await _beamContext.Requester.Request<User>(Method.POST, $"/basic/accounts/register", req);
             detail = $"Register User. Response: Id = {userPromise.id}, Email = {userPromise.email}";
          }
          catch (Exception exception)
