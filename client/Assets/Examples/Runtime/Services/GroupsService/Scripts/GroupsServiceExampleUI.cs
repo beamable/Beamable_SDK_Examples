@@ -47,16 +47,19 @@ namespace Beamable.Examples.Services.GroupsService
       //  Event Handlers  -------------------------------
       private async void SendMessageButton_OnClicked()
       {
+         SendMessageButton.interactable = false;
          await _groupsServiceExample.SendGroupMessage();
       }
 
       private async void CreateGroupButton_OnClicked()
       {
+         CreateGroupButton.interactable = false;
          await _groupsServiceExample.CreateGroup();
       }
 
       private async void LeaveGroup_OnClicked()
       {
+         LeaveGroupButton.interactable = false;
          await _groupsServiceExample.LeaveGroups();
       }
       
@@ -119,9 +122,10 @@ namespace Beamable.Examples.Services.GroupsService
             $"Send Message\n({groupsServiceExampleData.MessageToSend})";
 
          bool isInGroup = groupsServiceExampleData.IsInGroup;
-         SendMessageButton.interactable = groupsServiceExampleData.IsInRoom;
-         CreateGroupButton.interactable = !isInGroup;
-         LeaveGroupButton.interactable = isInGroup;
+         SendMessageButton.interactable = groupsServiceExampleData.IsInRoom && isInGroup && groupsServiceExampleData.IsBeamableSetUp;
+         CreateGroupButton.interactable = !isInGroup && groupsServiceExampleData.IsBeamableSetUp;
+         LeaveGroupButton.interactable = isInGroup && groupsServiceExampleData.IsBeamableSetUp;
+         _resetPlayerButton.interactable = groupsServiceExampleData.IsBeamableSetUp;
 
       }
    }
