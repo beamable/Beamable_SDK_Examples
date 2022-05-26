@@ -1,23 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &8973309117489458111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7526159602711179888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d99e2cdc46291e942bb1a1e148805729, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _resetPlayerButton: {fileID: 5165464774035552636}
-  _examplePanelUIs:
-  - {fileID: 1293960848154545828}
-  - {fileID: 7526159604660796566}
-  - {fileID: 7526159603197257012}
-  _authServiceExample: {fileID: 0}
 --- !u!1001 &7342527312755408035
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -183,7 +165,7 @@ PrefabInstance:
     - target: {fileID: 979444927087578835, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
         type: 3}
       propertyPath: m_Name
-      value: AuthServiceExampleUI
+      value: RestAPIAccountsExampleUI
       objectReference: {fileID: 0}
     - target: {fileID: 979444927087578846, guid: c4326cfe842455e49abbcd5e7e6ecb4c,
         type: 3}
@@ -561,3 +543,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca42fa7d83fa5de4390aa751da95b864, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &904619404823116159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7526159602711179888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12b59c45b8c451446b424af5488fe0fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _resetPlayerButton: {fileID: 5165464774035552636}
+  _examplePanelUIs:
+  - {fileID: 1293960848154545828}
+  - {fileID: 7526159604660796566}
+  - {fileID: 7526159603197257012}
+  _restAPIAccountsExample: {fileID: 0}
