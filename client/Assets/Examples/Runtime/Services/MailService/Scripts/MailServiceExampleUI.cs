@@ -35,6 +35,10 @@ namespace Beamable.Examples.Services.MailService
          _mailServiceExample.OnRefreshed.AddListener(EventsServiceExample_OnRefreshed);
          UpdateMailMessagesButton.onClick.AddListener(UpdateMailMessagesButton_OnClicked);
          RefreshButton.onClick.AddListener(RefreshButton_OnClicked);
+
+         UpdateMailMessagesButton.interactable = false;
+         RefreshButton.interactable = false;
+         _resetPlayerButton.interactable = false;
       }
       
       //  Event Handlers  -------------------------------
@@ -84,10 +88,14 @@ namespace Beamable.Examples.Services.MailService
          MailMessagesBodyText.text = mailMessagesStringBuilder.ToString();
 
          // Show UI: Other
+         UpdateMailMessagesButton.interactable = mailServiceExampleData.IsBeamableSetup;
+         RefreshButton.interactable = mailServiceExampleData.IsBeamableSetup;
+         _resetPlayerButton.interactable = mailServiceExampleData.IsBeamableSetup;
+         
          MenuTitleText.text = "MailService Example";
          OverviewTitleText.text = "Overview";
          MailMessagesTitleText.text = "Mail";
-
+         
          UpdateMailMessagesButton.GetComponentInChildren<TMP_Text>().text =
             $"Update\nMail";
          

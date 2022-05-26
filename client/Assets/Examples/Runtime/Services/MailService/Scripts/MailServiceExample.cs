@@ -23,7 +23,7 @@ namespace Beamable.Examples.Services.MailService
       public List<string> UpdateMailLogs = new List<string>();
       public List<string> SendMailMessageLogs = new List<string>();
       public List<string> MailMessageLogs = new List<string>();
-      
+      public bool IsBeamableSetup = false;
    }
    
    [System.Serializable]
@@ -57,12 +57,12 @@ namespace Beamable.Examples.Services.MailService
                            $"\n * Check for mail using UI. Probably some\n\n";
          
          Debug.Log(startLog);
-
-         Refresh();
+         
          SetupBeamable();
+         Refresh();
       }
 
-      
+
       //  Methods  --------------------------------------
       private async void SetupBeamable()
       { 
@@ -71,7 +71,7 @@ namespace Beamable.Examples.Services.MailService
 
          _data.Dbid = _beamContext.PlayerId;
          Debug.Log($"beamContext.PlayerId = {_data.Dbid}");
-         
+
          // Fetch All Mail
          _beamContext.Api.MailService.Subscribe(async mailQueryResponse =>
          {
@@ -85,6 +85,8 @@ namespace Beamable.Examples.Services.MailService
          });
 
          Refresh();
+         
+         _data.IsBeamableSetup = _beamContext != null;
       }
 
       
@@ -137,36 +139,31 @@ namespace Beamable.Examples.Services.MailService
       
       public void Refresh()
       {
-         string refreshLog = $"Refresh() ...\n" +
-                             $"\n * UnreadMailCount.Count = {_data.UnreadMailCount}" +
-                             $"\n * UnreadMailLogs.Count = {_data.UnreadMailLogs.Count}" +
-                             $"\n * MainLogs.Count = {_data.SendMailMessageLogs.Count}" +
-                             $"\n * MatchmakingLogs.Count = {_data.MailMessageLogs.Count}\n\n";
-         
-         //Debug.Log(refreshLog);
-         
+         if (_data.IsBeamableSetup)
+         {
+            string refreshLog = $"Refresh() ...\n" +
+                                $"\n * UnreadMailCount.Count = {_data.UnreadMailCount}" +
+                                $"\n * UnreadMailLogs.Count = {_data.UnreadMailLogs.Count}" +
+                                $"\n * MainLogs.Count = {_data.SendMailMessageLogs.Count}" +
+                                $"\n * MatchmakingLogs.Count = {_data.MailMessageLogs.Count}\n\n";
+
+            //Debug.Log(refreshLog);
+         }
+
          // Send relevant data to the UI for rendering
          OnRefreshed?.Invoke(_data);
       }
       
       
       /// <summary>
-      /// NOTE: This must be 1. called at runtime from a user with
-      /// admin privileges or 2. called at edit-time from any user
-      ///
-      /// For this demo, #2 is used.
-      /// 
+      /// NOTE: This must be called from a user with
+      /// admin privileges or from a microservice
       /// </summary>
       public static async void SendMailMessage()
       {
-         if (Application.isPlaying)
-         {
-            Debug.Log ($"SendMailMessage() Failed. Must call at edit-time.");
-            return;
-         }
-         
-         IBeamableAPI beamableAPIFromStatic = await Beamable.API.Instance;
-         long userId = beamableAPIFromStatic.User.id;
+         var beamContext = BeamContext.Default;
+         await beamContext.OnReady;
+         long userId = beamContext.PlayerId;
       
          // Arbitrary Example - Send mail from ME to ME 
          var mailSendRequest = new MailSendRequest();
@@ -182,14 +179,14 @@ namespace Beamable.Examples.Services.MailService
          bool isSuccess = true;
          try
          {
-            Debug.Log($"Edit-Time, beamableAPI.User.id = {userId}");
+            Debug.Log($"beamContext.PlayerId = {userId}");
             
-            var emptyResponse = await beamableAPIFromStatic.MailService.SendMail(mailSendRequest);
+            var emptyResponse = await beamContext.Api.MailService.SendMail(mailSendRequest);
          }
          catch (Exception e)
          {
             Debug.LogError(e.Message + "\n\n");
-            Debug.LogWarning($"Solution To Error: Add the beamableAPI.User.id of {userId} with the role of 'Admin' via Portal → Teams and retry this operation.\n\n");
+            Debug.LogWarning($"Solution To Error: Add the beamContext.PlayerId of {userId} with the role of 'Admin' via Portal → Teams and retry this operation.\n\n");
             isSuccess = false;
          }
 
