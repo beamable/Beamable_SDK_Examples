@@ -196,9 +196,10 @@ namespace Beamable.Examples.LearningFundamentals.PromiseProgramming
         private async void PromiseFlatMapWithCompleteSuccess()
         {
             // 1. Arrange
-            var beamableAPI = await Beamable.API.Instance;
+            var beamContext = BeamContext.Default;
+            await beamContext.OnReady;
             var userPromise = new Promise<User>();
-            var inventoryPromise = userPromise.FlatMap(user => beamableAPI.InventoryService.GetCurrent());
+            var inventoryPromise = userPromise.FlatMap(user => beamContext.Api.InventoryService.GetCurrent());
             
             // 3. Assert
             await inventoryPromise.Then(result =>
@@ -207,7 +208,7 @@ namespace Beamable.Examples.LearningFundamentals.PromiseProgramming
             });
 
             // 2. Act
-            var user = beamableAPI.User;
+            var user = beamContext.Api.User;
             userPromise.CompleteSuccess(user);
         }
 
