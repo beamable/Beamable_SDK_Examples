@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using Beamable.Common.Api.Inventory;
 using Beamable.Common.Content;
 using Beamable.Common.Inventory;
@@ -98,8 +98,18 @@ namespace Beamable.Examples.Services.InventoryService.InventoryItemExample
             
          });
       }
-
       
+      public void GetItems()
+      {
+         List<InventoryObject<ItemContent>> allOwnedItems =
+            _beamContext.Api.InventoryService.GetItems<ItemContent>().GetResult();
+
+         foreach (InventoryObject<ItemContent> inventoryObject in allOwnedItems)
+         {
+            Debug.Log("inventoryObject: " + inventoryObject.Id);
+         }
+      }
+
       public async void DeleteOneItem()
       {
          string contentId = _itemToDelete.Id;
@@ -169,6 +179,28 @@ namespace Beamable.Examples.Services.InventoryService.InventoryItemExample
          _inventoryItemExampleData.IsChangedInventoryService = true;
          
          Refresh();
+      }
+      
+      private async Task UpdateWithBuilder()
+      {
+         //Create a new instance of an InventoryUpdateBuilder
+         var updateBuilder = new InventoryUpdateBuilder();
+         //Add some properties to our new item
+         var properties = new Dictionary<string, string>
+         {
+            {"rarity", "common"},
+            {"damage", "10"}
+         };
+         var contentId = "items.DefaultSword";
+         //Add a new update to the builder, using the variables we declared earlier
+         updateBuilder.AddItem(contentId, properties);
+
+         var currencyId = "currency.Gold";
+         var amount = 100;
+         //Currency updates can be added as well
+         updateBuilder.CurrencyChange(currencyId, amount);
+         //Apply the changes, also sending the data to the server
+         await _beamContext.Api.InventoryService.Update(updateBuilder);
       }
    }
 }
