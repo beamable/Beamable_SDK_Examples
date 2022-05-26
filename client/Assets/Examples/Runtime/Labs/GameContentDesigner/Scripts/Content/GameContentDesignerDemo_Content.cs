@@ -29,9 +29,10 @@ namespace Beamable.Examples.Labs.GameContentDesignerDemo.Content
         private async void SetupBeamable()
         {
             //2
-            var beamableAPI = await Beamable.API.Instance;
+            var beamContext = BeamContext.Default;
+            await beamContext.OnReady;
 
-            Debug.Log($"beamableAPI.User.id = {beamableAPI.User.id}");
+            Debug.Log($"beamContext.PlayerId = {beamContext.PlayerId}");
             
             //1
             GCDWeaponsGroup weaponsGroupContent = await _weaponsGroupContentRef.Resolve();
