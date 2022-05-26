@@ -75,6 +75,7 @@ namespace Beamable.Examples.Services.AuthService
          // Show UI: Other
          UpdateCurrentUserButton.interactable = authServiceExampleData.IsBeamableSetup;
          SwitchCurrentUserButton.interactable = authServiceExampleData.IsBeamableSetup;
+         _resetPlayerButton.interactable = authServiceExampleData.IsBeamableSetup;
 
          MenuTitleText.text = "AuthService Example";
          MainTitleText.text = "Main";

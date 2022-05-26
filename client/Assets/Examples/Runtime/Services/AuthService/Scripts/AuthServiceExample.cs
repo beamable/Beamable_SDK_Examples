@@ -88,9 +88,13 @@ namespace Beamable.Examples.Services.AuthService
       
       protected void OnDestroy()
       {
+         _context = BeamContext.Default;
+         
          // Unsubscribe to events
-         _context.Api.OnUserChanged += BeamableAPI_OnUserChanged;
-         _context.OnUserLoggingOut += BeamableAPI_OnUserLoggingOut;
+         _context.Api.OnUserChanged -= BeamableAPI_OnUserChanged;
+         _context.OnUserLoggingOut -= BeamableAPI_OnUserLoggingOut;
+
+         _context.ClearPlayerAndStop();
       }
 
       
