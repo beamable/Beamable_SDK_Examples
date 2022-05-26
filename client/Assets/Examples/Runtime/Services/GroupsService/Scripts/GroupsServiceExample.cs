@@ -23,7 +23,7 @@ namespace Beamable.Examples.Services.GroupsService
         public bool IsInGroup = false;
         public bool IsInRoom = false;
         public string MessageToSend = "";
-      
+        public bool IsBeamableSetUp = false;
     }
    
     [System.Serializable]
@@ -133,6 +133,8 @@ namespace Beamable.Examples.Services.GroupsService
 
                 _data.IsInRoom = roomsWithPlayers > 0;
                 Debug.Log("ChatService.Subscribe 1: " + roomsWithPlayers);
+
+                _data.IsBeamableSetUp = _beamContext != null;
                 
                 Refresh();
             });
@@ -211,7 +213,6 @@ namespace Beamable.Examples.Services.GroupsService
         
         public async Task<EmptyResponse> LeaveRooms()
         {
-            
             Debug.Log("_chatView 1: " + _chatView.roomHandles.Count);
             foreach(var room in _chatView.roomHandles)
             {
