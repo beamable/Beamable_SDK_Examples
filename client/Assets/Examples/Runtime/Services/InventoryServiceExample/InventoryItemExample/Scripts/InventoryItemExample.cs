@@ -57,6 +57,7 @@ namespace Beamable.Examples.Services.InventoryService.InventoryItemExample
       { 
    
          _beamContext = BeamContext.Default;
+         await _beamContext.OnReady;
             
          Debug.Log($"beamContext.PlayerId = {_beamContext.PlayerId}");
 
