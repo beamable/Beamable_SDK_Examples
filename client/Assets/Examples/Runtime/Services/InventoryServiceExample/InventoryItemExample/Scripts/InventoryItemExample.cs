@@ -99,14 +99,16 @@ namespace Beamable.Examples.Services.InventoryService.InventoryItemExample
          });
       }
       
-      public void GetItems()
+      public async void GetItems()
       {
-         List<InventoryObject<ItemContent>> allOwnedItems =
-            _beamContext.Api.InventoryService.GetItems<ItemContent>().GetResult();
+         var allOwnedItems = await _beamContext.Api.InventoryService.GetCurrent();
 
-         foreach (InventoryObject<ItemContent> inventoryObject in allOwnedItems)
+         foreach (var inventoryItem in allOwnedItems.items)
          {
-            Debug.Log("inventoryObject: " + inventoryObject.Id);
+            foreach (var itemView in inventoryItem.Value)
+            {
+               Debug.Log("inventoryObject: " + itemView.id);
+            }
          }
       }
 
@@ -114,23 +116,22 @@ namespace Beamable.Examples.Services.InventoryService.InventoryItemExample
       {
          string contentId = _itemToDelete.Id;
 
-         List<InventoryObject<ItemContent>> allOwnedItems =
-            _beamContext.Api.InventoryService.GetItems<ItemContent>().GetResult();
+         var allOwnedItems = await _beamContext.Api.InventoryService.GetCurrent();
 
-         if (allOwnedItems == null || allOwnedItems.Count == 0)
+         if (allOwnedItems.items == null || allOwnedItems.items.Count == 0)
          {
             Debug.Log($"#4. PLAYER DeleteOneItem() failed. Player has no items yet.");
             return;
          }
    
          long itemIdToDelete = 0;
-         foreach (var x in allOwnedItems)
+         foreach (var item in allOwnedItems.items)
          {
             //Checks the CONTENT id
-            if (x.ItemContent.Id == _itemToDelete.Id)
+            if (item.Key == _itemToDelete.Id)
             {
                //Stores the INVENTORY id
-               itemIdToDelete = x.Id;
+               itemIdToDelete = item.Value[0].id;
                break;
             }
          }
