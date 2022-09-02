@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Beamable.Api;
 using Beamable.Common.Api;
 using Beamable.Common.Api.CloudData;
 using Beamable.Examples.Services.CloudSavingService;
@@ -54,7 +55,7 @@ namespace Beamable.Examples.Services.TrialDataService
         //  Fields  ---------------------------------------
         private TrialDataServiceExampleData _data = new TrialDataServiceExampleData();
         private ICloudDataApi _trialDataService;
-        private IBeamableAPI _beamableAPI;
+        private BeamContext _beam;
 
         
         //  Unity Methods  --------------------------------
@@ -75,11 +76,10 @@ namespace Beamable.Examples.Services.TrialDataService
         //  Methods  --------------------------------------
         private async void SetupBeamable()
         {
-            _beamableAPI = await Beamable.API.Instance;
-
-            Debug.Log($"beamableAPI.User.id = {_beamableAPI.User.id}");
-
-            _trialDataService = _beamableAPI.TrialDataService;
+            _beam = BeamContext.Default;
+            await _beam.OnReady;
+            Debug.Log($"_beam.PlayerId = {_beam.PlayerId}");
+            _trialDataService = BeamContext.Default.Api.TrialDataService;
 
             await LoadTrialData();
         }
@@ -88,23 +88,16 @@ namespace Beamable.Examples.Services.TrialDataService
         public async Task<EmptyResponse> LoadTrialData()
         {
             // Load any trials
-            GetCloudDataManifestResponse playerManifestResponse =
-                await _trialDataService.GetPlayerManifest();
-            
+            var playerManifestResponse = await _trialDataService.GetPlayerManifest();
             // Loop through trials
             _data.MyPlayerProgression = null;
             _data.CloudMetaDatas = playerManifestResponse.meta;
+
             foreach (CloudMetaData cloudMetaData in _data.CloudMetaDatas)
             {
-                string path = $"http://{cloudMetaData.uri}";
-
-                // Load the data, respecting GZip format
-                string response = 
-                    await ExampleProjectHelper.GetResponseFromHttpWebRequest(path);
-
-                MyPlayerProgression myPlayerProgression = 
-                    JsonUtility.FromJson<MyPlayerProgression>(response);
-
+                var response = await _trialDataService.GetCloudDataContent(cloudMetaData);
+                var myPlayerProgression = JsonUtility.FromJson<MyPlayerProgression>(response);
+                
                 // If trial is related, store data
                 if (myPlayerProgression != null)
                 {
@@ -125,7 +118,7 @@ namespace Beamable.Examples.Services.TrialDataService
                                 $"\n * CloudMetaDatas.Count = {_data.CloudMetaDatas.Count}" +
                                 $"\n\n";
 
-            //Debug.Log(refreshLog);
+            Debug.Log(refreshLog);
 
             // Send relevant data to the UI for rendering
             OnRefreshed?.Invoke(_data);
