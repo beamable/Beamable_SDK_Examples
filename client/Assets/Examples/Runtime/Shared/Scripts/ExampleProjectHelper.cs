@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 using Beamable.Api.Stats;
 using Beamable.Common.Api;
@@ -81,24 +79,6 @@ namespace Beamable.Examples.Shared
             await beamableAPI.StatsService.SetStats(access, setStats);
 
             return new EmptyResponse();
-        }
-
-        /// <summary>
-        /// Get the reponse from a <see cref="HttpWebRequest"/>
-        /// and convert GZip response to text.
-        /// </summary>
-        public static async Task<string> GetResponseFromHttpWebRequest(string path)
-        {
-            HttpWebRequest httpWebRequest = (HttpWebRequest) WebRequest.Create(path);
-            httpWebRequest.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-            WebResponse webResponse = await httpWebRequest.GetResponseAsync();
-            string resultText = "";
-            using (StreamReader streamReader = new StreamReader(webResponse.GetResponseStream()))
-            {
-                resultText = await streamReader.ReadToEndAsync();
-            }
-
-            return resultText;
         }
 
         /// <summary>
