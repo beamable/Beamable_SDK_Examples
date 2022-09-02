@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
-using System.Net;
 using System.Threading.Tasks;
 using Beamable.Api.Stats;
 using Beamable.Common.Api;
@@ -11,7 +8,6 @@ using Beamable.Common.Inventory;
 using Beamable.UI.Scripts;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.Networking;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 
