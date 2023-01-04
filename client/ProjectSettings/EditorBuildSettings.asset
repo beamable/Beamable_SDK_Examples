@@ -4,7 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Examples/Runtime/Services/MatchmakingService/Scenes/MatchmakingServiceExample.unity
+    guid: bb18adf67fcd51f4f925b3252b865860
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 869589a38a4ab694e876bc396ae6560f,
       type: 2}

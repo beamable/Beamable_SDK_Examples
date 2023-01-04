@@ -263,7 +263,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _simGameTypeRef:
-    Id: game_types.SimGameType01
+    Id: game_types.ChickMeowTest
 --- !u!1 &1694198985
 GameObject:
   m_ObjectHideFlags: 0
