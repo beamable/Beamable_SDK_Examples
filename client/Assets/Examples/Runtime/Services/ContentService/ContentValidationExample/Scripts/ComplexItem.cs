@@ -16,7 +16,9 @@ namespace Beamable.Examples.Services.ContentService
     /// Using validation is optional.
     ///
     /// See "Beamable.Common.Content.Validation" for full list.
-    /// 
+    ///
+    /// The content type for this class will be "items.complex_item", nested
+    /// under the "items" content type.
     /// </summary>
     [ContentType("complex_item")]
     public class ComplexItem : ItemContent
@@ -26,7 +28,7 @@ namespace Beamable.Examples.Services.ContentService
         /// </summary>
         [CannotBeBlank]
         public string Name = "";
-        
+
         /// <summary>
         /// Custom: Validation requires that the value be string and of
         /// string length of 2 or 3.
@@ -34,7 +36,7 @@ namespace Beamable.Examples.Services.ContentService
         /// </summary>
         [MustBeStringLength (2, 3)]
         public string FavoriteLetters = "";
-        
+
         /// <summary>
         /// Built-in: Validation requires that the value be positive and
         /// non-zero.
